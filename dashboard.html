@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal Dashboard - BUESTI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',      
+                            hoverGreen: '#0a4224', 
+                            navy: '#011c11',       
+                            gold: '#dfa510',       
+                            lightBg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-brand-lightBg min-h-screen flex">
+
+    <!-- ==================== SIDEBAR NAVIGATION (Left) ==================== -->
+    <aside id="sidebar-panel" class="fixed inset-y-0 left-0 w-64 bg-brand-navy text-slate-300 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 no-print">
+        
+        <div class="space-y-8">
+            <!-- Sidebar Header / Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full border border-yellow-400/60 bg-brand-green flex items-center justify-center text-white font-bold relative overflow-hidden shrink-0">
+                    <span class="text-xs">B</span>
+                </div>
+                <div>
+                    <div class="text-base font-extrabold text-white leading-none tracking-wide">BUESTI</div>
+                    <div class="text-[9px] font-bold text-slate-400 tracking-wider uppercase mt-1">Affiliate Programme</div>
+                </div>
+            </div>
+
+            <!-- Navigation Links Block -->
+            <div class="space-y-6">
+                <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-3">Student Portal</span>
+                
+                <nav class="space-y-1">
+                    <!-- Dashboard Link -->
+                    <a href="dashboard.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-bold bg-brand-green text-white transition">
+                        <i class="fa-solid fa-house text-xs w-4"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="apply.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-file-signature text-xs w-4"></i>
+                        <span>Apply for Admission</span>
+                    </a>
+
+                    <a href="portal.html#status" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-circle-nodes text-xs w-4"></i>
+                        <span>Check Admission Status</span>
+                    </a>
+
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-book-bookmark text-xs w-4"></i>
+                        <span>Register Courses</span>
+                    </a>
+
+                    <a href="payments.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-receipt text-xs w-4"></i>
+                        <span>Pay All Fees</span>
+                    </a>
+
+                    <a href="profile.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-regular fa-user text-xs w-4"></i>
+                        <span>My Profile</span>
+                    </a>
+
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-book text-xs w-4"></i>
+                        <span>My Courses</span>
+                    </a>
+
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-wallet text-xs w-4"></i>
+                        <span>My Payments</span>
+                    </a>
+
+                    <a href="payments.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-scale-balanced text-xs w-4"></i>
+                        <span>School Fees Balance</span>
+                    </a>
+
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-regular fa-bell text-xs w-4"></i>
+                        <span>Notices</span>
+                    </a>
+
+                    <a href="support.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:text-white hover:bg-white/5 transition">
+                        <i class="fa-solid fa-circle-question text-xs w-4"></i>
+                        <span>Support</span>
+                    </a>
+
+                    <button onclick="handleLogout()" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-rose-400 hover:text-rose-300 hover:bg-white/5 transition text-left focus:outline-none">
+                        <i class="fa-solid fa-arrow-right-from-bracket text-xs w-4"></i>
+                        <span>Logout</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Sidebar Footer Help Widget -->
+        <div class="space-y-4 pt-6 border-t border-white/5">
+            <div class="space-y-1">
+                <h4 class="text-xs font-bold text-white">Need Help?</h4>
+                <p class="text-[10px] text-slate-500 leading-relaxed">Contact support if you need any assistance.</p>
+            </div>
+            <a href="#" class="flex items-center justify-center space-x-2 w-full bg-white/5 border border-white/10 hover:border-white text-slate-300 hover:text-white py-2.5 rounded-lg text-xs font-semibold transition">
+                <i class="fa-solid fa-headset text-[10px]"></i>
+                <span>Contact Support</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Mobile Header Panel -->
+    <header class="lg:hidden fixed top-0 inset-x-0 h-16 bg-white border-b border-slate-100 px-4 flex items-center justify-between z-40 no-print">
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleMobileSidebar()" class="p-2 hover:bg-slate-50 rounded-lg text-slate-600 focus:outline-none">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <span class="text-sm font-black text-brand-green tracking-wide">BUESTI PORTAL</span>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-brand-green text-white flex items-center justify-center text-xs font-bold student-initials">JD</div>
+    </header>
+
+    <!-- Backdrop for mobile menu drawer -->
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- ==================== MAIN CONTENT HUB (Right) ==================== -->
+    <main class="flex-1 lg:pl-64 min-h-screen flex flex-col pt-16 lg:pt-0">
+        
+        <!-- TOP STATUS HEADER BAR -->
+        <header class="bg-white border-b border-slate-100 py-4 px-6 sm:px-10 flex items-center justify-end space-x-4 no-print">
+            <div class="text-right">
+                <span class="block text-xs font-bold text-slate-800 leading-none">Welcome, <span class="student-name">Loading...</span></span>
+                <span class="text-[10px] text-slate-400 font-medium mt-1 block">Matric No: <span class="student-matric">Loading...</span></span>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-brand-green border border-slate-200">
+                <i class="fa-regular fa-user"></i>
+            </div>
+        </header>
+
+        <!-- PRIMARY DASHBOARD CONTAINER -->
+        <div class="flex-1 p-6 sm:p-10 space-y-8">
+            
+            <!-- Welcome Overview Heading Block -->
+            <div class="space-y-1">
+                <h1 class="text-2xl font-black text-slate-800 tracking-tight">Dashboard Hub</h1>
+                <p class="text-xs text-slate-400 font-medium">Overview of your academic and financial information.</p>
+            </div>
+
+            <!-- Dynamic Profile Metadata Card -->
+            <section class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+                <div class="flex items-center space-x-4 shrink-0">
+                    <div class="w-16 h-16 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center text-2xl border border-emerald-100">
+                        <i class="fa-regular fa-user-circle"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h2 class="text-lg font-black text-slate-800 leading-none student-name">Loading...</h2>
+                        <p class="text-xs text-slate-400 font-semibold">Matric No: <span class="student-matric">Loading...</span></p>
+                        <p class="text-[11px] text-slate-400 font-medium"><i class="fa-regular fa-envelope mr-1"></i><span id="student-email">loading...</span></p>
+                        <p class="text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-phone mr-1"></i><span id="student-phone">loading...</span></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-8 gap-y-3 text-xs md:border-l md:border-slate-100 md:pl-10">
+                    <div>
+                        <span class="text-slate-400 block font-medium">Level</span>
+                        <strong class="text-slate-800 font-bold" id="student-level">Loading...</strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-medium">Programme</span>
+                        <strong class="text-slate-800 font-bold text-brand-green" id="student-programme">Loading...</strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-medium">Faculty</span>
+                        <strong class="text-slate-800 font-bold" id="student-faculty">Loading...</strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-medium">Session</span>
+                        <strong class="text-slate-800 font-bold" id="student-session">2025/2026</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Action Cards Row -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                
+                <!-- Action 1: Apply -->
+                <div class="bg-white border border-slate-100 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:shadow transition">
+                    <div class="space-y-2">
+                        <div class="w-8 h-8 rounded bg-emerald-50 text-brand-green flex items-center justify-center text-sm"><i class="fa-regular fa-file-lines"></i></div>
+                        <h3 class="font-black text-slate-800 text-xs uppercase tracking-wide">Apply for Admission</h3>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">Start your admission application.</p>
+                    </div>
+                    <a href="apply.html" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-green font-bold text-center text-[10px] rounded transition">Apply Now</a>
+                </div>
+
+                <!-- Action 2: Check Status -->
+                <div class="bg-white border border-slate-100 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:shadow transition">
+                    <div class="space-y-2">
+                        <div class="w-8 h-8 rounded bg-emerald-50 text-brand-green flex items-center justify-center text-sm"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h3 class="font-black text-slate-800 text-xs uppercase tracking-wide">Check Status</h3>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">Check the status of your admission application.</p>
+                    </div>
+                    <a href="apply.html" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-green font-bold text-center text-[10px] rounded transition">Check Status</a>
+                </div>
+
+                <!-- Action 3: Register Courses -->
+                <div class="bg-white border border-slate-100 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:shadow transition">
+                    <div class="space-y-2">
+                        <div class="w-8 h-8 rounded bg-emerald-50 text-brand-green flex items-center justify-center text-sm"><i class="fa-solid fa-book-bookmark"></i></div>
+                        <h3 class="font-black text-slate-800 text-xs uppercase tracking-wide">Register Courses</h3>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">Register for courses for the current session.</p>
+                    </div>
+                    <a href="#" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-green font-bold text-center text-[10px] rounded transition">Register</a>
+                </div>
+
+                <!-- Action 4: Pay All Fees -->
+                <div class="bg-white border border-slate-100 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:shadow transition">
+                    <div class="space-y-2">
+                        <div class="w-8 h-8 rounded bg-emerald-50 text-brand-green flex items-center justify-center text-sm"><i class="fa-solid fa-receipt"></i></div>
+                        <h3 class="font-black text-slate-800 text-xs uppercase tracking-wide">Pay All Fees</h3>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">Make payments for all your fees.</p>
+                    </div>
+                    <a href="payments.html" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-brand-green font-bold text-center text-[10px] rounded transition">Pay Now</a>
+                </div>
+
+                <!-- Action 5: Fees Balance -->
+                <div class="bg-white border border-slate-100 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:shadow transition">
+                    <div class="space-y-2">
+                        <div class="w-8 h-8 rounded bg-amber-50 text-amber-600 flex items-center justify-center text-sm"><i class="fa-solid fa-wallet"></i></div>
+                        <h3 class="font-black text-slate-800 text-xs uppercase tracking-wide">School Fees Balance</h3>
+                        <p class="text-[10px] text-slate-400 leading-relaxed">View your school fees balance statement.</p>
+                    </div>
+                    <a href="payments.html" class="w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-center text-[10px] rounded transition">View Balance</a>
+                </div>
+
+            </section>
+
+            <!-- Bottom Two-Column Detail Grid -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- COLUMN 1: Student Information & Notices -->
+                <div class="lg:col-span-7 space-y-8">
+                    
+                    <!-- Detailed Student Info block -->
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
+                        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-3">Student Information</h3>
+                        
+                        <div class="space-y-4 text-xs">
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Full Names</span>
+                                <strong class="text-slate-800 font-bold student-name">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Matric Number</span>
+                                <strong class="text-slate-800 font-bold student-matric">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Level</span>
+                                <strong class="text-slate-800 font-bold" id="info-level">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Programme</span>
+                                <strong class="text-slate-800 font-bold" id="info-programme">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Faculty</span>
+                                <strong class="text-slate-800 font-bold" id="info-faculty">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Department</span>
+                                <strong class="text-slate-800 font-bold" id="info-dept">Loading...</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Session</span>
+                                <strong class="text-slate-800 font-bold" id="info-session">2025/2026</strong>
+                            </div>
+                            <div class="flex items-center justify-between py-1">
+                                <span class="text-slate-400">Status</span>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[10px]">Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Notices Widget -->
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
+                        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-3">Recent Notices</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Notice 1 -->
+                            <div class="flex items-start justify-between gap-4 text-xs">
+                                <div class="space-y-1">
+                                    <span class="font-extrabold text-slate-800">Resumption for 2025/2026 Session</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-bold inline-block ml-2">New</span>
+                                    <p class="text-[10px] text-slate-400 mt-1">General academic activities resume for the harmattan semester.</p>
+                                </div>
+                                <span class="text-slate-400 text-[10px] shrink-0 font-medium">May 15, 2026</span>
+                            </div>
+
+                            <!-- Notice 2 -->
+                            <div class="flex items-start justify-between gap-4 text-xs border-t border-slate-50 pt-4">
+                                <div class="space-y-1">
+                                    <span class="font-extrabold text-slate-800">Payment of Second Semester Fees</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[9px] font-bold inline-block ml-2">New</span>
+                                    <p class="text-[10px] text-slate-400 mt-1">School fee portal is open for second-semester installment compliance.</p>
+                                </div>
+                                <span class="text-slate-400 text-[10px] shrink-0 font-medium">May 10, 2026</span>
+                            </div>
+
+                            <!-- Notice 3 -->
+                            <div class="flex items-start justify-between gap-4 text-xs border-t border-slate-50 pt-4">
+                                <div class="space-y-1">
+                                    <span class="font-extrabold text-slate-800">Course Registration Ongoing</span>
+                                    <p class="text-[10px] text-slate-400 mt-1">Verify that your registered classes match your O'level clearance sheet.</p>
+                                </div>
+                                <span class="text-slate-400 text-[10px] shrink-0 font-medium">May 05, 2026</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-100">
+                            <a href="#" class="text-xs font-bold text-brand-green hover:underline">View All Notices</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- COLUMN 2: School Fees Balance & Summary (DYNAMIC) -->
+                <div class="lg:col-span-5 space-y-8">
+                    
+                    <!-- School Fees Card -->
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
+                        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-3">School Fees Balance</h3>
+                        
+                        <div class="space-y-4 text-center py-4">
+                            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Current Balance</span>
+                            <!-- Dynamic Balance -->
+                            <div id="finance-balance-display" class="text-3xl font-black tracking-tight text-rose-600">₦0.00</div>
+                            <!-- Dynamic Status Badge -->
+                            <span id="finance-status-badge" class="px-3 py-1 rounded-full font-bold text-[10px] inline-block">Outstanding Balance</span>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <button class="w-full py-3 bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold text-xs rounded-lg border border-slate-200 transition">
+                                View Payment History
+                            </button>
+                        </div>
+
+                        <!-- Details breakdown list -->
+                        <div class="space-y-3 pt-2 text-xs">
+                            <span class="block text-[10px] font-bold text-slate-700 uppercase tracking-wider">Fee Summary</span>
+                            <div class="flex justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Total Fees</span>
+                                <span id="summary-total-fees" class="font-bold text-slate-800">₦0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Total Paid</span>
+                                <span id="summary-total-paid" class="font-bold text-emerald-700">₦0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-50">
+                                <span class="text-slate-400">Balance</span>
+                                <span id="summary-balance" class="font-bold">₦0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Last Payment</span>
+                                <span id="summary-last-payment" class="font-semibold text-slate-600">Not Available</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Supabase JavaScript Initialization -->
+    <script>
+        // REPLACE THESE WITH YOUR OWN SUPABASE PROJECT KEYS
+        const SUPABASE_URL = "https://rcuvjxdeosgdlkmrokse.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXZqeGRlb3NnZGxrbXJva3NlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcyNTgsImV4cCI6MjA5ODkxMzI1OH0.SCd5DK4b0gwZEhToZpna0ulMI4ZECeTNHLTPlRSQfug";
+        // Initialize connection client
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Portal Client JS Mechanics -->
+    <script>
+        // --- Sidebar Menu Controller (Responsive Viewports) ---
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-panel');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        // --- Currency Formatter Utility Helper ---
+        function formatCurrency(amount) {
+            return '₦' + parseFloat(amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // --- Fetch Fresh Profile & Financial Data from Supabase ---
+        async function loadProfileAndAdmissionInfo() {
+            // Read basic authenticated student object from localStorage
+            const sessionData = localStorage.getItem('bouesti_student_session');
+            
+            if (!sessionData) {
+                // Redirect if no session exists
+                window.location.href = "login.html";
+                return;
+            }
+
+            const cachedStudent = JSON.parse(sessionData);
+
+            // 1. Instantly populate cached elements to prevent UI lag
+            populateUI(cachedStudent);
+
+            try {
+                // 2. Query fresh database details from Supabase student_accounts
+                const { data: freshStudent, error: studentError } = await supabaseClient
+                    .from('student_accounts')
+                    .select('*')
+                    .eq('email', cachedStudent.email)
+                    .maybeSingle();
+
+                if (studentError) throw studentError;
+
+                if (freshStudent) {
+                    // Update your localStorage cache
+                    localStorage.setItem('bouesti_student_session', JSON.stringify(freshStudent));
+                    
+                    // 3. Query the associated approved application to verify dynamic metadata changes
+                    const { data: freshApp, error: appError } = await supabaseClient
+                        .from('applications')
+                        .select('*')
+                        .eq('matric_number', freshStudent.matric_number)
+                        .maybeSingle();
+
+                    if (appError) throw appError;
+
+                    // Combine fresh account data with fresh application metadata and financial values
+                    const mergedData = {
+                        ...freshStudent,
+                        programme: freshApp ? freshApp.programme : freshStudent.programme || "B.Sc. Computer Science",
+                        entry_level: freshApp ? freshApp.entry_level : freshStudent.entry_level || "200 Level"
+                    };
+
+                    populateUI(mergedData);
+                }
+            } catch (err) {
+                console.warn("Live database check failed. Displaying cached offline session data:", err);
+            }
+        }
+
+        // --- Render Details directly to the UI elements ---
+        function populateUI(student) {
+            // Auto Map Department & Faculty based on Selected Programme Choice
+            let mappedFaculty = "School of Sciences";
+            let mappedDept = "Sciences";
+
+            const prog = (student.programme || "B.Sc. Computer Science").toLowerCase();
+            if (prog.includes("computer science") || prog.includes("mathematics")) {
+                mappedFaculty = "School of Computing";
+                mappedDept = prog.includes("computer") ? "Computer Science" : "Industrial Mathematics";
+            } else if (prog.includes("accounting") || prog.includes("business") || prog.includes("economics")) {
+                mappedFaculty = "School of Management Sciences";
+                mappedDept = prog.includes("accounting") ? "Accounting" : (prog.includes("business") ? "Business Administration" : "Economics");
+            } else if (prog.includes("english")) {
+                mappedFaculty = "School of Humanities";
+                mappedDept = "English Education";
+            }
+
+            // Get initials for profile placeholder
+            const initials = student.full_name ? student.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : "JD";
+
+            // Bind values to DOM
+            document.querySelectorAll('.student-name').forEach(el => el.innerText = student.full_name);
+            document.querySelectorAll('.student-matric').forEach(el => el.innerText = student.matric_number);
+            document.querySelectorAll('.student-initials').forEach(el => el.innerText = initials);
+            
+            document.getElementById('student-email').innerText = student.email;
+            document.getElementById('student-phone').innerText = student.phone || "N/A";
+            document.getElementById('student-level').innerText = student.entry_level || "200 Level";
+            document.getElementById('student-programme').innerText = student.programme || "B.Sc. Computer Science";
+            document.getElementById('student-faculty').innerText = mappedFaculty;
+
+            // Bind detailed Student Information Card values
+            document.getElementById('info-level').innerText = student.entry_level || "200 Level";
+            document.getElementById('info-programme').innerText = student.programme || "B.Sc. Computer Science";
+            document.getElementById('info-faculty').innerText = mappedFaculty;
+            document.getElementById('info-dept').innerText = mappedDept;
+
+            // --- 4. DYNAMIC SCHOOL FEES CALCULATION MECHANICS ---
+            const totalFees = parseFloat(student.total_fees) || 350000.00;
+            const totalPaid = parseFloat(student.total_paid) || 0.00;
+            const balance = totalFees - totalPaid;
+            const lastPaymentDate = student.last_payment_date || "Not Available";
+
+            const balanceDisplay = document.getElementById('finance-balance-display');
+            const badge = document.getElementById('finance-status-badge');
+            const summaryBalance = document.getElementById('summary-balance');
+
+            // Format monetary values
+            balanceDisplay.innerText = formatCurrency(balance);
+            document.getElementById('summary-total-fees').innerText = formatCurrency(totalFees);
+            document.getElementById('summary-total-paid').innerText = formatCurrency(totalPaid);
+            summaryBalance.innerText = formatCurrency(balance);
+            document.getElementById('summary-last-payment').innerText = lastPaymentDate;
+
+            // Configure Badge & Text colors based on calculated Balance state
+            if (balance <= 0) {
+                // Paid in Full State
+                balanceDisplay.className = "text-3xl font-black tracking-tight text-emerald-600";
+                summaryBalance.className = "font-bold text-emerald-700";
+                badge.className = "px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[10px] inline-block";
+                badge.innerText = "Paid in Full";
+            } else {
+                // Outstanding Balance State
+                balanceDisplay.className = "text-3xl font-black tracking-tight text-rose-600";
+                summaryBalance.className = "font-bold text-rose-600";
+                badge.className = "px-3 py-1 rounded-full bg-rose-50 text-rose-700 font-bold text-[10px] inline-block";
+                badge.innerText = "Outstanding Balance";
+            }
+        }
+
+        // Fire database checks immediately upon window load
+        window.addEventListener('DOMContentLoaded', loadProfileAndAdmissionInfo);
+
+        // --- Handle Logout Action ---
+        function handleLogout() {
+            localStorage.removeItem('bouesti_student_session');
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

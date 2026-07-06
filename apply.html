@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions Portal - BUESTI Ibadan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',      
+                            hoverGreen: '#0a4224', 
+                            navy: '#011c11',       
+                            gold: '#dfa510',       
+                            lightBg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-slip, #printable-slip * {
+                visibility: visible;
+            }
+            #printable-slip {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-brand-lightBg overflow-x-hidden">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Block -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold relative overflow-hidden">
+                        <div class="absolute inset-0.5 rounded-full border border-yellow-400/50 flex items-center justify-center text-[10px]">
+                            B
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">BUESTI</div>
+                        <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Ibadan Study Centre</div>
+                    </div>
+                </div>
+
+                <!-- Tab switcher for desktop -->
+                <div class="hidden md:flex items-center space-x-4 bg-slate-100 p-1 rounded-lg">
+                    <button onclick="switchTab('apply')" id="btn-tab-apply" class="px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm">
+                        New Application
+                    </button>
+                    <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green">
+                        Check Status / Dashboard
+                    </button>
+                </div>
+
+                <!-- Navigation Hamburger Trigger Button (Universal) -->
+                <div class="flex items-center space-x-3">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-green focus:outline-none p-2 rounded-md hover:bg-slate-100 transition flex items-center gap-2 border border-slate-200 px-3">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                        <span class="hidden md:inline text-xs font-bold uppercase tracking-wider text-slate-600">Menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Drawer Overlay (Backdrop) -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300 no-print"></div>
+
+    <!-- Navigation Drawer (Left Slide Drawer) -->
+    <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col no-print">
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between p-5 border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold text-xs">
+                    B
+                </div>
+                <div>
+                    <div class="text-base font-extrabold text-brand-green leading-none">BUESTI</div>
+                    <div class="text-[8px] font-bold text-brand-green tracking-wider uppercase">Ibadan</div>
+                </div>
+            </div>
+            <button id="close-drawer-btn" class="text-slate-500 hover:text-brand-green p-1 focus:outline-none">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Drawer Menu Items -->
+        <div class="flex-1 overflow-y-auto px-5 py-6 space-y-3">
+            <a href="login.html" class="block px-3 py-2.5 rounded-md text-brand-green font-semibold bg-green-50/70 text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-user-graduate text-base"></i>
+                <span>Student Portal Dashboard</span>
+            </a>
+            <a href="programmes.html" class="block px-3 py-2.5 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-graduation-cap text-base"></i>
+                <span>Available Programmes</span>
+            </a>
+            <a href="#" class="block px-3 py-2.5 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-circle-info text-base"></i>
+                <span>Admission Requirements</span>
+            </a>
+            <hr class="border-slate-100 my-2">
+            <a href="#" class="block px-3 py-2.5 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-headset text-base"></i>
+                <span>Support & Helpdesk</span>
+            </a>
+            <a href="#" class="block px-3 py-2.5 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-question-circle text-base"></i>
+                <span>Frequently Asked Questions</span>
+            </a>
+            <a href="#" class="block px-3 py-2.5 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm flex items-center gap-3 transition">
+                <i class="fa-solid fa-envelope text-base"></i>
+                <span>Contact Directorate</span>
+            </a>
+        </div>
+        
+        <!-- Drawer Footer -->
+        <div class="p-5 border-t border-gray-100">
+            <a href="tel:09150739629" class="w-full bg-brand-green hover:bg-brand-hoverGreen text-white py-3 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition duration-200">
+                <i class="fa-solid fa-phone"></i>
+                <span>Enquiries Hotline</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- ==================== VIEW 1: APPLY TAB ==================== -->
+        <div id="tab-apply-view" class="space-y-8">
+            
+            <!-- Step Indicator Panel -->
+            <div id="step-indicator-wrapper" class="mb-8 no-print">
+                <div class="flex items-center justify-between max-w-lg mx-auto">
+                    <div class="flex flex-col items-center">
+                        <div id="ind-1" class="w-9 h-9 rounded-full bg-brand-green text-white flex items-center justify-center font-bold text-sm transition-all shadow-md">1</div>
+                        <span class="text-[10px] font-semibold text-brand-green mt-2 uppercase tracking-wider">Bio Data</span>
+                    </div>
+                    <div class="flex-1 h-0.5 bg-slate-200 mx-4 -mt-6"></div>
+                    <div class="flex flex-col items-center">
+                        <div id="ind-2" class="w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-400 flex items-center justify-center font-bold text-sm transition-all">2</div>
+                        <span class="text-[10px] font-semibold text-slate-400 mt-2 uppercase tracking-wider">Academics</span>
+                    </div>
+                    <div class="flex-1 h-0.5 bg-slate-200 mx-4 -mt-6"></div>
+                    <div class="flex flex-col items-center">
+                        <div id="ind-3" class="w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-400 flex items-center justify-center font-bold text-sm transition-all">3</div>
+                        <span class="text-[10px] font-semibold text-slate-400 mt-2 uppercase tracking-wider">Verification</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Form container -->
+            <div id="application-card" class="bg-white rounded-2xl shadow-md border border-slate-100 p-6 sm:p-10 no-print">
+                <form id="admission-form" class="space-y-8" onsubmit="submitApplication(event)">
+                    
+                    <!-- STEP 1: Personal Bio & Program Details -->
+                    <div id="step-1" class="step-container space-y-6">
+                        <div class="border-b border-slate-100 pb-4">
+                            <h2 class="text-xl font-extrabold text-slate-800">Bio-Data & Programme Choice</h2>
+                            <p class="text-xs text-slate-400 mt-1">Provide your legal information and select your intended course of study.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Surname <span class="text-rose-500">*</span></label>
+                                <input type="text" id="inp-surname" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">First Name <span class="text-rose-500">*</span></label>
+                                <input type="text" id="inp-firstname" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Middle Name</label>
+                                <input type="text" id="inp-middlename" class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Email Address <span class="text-rose-500">*</span></label>
+                                <input type="email" id="inp-email" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Phone Number <span class="text-rose-500">*</span></label>
+                                <input type="tel" id="inp-phone" required placeholder="e.g., 081XXXXXXXX" class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Gender <span class="text-rose-500">*</span></label>
+                                <select id="inp-gender" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none bg-white">
+                                    <option value="">-- Choose Option --</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Proposed Programme <span class="text-rose-500">*</span></label>
+                                <select id="selected-programme" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none bg-white">
+                                    <option value="">-- Select Course --</option>
+                                    <option value="B.Sc. Computer Science">B.Sc. Computer Science</option>
+                                    <option value="B.Sc. Industrial Mathematics">B.Sc. Industrial Mathematics</option>
+                                    <option value="B.Sc. Accounting">B.Sc. Accounting</option>
+                                    <option value="B.Sc. Business Administration">B.Sc. Business Administration</option>
+                                    <option value="B.Sc. Economics">B.Sc. Economics</option>
+                                    <option value="B.Sc. Political Science">B.Sc. Political Science</option>
+                                    <option value="B.A. English and Literary Studies">B.A. English and Literary Studies</option>
+                                    <option value="B.Sc. (Ed.) Accounting Education">B.Sc. (Ed.) Accounting Education</option>
+                                    <option value="B.A. (Ed.) English Education">B.A. (Ed.) English Education</option>
+                                    <option value="B.Sc. (Ed.) Mathematics Education">B.Sc. (Ed.) Mathematics Education</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Entry Level Mode <span class="text-rose-500">*</span></label>
+                                <select id="entry-level" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none bg-white">
+                                    <option value="">-- Choose Option --</option>
+                                    <option value="O'Level (100 Level)">O'Level Candidate (100L Entry)</option>
+                                    <option value="Direct Entry (200 Level)">Direct Entry (OND/NCE/A'Level)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end pt-4">
+                            <button type="button" onclick="goToStep(2)" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 transition duration-150">
+                                <span>Next Step</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Academic Qualifications -->
+                    <div id="step-2" class="step-container space-y-6 hidden">
+                        <div class="border-b border-slate-100 pb-4">
+                            <h2 class="text-xl font-extrabold text-slate-800">Academic Qualifications</h2>
+                            <p class="text-xs text-slate-400 mt-1">Provide your exam details (Requires at least 5 O'level credits).</p>
+                        </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Exam Type</label>
+                            <select id="inp-exam-type" class="w-full p-3 border border-slate-200 rounded-lg text-sm bg-white">
+                                <option value="WAEC">WAEC</option>
+                                <option value="NECO">NECO</option>
+                                <option value="NABTEB">NABTEB</option>
+                                <option value="GCE">GCE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Exam Year</label>
+                            <input type="text" id="inp-exam-year" placeholder="e.g. 2025" class="w-full p-3 border border-slate-200 rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Exam Registration No.</label>
+                            <input type="text" id="inp-exam-no" placeholder="e.g. 4239824052" class="w-full p-3 border border-slate-200 rounded-lg text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Subjects Checklist -->
+                    <div class="space-y-3 pt-2">
+                        <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider">O'Level Subject & Grades</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center space-x-2">
+                                <input type="text" value="English Language" readonly class="bg-slate-50 p-2 border border-slate-200 rounded text-xs flex-1">
+                                <select id="grade-english" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                    <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                    <option value="C4" selected>C4</option><option value="C5">C5</option><option value="C6">C6</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" value="Mathematics" readonly class="bg-slate-50 p-2 border border-slate-200 rounded text-xs flex-1">
+                                <select id="grade-math" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                    <option value="A1">A1</option><option value="B2">B2</option><option value="B3" selected>B3</option>
+                                    <option value="C4">C4</option><option value="C5">C5</option><option value="C6">C6</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" placeholder="Subject 3 (e.g. Physics)" id="subject-3" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                <select id="grade-3" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                    <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                    <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" placeholder="Subject 4 (e.g. Chemistry)" id="subject-4" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                <select id="grade-4" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                    <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                    <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Entry Section -->
+                    <div id="de-extra-panel" class="hidden border-t border-slate-100 pt-6 space-y-4">
+                        <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Direct Entry Credentials</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-2">Institution</label>
+                                <input type="text" id="inp-de-institution" placeholder="e.g. Federal Polytechnic" class="w-full p-3 border border-slate-200 rounded-lg text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-2">Class of Grade / Merit</label>
+                                <input type="text" id="inp-de-grade" placeholder="e.g. Upper Credit" class="w-full p-3 border border-slate-200 rounded-lg text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="flex justify-between pt-4 border-t border-slate-100">
+                            <button type="button" onclick="goToStep(1)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">
+                                Back
+                            </button>
+                            <button type="button" onclick="goToStep(3)" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2">
+                                Next Step
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Payment & Verification -->
+                    <div id="step-3" class="step-container space-y-6 hidden">
+                        <div class="border-b border-slate-100 pb-4">
+                            <h2 class="text-xl font-extrabold text-slate-800">Verification & Submission</h2>
+                            <p class="text-xs text-slate-400 mt-1">Verify payment reference to finalize submission.</p>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-3">
+                            <h3 class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation"></i> Application Fee Check
+                            </h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                Form processing fee is <strong>₦10,000</strong>. Enter your bank teller, receipt, or transaction reference number.
+                            </p>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">Teller / Receipt / Payment Ref <span class="text-rose-500">*</span></label>
+                                <input type="text" id="inp-payment-ref" required placeholder="e.g. IBD-REC-94812" class="w-full p-3 border border-amber-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between pt-4 border-t border-slate-100">
+                            <button type="button" onclick="goToStep(2)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">
+                                Back
+                            </button>
+                            <button type="submit" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-8 py-3 rounded-lg font-bold text-sm flex items-center gap-2">
+                                Submit Application
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Processing Screen -->
+            <div id="processing-screen" class="hidden bg-white border border-slate-100 rounded-2xl p-16 shadow-md text-center space-y-4">
+                <div class="w-16 h-16 border-4 border-brand-green border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <h3 class="text-slate-800 font-extrabold text-lg">Submitting to Supabase Server</h3>
+                <p class="text-slate-400 text-xs max-w-sm mx-auto">Uploading your bio-data and qualifications to the university cloud directory...</p>
+            </div>
+
+            <!-- Printable Slip (Success Screen) -->
+            <div id="printable-slip" class="hidden bg-white border border-slate-200 rounded-2xl shadow-xl p-8 sm:p-12 space-y-8 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between border-b-2 border-slate-100 pb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold">B</div>
+                        <div>
+                            <h2 class="text-lg font-black text-slate-800">BUESTI</h2>
+                            <p class="text-[9px] font-bold text-emerald-800 uppercase tracking-widest">Part-Time Programmes</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded">Application Logged</span>
+                </div>
+
+                <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-5 flex items-start space-x-3 no-print">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-0.5"></i>
+                    <div>
+                        <h3 class="text-sm font-extrabold text-emerald-900">Successfully Saved to Supabase!</h3>
+                        <p class="text-slate-600 text-xs mt-1 leading-relaxed">
+                            Your application record has been secured. Your generated **Identification Number** is shown below. Please check your status dashboard periodically.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ID display with overflow wrap protection -->
+                <div class="bg-brand-navy rounded-xl p-6 text-center text-white overflow-hidden">
+                    <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block">Student Identification Number</span>
+                    <p id="generated-id" class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-normal sm:tracking-widest text-white mt-1 break-all whitespace-normal px-2"></p>
+                </div>
+
+                <div class="space-y-4 pt-4 text-xs">
+                    <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-100 pb-2">Profile Summary</h4>
+                    <div class="grid grid-cols-2 gap-y-4">
+                        <div><span class="text-slate-400 font-medium">Name:</span> <span id="sum-name" class="font-bold text-slate-800"></span></div>
+                        <div><span class="text-slate-400 font-medium">Phone:</span> <span id="sum-phone" class="font-bold text-slate-800"></span></div>
+                        <div><span class="text-slate-400 font-medium">Email:</span> <span id="sum-email" class="font-bold text-slate-800"></span></div>
+                        <div><span class="text-slate-400 font-medium">Course:</span> <span id="sum-course" class="font-bold text-slate-800"></span></div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-6 flex justify-between no-print">
+                    <button onclick="window.print()" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-5 py-2.5 rounded-lg font-bold text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> <span>Print Slip</span>
+                    </button>
+                    <button onclick="switchTab('dashboard')" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-5 py-2.5 rounded-lg font-bold text-xs">
+                        Check Admission Status
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ==================== VIEW 2: PORTAL DASHBOARD VIEW ==================== -->
+        <div id="tab-dashboard-view" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center space-y-6">
+                <div class="max-w-md mx-auto space-y-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Admissions Status Check</h2>
+                    <p class="text-slate-500 text-xs">Enter your generated identification number below to check your real-time status and find your assigned matriculation number.</p>
+                </div>
+
+                <div class="max-w-md mx-auto flex flex-col sm:flex-row items-stretch gap-2">
+                    <input type="text" id="search-id" placeholder="e.g. BUESTI/IBD/2026/12345" class="flex-1 p-3 border border-slate-200 rounded-lg text-sm uppercase text-center font-bold tracking-wider focus:border-brand-green focus:outline-none">
+                    <button onclick="queryStatus()" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-3 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                        <span>Check Status</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loader for Query -->
+            <div id="query-loader" class="hidden text-center py-10">
+                <div class="w-10 h-10 border-4 border-brand-green border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <p class="text-slate-400 text-xs mt-3">Connecting to database...</p>
+            </div>
+
+            <!-- Result Cards -->
+            <div id="status-result" class="hidden max-w-2xl mx-auto">
+                <!-- Status Approved Card -->
+                <div id="card-approved" class="hidden bg-white border border-emerald-100 rounded-2xl p-8 shadow-md space-y-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-circle-check"></i></div>
+                        <div>
+                            <h3 class="text-lg font-black text-emerald-900">Congratulations!</h3>
+                            <p class="text-slate-500 text-xs">Your application has been verified and accepted by the Directorate.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100 text-xs">
+                        <div><span class="text-slate-400 block">Student Name:</span> <strong id="res-approved-name" class="text-slate-800 font-bold"></strong></div>
+                        <div><span class="text-slate-400 block">Admitted Program:</span> <strong id="res-approved-course" class="text-slate-800 font-bold"></strong></div>
+                    </div>
+
+                    <!-- Matric Number display box with overflow protection (break-all and whitespace-normal) -->
+                    <div class="bg-brand-green text-white rounded-xl p-6 text-center space-y-1 overflow-hidden">
+                        <span class="text-[10px] font-bold tracking-widest text-yellow-300 uppercase block">Your Assigned Matriculation Number</span>
+                        <p id="res-matric-number" class="text-lg sm:text-xl md:text-2xl font-black tracking-normal sm:tracking-widest text-white break-all whitespace-normal px-2 py-1 leading-normal"></p>
+                        <span class="text-[10px] text-slate-200 block pt-1">Proceed to the ICT registration portal using this number to finalize registration.</span>
+                    </div>
+                </div>
+
+                <!-- Status Pending Card -->
+                <div id="card-pending" class="hidden bg-white border border-amber-100 rounded-2xl p-8 shadow-md flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <h3 class="text-base font-extrabold text-amber-900">Admission Processing</h3>
+                        <p id="res-pending-name" class="text-sm font-bold text-slate-800 mt-1"></p>
+                        <p class="text-slate-500 text-xs mt-1 leading-relaxed">
+                            Your O'Level qualifications and bank reference are currently being verified by the Ibadan Study Centre. Please check back after 24-48 hours.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Status Rejected Card -->
+                <div id="card-rejected" class="hidden bg-white border border-rose-100 rounded-2xl p-8 shadow-md flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <div>
+                        <h3 class="text-base font-extrabold text-rose-900">Application Closed</h3>
+                        <p class="text-slate-500 text-xs mt-1 leading-relaxed">
+                            Your application did not satisfy the minimum 5 credit O'Level credentials requirement or your payment reference remains unverified. Please visit the Ibadan study centre office for manual reconciliation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-full border border-yellow-400/70 bg-brand-green flex items-center justify-center text-white font-bold text-sm">
+                            B
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white tracking-wide">BUESTI</div>
+                            <div class="text-[8px] font-bold text-slate-400 tracking-widest uppercase">Ibadan Campus</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-2">
+                        BUET Scientific & Technological Institute (BUESTI) Affiliate Programme – Expanding access to quality higher education.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Main Campus Location</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Igbara Odo Road, P.M.B. 250, Ikere-Ekiti, Ekiti State, Nigeria.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="programmes.html" class="hover:text-white transition">Admissions & Programmes</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Ibadan Study Centre Hotlines</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
+                            <span>Bishop Phillips Academy, Iwo-Road, Ibadan.</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-phone text-emerald-600"></i>
+                            <span>+234 915 073 9629</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2026 BUESTI Affiliate & Part-Time Directorate. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase JavaScript Initialization -->
+    <script>
+        // --- Put your genuine Supabase URL and Key here ---
+        const SUPABASE_URL = "https://rcuvjxdeosgdlkmrokse.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXZqeGRlb3NnZGxrbXJva3NlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcyNTgsImV4cCI6MjA5ODkxMzI1OH0.SCd5DK4b0gwZEhToZpna0ulMI4ZECeTNHLTPlRSQfug";
+
+        // Initialize Supabase Client
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Frontend Interactive UI Engine -->
+    <script>
+        // --- Navigation Drawer (Universal Mobile & Desktop Toggle) ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeMenu() {
+            drawer.classList.add('-translate-x-full');
+            overlay.classList.remove('opacity-100');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn?.addEventListener('click', openMenu);
+        closeBtn?.addEventListener('click', closeMenu);
+        overlay?.addEventListener('click', closeMenu);
+
+        // --- Tab Switcher Logic ---
+        function switchTab(target) {
+            const applyTabBtn = document.getElementById('btn-tab-apply');
+            const dashTabBtn = document.getElementById('btn-tab-dashboard');
+            const applyView = document.getElementById('tab-apply-view');
+            const dashView = document.getElementById('tab-dashboard-view');
+
+            if (target === 'apply') {
+                applyView?.classList.remove('hidden');
+                dashView?.classList.add('hidden');
+                applyTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm";
+                dashTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green";
+            } else {
+                applyView?.classList.add('hidden');
+                dashView?.classList.remove('hidden');
+                dashTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm";
+                applyTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green";
+            }
+        }
+
+        // --- Deep Link Navigation Handling ---
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#dashboard' || window.location.hash === '#status') {
+                switchTab('dashboard');
+            }
+        });
+
+        // --- Wizard Navigation ---
+        function goToStep(stepNumber) {
+            if (stepNumber === 2) {
+                const step1Inputs = document.querySelectorAll('#step-1 input[required], #step-1 select[required]');
+                let valid = true;
+                step1Inputs.forEach(input => {
+                    if (!input.value) {
+                        input.classList.add('border-rose-400');
+                        valid = false;
+                    } else {
+                        input.classList.remove('border-rose-400');
+                    }
+                });
+                if (!valid) return;
+            }
+
+            document.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
+            document.getElementById(`step-${stepNumber}`).classList.remove('hidden');
+
+            const dePanel = document.getElementById('de-extra-panel');
+            const entryLevel = document.getElementById('entry-level').value;
+            if (entryLevel.includes('Direct Entry')) {
+                dePanel?.classList.remove('hidden');
+            } else {
+                dePanel?.classList.add('hidden');
+            }
+
+            document.querySelectorAll('#step-indicator-wrapper div[id^="ind-"]').forEach((indicator, index) => {
+                if (index + 1 < stepNumber) {
+                    indicator.className = 'w-9 h-9 rounded-full bg-emerald-100 text-brand-green flex items-center justify-center font-bold text-sm shadow-sm';
+                    indicator.innerHTML = '<i class="fa-solid fa-check"></i>';
+                } else if (index + 1 === stepNumber) {
+                    indicator.className = 'w-9 h-9 rounded-full bg-brand-green text-white flex items-center justify-center font-bold text-sm shadow-md';
+                    indicator.innerHTML = stepNumber;
+                } else {
+                    indicator.className = 'w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-400 flex items-center justify-center font-bold text-sm';
+                    indicator.innerHTML = index + 1;
+                }
+            });
+        }
+
+        // --- Send Application Data to Supabase ---
+        async function submitApplication(event) {
+            event.preventDefault();
+
+            const formCard = document.getElementById('application-card');
+            const stepIndicator = document.getElementById('step-indicator-wrapper');
+            const processingScreen = document.getElementById('processing-screen');
+            const slipScreen = document.getElementById('printable-slip');
+
+            // Collect credentials
+            const surname = document.getElementById('inp-surname').value;
+            const firstName = document.getElementById('inp-firstname').value;
+            const middleName = document.getElementById('inp-middlename').value;
+            const email = document.getElementById('inp-email').value;
+            const phone = document.getElementById('inp-phone').value;
+            const gender = document.getElementById('inp-gender').value;
+            const programme = document.getElementById('selected-programme').value;
+            const entryLevel = document.getElementById('entry-level').value;
+
+            const examType = document.getElementById('inp-exam-type').value;
+            const examYear = document.getElementById('inp-exam-year').value;
+            const examNo = document.getElementById('inp-exam-no').value;
+
+            const sub3 = document.getElementById('subject-3').value || 'Subject 3';
+            const sub4 = document.getElementById('subject-4').value || 'Subject 4';
+
+            const subjectsGrades = {
+                "English Language": document.getElementById('grade-english').value,
+                "Mathematics": document.getElementById('grade-math').value,
+                [sub3]: document.getElementById('grade-3').value,
+                [sub4]: document.getElementById('grade-4').value,
+            };
+
+            const institution = document.getElementById('inp-de-institution').value;
+            const gradeMerit = document.getElementById('inp-de-grade').value;
+            const paymentRef = document.getElementById('inp-payment-ref').value;
+
+            // Generate Unique ID
+            const randomIdSuffix = Math.floor(10000 + Math.random() * 90000);
+            const generatedApplicationId = `BUESTI/IBD/2026/${randomIdSuffix}`;
+
+            // Show Loader
+            formCard?.classList.add('hidden');
+            stepIndicator?.classList.add('hidden');
+            processingScreen?.classList.remove('hidden');
+
+            // Send payload to Supabase DB
+            try {
+                const { data, error } = await supabaseClient
+                    .from('applications')
+                    .insert([
+                        {
+                            application_id: generatedApplicationId,
+                            surname: surname,
+                            first_name: firstName,
+                            middle_name: middleName,
+                            email: email,
+                            phone: phone,
+                            gender: gender,
+                            programme: programme,
+                            entry_level: entryLevel,
+                            exam_type: examType,
+                            exam_year: examYear,
+                            exam_no: examNo,
+                            subjects_grades: subjectsGrades,
+                            institution: institution,
+                            grade_merit: gradeMerit,
+                            payment_reference: paymentRef,
+                            status: 'pending' // default status
+                        }
+                    ]);
+
+                if (error) throw error;
+
+                // Render slip success UI
+                processingScreen?.classList.add('hidden');
+                slipScreen?.classList.remove('hidden');
+
+                document.getElementById('generated-id').innerText = generatedApplicationId;
+                document.getElementById('sum-name').innerText = `${surname} ${firstName} ${middleName}`;
+                document.getElementById('sum-phone').innerText = phone;
+                document.getElementById('sum-email').innerText = email;
+                document.getElementById('sum-course').innerText = programme;
+
+            } catch (err) {
+                alert(`Error saving submission data: ${err.message || err}`);
+                processingScreen?.classList.add('hidden');
+                formCard?.classList.remove('hidden');
+                stepIndicator?.classList.remove('hidden');
+            }
+        }
+
+        // --- Query Admissions Status (Dashboard Lookup) ---
+        async function queryStatus() {
+            const searchId = document.getElementById('search-id').value.toUpperCase().trim();
+            const loader = document.getElementById('query-loader');
+            const resultWrapper = document.getElementById('status-result');
+
+            const cardApp = document.getElementById('card-approved');
+            const cardPen = document.getElementById('card-pending');
+            const cardRej = document.getElementById('card-rejected');
+
+            if (!searchId) {
+                alert("Please enter a valid Application ID.");
+                return;
+            }
+
+            // Reset UI States
+            resultWrapper?.classList.add('hidden');
+            cardApp?.classList.add('hidden');
+            cardPen?.classList.add('hidden');
+            cardRej?.classList.add('hidden');
+            loader?.classList.remove('hidden');
+
+            try {
+                // Read record from Supabase applications table
+                const { data, error } = await supabaseClient
+                    .from('applications')
+                    .select('*')
+                    .eq('application_id', searchId)
+                    .maybeSingle();
+
+                if (error) throw error;
+
+                loader?.classList.add('hidden');
+
+                if (!data) {
+                    alert("Application ID not found. Ensure you type the generated format: BUESTI/IBD/2026/XXXXX");
+                    return;
+                }
+
+                resultWrapper?.classList.remove('hidden');
+
+                if (data.status === 'approved') {
+                    cardApp?.classList.remove('hidden');
+                    document.getElementById('res-approved-name').innerText = `${data.surname} ${data.first_name}`;
+                    document.getElementById('res-approved-course').innerText = data.programme;
+                    document.getElementById('res-matric-number').innerText = data.matric_number || "MATRIC NUMBER PENDING";
+                } else if (data.status === 'rejected') {
+                    cardRej?.classList.remove('hidden');
+                } else {
+                    // Pending State
+                    cardPen?.classList.remove('hidden');
+                    document.getElementById('res-pending-name').innerText = `${data.surname} ${data.first_name}`;
+                }
+
+            } catch (err) {
+                alert(`Query Error: ${err.message}`);
+                loader?.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Programmes - BOUESTI Ibadan Study Centre</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',      // Primary academic green from poster
+                            hoverGreen: '#0a4224', // Hover state
+                            navy: '#011c11',       // Rich dark forest background
+                            gold: '#dfa510',       // Gold accent
+                            lightBg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS for Smooth Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(25px) scale(0.97);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-brand-lightBg overflow-x-hidden">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Block -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold relative overflow-hidden">
+                        <div class="absolute inset-0.5 rounded-full border border-yellow-400/50 flex items-center justify-center text-[10px]">
+                            B
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">BOUESTI</div>
+                        <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Ibadan Study Centre</div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Home</a>
+                    <a href="about.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">About Us</a>
+                    <a href="programmes.html" class="text-brand-green font-semibold text-sm transition-colors">Programmes</a>
+                    <a href="admissions.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Admissions</a>
+                    <a href="contact.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Contact Us</a>
+                </nav>
+
+                <!-- Desktop Action Button -->
+                <div class="hidden lg:flex items-center">
+                    <a href="#" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-5 py-2.5 rounded-md font-medium text-sm flex items-center gap-2 transition duration-200 shadow-sm">
+                        <i class="fa-solid fa-file-signature text-xs"></i>
+                        <span>Apply Now</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Navigation Toggle Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-green focus:outline-none p-2 rounded-md hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="flex items-center justify-between p-5 border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold text-xs">
+                    B
+                </div>
+                <div>
+                    <div class="text-base font-extrabold text-brand-green leading-none">BOUESTI</div>
+                    <div class="text-[8px] font-bold text-brand-green tracking-wider uppercase">Ibadan</div>
+                </div>
+            </div>
+            <button id="close-drawer-btn" class="text-slate-500 hover:text-brand-green p-1 focus:outline-none">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto px-5 py-6 space-y-4">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm transition">Home</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm transition">About Us</a>
+            <a href="programmes.html" class="block px-3 py-2 rounded-md text-brand-green font-semibold bg-green-50/50 text-sm">Programmes</a>
+            <a href="admissions.html" class="block px-3 py-2 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm transition">Admissions</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-slate-600 hover:text-brand-green hover:bg-slate-50 font-medium text-sm transition">Contact Us</a>
+        </div>
+        <div class="p-5 border-t border-gray-100">
+            <a href="apply.html" class="w-full bg-brand-green hover:bg-brand-hoverGreen text-white py-3 rounded-md font-medium text-sm flex items-center justify-center gap-2 transition duration-200">
+                <i class="fa-solid fa-file-signature"></i>
+                <span>Apply Now</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Title / Hero Area -->
+    <section class="relative bg-brand-navy min-h-[300px] flex items-center py-16 text-white overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="https://www.istockphoto.com/photo/group-of-five-african-college-students-gm1303837151-395173163?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fa-group-of-people-sitting-on-a-bench-with-laptops-vWqBjWbc_H4&utm_term=laptop%3A%3A%3A%3A74fa3fd4-f2d8-43cd-bdfb-bd1b79f2f69a" alt="Students learning" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="space-y-4 max-w-3xl">
+                <div class="inline-flex items-center gap-2 bg-emerald-900/60 border border-emerald-700/50 px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-300 uppercase tracking-wider">
+                    <i class="fa-solid fa-graduation-cap"></i> Directorate of Part-Time Programmes
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-none uppercase">
+                    Available Programmes
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base max-w-2xl font-light">
+                    Explore undergraduate degrees offered at the <strong class="text-white">Ibadan Study Centre</strong> (Bishop Phillips Academy, Iwo-Road). Earn your degree through our flexible Weekend Part-Time layout.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Flyer Highlights Panel -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Ibadan Centre Card -->
+            <div class="bg-white border-b-4 border-brand-green shadow-md rounded-xl p-6 flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-lg bg-emerald-50 text-brand-green flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-location-dot text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-800 text-sm uppercase">Ibadan Study Centre</h3>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed">
+                        Bishop Phillips Academy, Iwo-Road, Ibadan, Oyo State.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cost Info Card -->
+            <div class="bg-white border-b-4 border-brand-gold shadow-md rounded-xl p-6 flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-lg bg-amber-50 text-brand-gold flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-receipt text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-800 text-sm uppercase">Admission Form Fee</h3>
+                    <p class="text-brand-green font-black text-lg mt-0.5">₦10,000</p>
+                    <p class="text-slate-400 text-[10px]">Ongoing intake for the session</p>
+                </div>
+            </div>
+
+            <!-- Schedule Card -->
+            <div class="bg-white border-b-4 border-brand-green shadow-md rounded-xl p-6 flex items-start space-x-4">
+                <div class="w-12 h-12 rounded-lg bg-emerald-50 text-brand-green flex items-center justify-center shrink-0">
+                    <i class="fa-regular fa-calendar-check text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-800 text-sm uppercase">Study Mode</h3>
+                    <p class="text-slate-500 text-xs mt-1 leading-relaxed font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded inline-block">
+                        Weekend Part-Time
+                    </p>
+                    <p class="text-slate-400 text-[10px] mt-1">Perfect fit for working professionals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Live Course Display Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <!-- Live Filtering Toolbar -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 mb-10 pb-6 border-b border-slate-200">
+            <!-- Search Bar -->
+            <div class="relative flex-1 max-w-md">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </span>
+                <input type="text" id="course-search" placeholder="Search programmes (e.g., Computer Science)..." 
+                       class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 text-sm transition-all bg-white">
+            </div>
+
+            <!-- Category Tab Switches -->
+            <div class="flex flex-wrap items-center gap-2" id="filter-tabs">
+                <button data-filter="all" class="filter-tab px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-all bg-brand-green text-white shadow-sm">All Degrees</button>
+                <button data-filter="science" class="filter-tab px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200">Science & Tech</button>
+                <button data-filter="social" class="filter-tab px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200">Management & Social</button>
+                <button data-filter="humanities" class="filter-tab px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200">Humanities</button>
+                <button data-filter="education" class="filter-tab px-4 py-2 rounded-md text-xs font-semibold tracking-wide transition-all bg-white text-slate-600 hover:bg-slate-50 border border-slate-200">Education Studies</button>
+            </div>
+        </div>
+
+        <!-- Programmes Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="programmes-container">
+            
+            <!-- Science & Tech -->
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="science" data-name="b.sc. computer science">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-emerald-50 text-brand-green">Science & Tech</span>
+                    <i class="fa-solid fa-laptop-code text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Computer Science</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="science" data-name="b.sc. industrial mathematics">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-emerald-50 text-brand-green">Science & Tech</span>
+                    <i class="fa-solid fa-calculator text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Industrial Mathematics</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <!-- Management & Social Sciences -->
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. accounting">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-money-check-dollar text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Accounting</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. business administration">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-chart-line text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Business Administration</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. office and information management">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-folder-tree text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Office and Information Management</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. peace and conflict studies">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-handshake-angle text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Peace and Conflict Studies</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. criminology and security studies">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-shield-halved text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Criminology and Security Studies</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. economics">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-arrow-trend-up text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Economics</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="social" data-name="b.sc. political science">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-blue-50 text-blue-700">Management & Social</span>
+                    <i class="fa-solid fa-scale-balanced text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Political Science</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <!-- Humanities -->
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="humanities" data-name="b.a. english and literary studies">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-amber-50 text-amber-700">Humanities</span>
+                    <i class="fa-solid fa-book text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.A. English and Literary Studies</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="humanities" data-name="b.sc. theology">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-amber-50 text-amber-700">Humanities</span>
+                    <i class="fa-solid fa-cross text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Theology</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <!-- Education Studies -->
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) accounting education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-chalkboard-user text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Accounting Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) health education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-heart-pulse text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Health Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.ed. social studies education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-users-viewfinder text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Ed. Social Studies Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) economics education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-coins text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Economics Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) political science education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-landmark text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Political Science Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.a. (ed.) english education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-spell-check text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.A. (Ed.) English Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) mathematics education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-compass-drafting text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Mathematics Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.ed. guidance and counselling">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-user-doctor text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Ed. Guidance and Counselling</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. (ed.) business education">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-briefcase text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. (Ed.) Business Education</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+            <div class="course-card scroll-animate bg-white border border-slate-100 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-brand-green/20 transition-all" data-category="education" data-name="b.sc. human kinetics and sports science">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-purple-50 text-purple-700">Education Studies</span>
+                    <i class="fa-solid fa-person-running text-slate-300 text-lg"></i>
+                </div>
+                <h3 class="font-extrabold text-slate-800 text-base mt-4">B.Sc. Human Kinetics and Sports Science</h3>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span><i class="fa-regular fa-clock mr-1"></i> Part-Time</span>
+                    <span><i class="fa-solid fa-graduation-cap mr-1"></i> Degree</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Fallback Statement -->
+        <div id="no-results-message" class="hidden text-center py-16">
+            <i class="fa-solid fa-magnifying-glass-minus text-slate-300 text-4xl mb-4 block"></i>
+            <h3 class="text-slate-700 font-bold text-lg">No matching courses found</h3>
+            <p class="text-slate-400 text-sm mt-1">Try adjusting your keywords or category filters.</p>
+        </div>
+    </main>
+
+    <!-- Admission Requirements Block -->
+    <section class="bg-white border-t border-b border-slate-100 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <h2 class="text-2xl font-bold text-slate-800">General Entry Requirements</h2>
+                <p class="text-slate-500 text-sm mt-1">Ensure you meet these benchmarks before picking up your application form.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- UTME Requirements -->
+                <div class="bg-brand-lightBg border border-slate-200 rounded-xl p-8 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center text-xl shrink-0 font-bold">
+                        1
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-lg">Ordinary Level Entry (O'Level)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Candidates must possess <strong>5 Credit passes</strong> in SSCE / GCE / NECO / NABTEB in relevant subjects at not more than <strong class="text-brand-green">2 sittings</strong>.
+                    </p>
+                </div>
+
+                <!-- Direct Entry Requirements -->
+                <div class="bg-brand-lightBg border border-slate-200 rounded-xl p-8 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center text-xl shrink-0 font-bold">
+                        2
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-lg">Direct Entry Requirements</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Credit/Merit in <strong>2 subjects</strong> at OND / NCE / IJMB / A'Level and <strong>5 Credit passes</strong> including English Language & Mathematics in SSCE / GCE / NECO / NABTEB in relevant subjects at not more than <strong class="text-brand-green">2 sittings</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ibadan Study Centre Contact & Enquiries Block -->
+    <section class="bg-brand-navy text-white py-16 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase block">Admissions Ongoing</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight uppercase leading-tight">
+                        Invest In Your Future,<br>Achieve Your Dreams!
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Classes are held on weekends to fit perfectly around your busy schedule. Secure your degree from a government-accredited university right here in Ibadan.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <a href="tel:09150739629" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-md font-bold text-sm inline-flex items-center justify-center gap-3 transition">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Call: 09150739629</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 space-y-6">
+                    <h3 class="text-lg font-bold text-white border-b border-white/10 pb-4">Admission Instructions</h3>
+                    <ul class="space-y-4 text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-double text-emerald-400 mt-1"></i>
+                            <span>Visit the **Ibadan Study Centre** at Bishop Phillips Academy, Iwo-Road to purchase your admission form.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-double text-emerald-400 mt-1"></i>
+                            <span>Form processing fee is exactly <strong>₦10,000</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-double text-emerald-400 mt-1"></i>
+                            <span>Ensure you bring physical copies of O'Level or Direct Entry certificate documentation when visiting.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-full border border-yellow-400/70 bg-brand-green flex items-center justify-center text-white font-bold text-sm">
+                            B
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white tracking-wide">BOUESTI</div>
+                            <div class="text-[8px] font-bold text-slate-400 tracking-widest uppercase">Ibadan Campus</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-2">
+                        Bamidele Olumilua University of Education, Science and Technology, Ikere-Ekiti (BOUESTI) Directorate of Part-Time Programmes.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Main Campus Location</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Igbara Odo Road, P.M.B. 250, Ikere-Ekiti, Ekiti State, Nigeria.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Admission Requirements</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Ibadan Study Centre Hotlines</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
+                            <span>Bishop Phillips Academy, Iwo-Road, Ibadan.</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-phone text-emerald-600"></i>
+                            <span>+234 915 073 9629</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2026 BOUESTI Affiliate & Part-Time Directorate. All rights reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-facebook-f text-[10px]"></i>
+                    </a>
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-twitter text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Script Systems -->
+    <script>
+        // --- 1. Left-Sliding Navigation Drawer ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeMenu() {
+            drawer.classList.add('-translate-x-full');
+            overlay.classList.remove('opacity-100');
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // --- 2. Live Search & Filter Logic ---
+        const searchInput = document.getElementById('course-search');
+        const tabs = document.querySelectorAll('.filter-tab');
+        const cards = document.querySelectorAll('.course-card');
+        const noResults = document.getElementById('no-results-message');
+
+        let currentFilter = 'all';
+        let currentSearchQuery = '';
+
+        function filterAndSearch() {
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const name = card.getAttribute('data-name');
+
+                const matchesCategory = (currentFilter === 'all' || category === currentFilter);
+                const matchesSearch = name.includes(currentSearchQuery);
+
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hidden');
+                    // Add subtle scaling transition when appearing back
+                    setTimeout(() => card.classList.add('visible'), 50);
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('visible');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // Search keyup
+        searchInput.addEventListener('keyup', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase().trim();
+            filterAndSearch();
+        });
+
+        // Tab selection click
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('bg-brand-green', 'text-white', 'shadow-sm');
+                    t.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                });
+
+                tab.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+                tab.classList.add('bg-brand-green', 'text-white', 'shadow-sm');
+
+                currentFilter = tab.getAttribute('data-filter');
+                filterAndSearch();
+            });
+        });
+
+        // --- 3. Scroll Animation System ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(card => {
+            scrollObserver.observe(card);
+        });
+    </script>
+</body>
+</html>

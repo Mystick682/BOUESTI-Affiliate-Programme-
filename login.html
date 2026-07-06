@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Your Account - BUESTI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',      // Custom Green Theme replacing Blue
+                            hoverGreen: '#0a4224', 
+                            navy: '#011c11',       
+                            gold: '#dfa510',       
+                            lightBg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Outermost UI container to match image frame -->
+    <div class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
+        
+        <!-- ==================== LEFT COLUMN: BRAND HIGHLIGHT PANEL ==================== -->
+        <div class="lg:col-span-5 relative bg-brand-navy p-8 sm:p-12 flex flex-col justify-between text-white overflow-hidden">
+            <!-- Background Image with Overlay -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=80" alt="Campus Entrance" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-[#011c11]/90"></div>
+            </div>
+
+            <!-- Logo Section -->
+            <div class="relative z-10 flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-brand-green flex items-center justify-center text-white font-bold relative overflow-hidden shrink-0">
+                    <span class="text-xs">B</span>
+                </div>
+                <div>
+                    <div class="text-xl font-extrabold text-white leading-none tracking-wide">BUESTI</div>
+                    <div class="text-[9px] font-bold text-slate-300 tracking-widest mt-0.5 uppercase">Affiliate Programme</div>
+                </div>
+            </div>
+
+            <!-- Welcoming Copy Block -->
+            <div class="relative z-10 space-y-4 my-10 lg:my-0">
+                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase block">Welcome to</span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                    BUESTI Affiliate<br>Programme
+                </h1>
+                <div class="w-12 h-1 bg-brand-gold rounded"></div>
+                <p class="text-slate-300 text-sm font-light leading-relaxed max-w-sm">
+                    Empowering students through accessible, quality and flexible education.
+                </p>
+
+                <!-- Small Icons Row -->
+                <div class="grid grid-cols-2 gap-x-4 gap-y-6 pt-8 text-[11px] leading-tight text-slate-300">
+                    <div class="space-y-1.5">
+                        <i class="fa-solid fa-graduation-cap text-brand-gold text-sm"></i>
+                        <h4 class="font-bold text-white text-xs">Quality Education</h4>
+                        <p class="font-light text-[10px] text-slate-400">Access accredited programmes that meet global standards.</p>
+                    </div>
+                    <div class="space-y-1.5">
+                        <i class="fa-solid fa-users text-brand-gold text-sm"></i>
+                        <h4 class="font-bold text-white text-xs">Wider Access</h4>
+                        <p class="font-light text-[10px] text-slate-400">Bringing university education closer to students everywhere.</p>
+                    </div>
+                    <div class="space-y-1.5">
+                        <i class="fa-solid fa-shield-halved text-brand-gold text-sm"></i>
+                        <h4 class="font-bold text-white text-xs">Trusted Partnership</h4>
+                        <p class="font-light text-[10px] text-slate-400">Working with accredited affiliates to ensure excellence.</p>
+                    </div>
+                    <div class="space-y-1.5">
+                        <i class="fa-solid fa-chart-line text-brand-gold text-sm"></i>
+                        <h4 class="font-bold text-white text-xs">Student Success</h4>
+                        <p class="font-light text-[10px] text-slate-400">Supporting learners to achieve their academic and career goals.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Support Widget -->
+            <div class="relative z-10 bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-4 mt-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-green flex items-center justify-center text-white shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Need Help?</h4>
+                        <p class="text-[10px] text-slate-400">Our support team is ready to assist you.</p>
+                    </div>
+                </div>
+                <a href="#" class="text-[10px] font-bold text-slate-300 hover:text-white border border-white/20 hover:border-white px-3.5 py-1.5 rounded-lg transition shrink-0">
+                    Contact Support
+                </a>
+            </div>
+
+            <!-- Footer copyright -->
+            <div class="relative z-10 text-[10px] text-slate-500 pt-6">
+                © 2024 BUESTI Affiliate Programme. All rights reserved.
+            </div>
+        </div>
+
+        <!-- ==================== RIGHT COLUMN: ACTIVE ACCOUNT ACTIONS CARD ==================== -->
+        <div class="lg:col-span-7 bg-white p-8 sm:p-16 flex flex-col justify-center relative">
+            
+            <!-- Global Alert Banner for errors/success messages -->
+            <div id="alert-banner" class="hidden rounded-xl p-4 mb-6 flex items-start space-x-3 text-xs leading-relaxed"></div>
+
+            <!-- Heading Block -->
+            <div class="space-y-1.5 mb-8">
+                <h2 id="form-title" class="text-2xl font-extrabold text-slate-800">Login to Your Account</h2>
+                <p id="form-subtitle" class="text-xs text-slate-400">Access your student portal and manage your academic journey.</p>
+            </div>
+
+            <!-- Dual Tab Switcher -->
+            <div class="flex border-b border-slate-100 mb-8 relative">
+                <button onclick="toggleForm('login')" id="tab-login" class="flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-brand-green text-brand-green transition-all">
+                    Login
+                </button>
+                <button onclick="toggleForm('signup')" id="tab-signup" class="flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- ==================== VIEW A: LOGIN FORM ==================== -->
+            <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
+                <div class="space-y-1">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-regular fa-envelope"></i>
+                        </span>
+                        <input type="email" id="login-email" required placeholder="Enter your email address" 
+                               class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Password</label>
+                        <a href="#" class="text-[10px] font-bold text-brand-green hover:underline">Forgot Password?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="login-password" required placeholder="Enter your password" 
+                               class="w-full pl-10 pr-10 py-3 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        <button type="button" onclick="togglePasswordVisibility('login-password')" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600">
+                            <i class="fa-regular fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-green hover:bg-brand-hoverGreen text-white py-3.5 rounded-lg font-bold text-sm transition shadow-md mt-4">
+                    Login
+                </button>
+            </form>
+
+            <!-- ==================== VIEW B: CREATE ACCOUNT FORM (SIGN UP) ==================== -->
+            <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignUp(event)">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <input type="text" id="reg-fullname" required placeholder="Full Name" 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Matriculation Number <span class="text-rose-500">*</span></label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-brand-gold">
+                                <i class="fa-solid fa-id-card-clip"></i>
+                            </span>
+                            <input type="text" id="reg-matric" required placeholder="BUESTI/PT/2026/XXXX" 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm font-bold focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Email Address</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                <i class="fa-regular fa-envelope"></i>
+                            </span>
+                            <input type="email" id="reg-email" required placeholder="name@domain.com" 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Phone Number</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                <i class="fa-solid fa-phone"></i>
+                            </span>
+                            <input type="tel" id="reg-phone" required placeholder="08123456789" 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Create Password</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="password" id="reg-password" required placeholder="Password" 
+                                   class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Confirm Password</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <input type="password" id="reg-confirm-password" required placeholder="Repeat Password" 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-green hover:bg-brand-hoverGreen text-white py-3.5 rounded-lg font-bold text-sm transition shadow-md mt-4">
+                    Verify & Create Account
+                </button>
+            </form>
+
+            <!-- Separator -->
+            <div class="relative flex py-5 items-center">
+                <div class="flex-grow border-t border-slate-100"></div>
+                <span class="flex-shrink mx-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">or</span>
+                <div class="flex-grow border-t border-slate-100"></div>
+            </div>
+
+            <!-- Social Action Button -->
+            <button class="w-full border border-slate-200 hover:bg-slate-50 text-slate-700 py-3 rounded-lg font-medium text-xs flex items-center justify-center gap-2.5 transition">
+                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                    <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.478 0-6.3-2.822-6.3-6.3s2.822-6.3 6.3-6.3c1.63 0 3.11.62 4.25 1.636l3.2-3.2C19.18 2.37 15.89 1 12.24 1 5.61 1 .24 6.37.24 13s5.37 12 12 12c6.31 0 11.76-4.59 11.76-11.285 0-.6-.05-1.12-.15-1.43H12.24z"/>
+                </svg>
+                <span>Continue with Google</span>
+            </button>
+
+            <!-- Bottom redirect tag -->
+            <div class="text-center text-xs text-slate-400 mt-8">
+                <span id="redirect-text">Don't have an account?</span>
+                <button onclick="toggleForm('signup')" id="redirect-btn" class="text-brand-green font-bold hover:underline pl-1 focus:outline-none">
+                    Create Account
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Supabase Initialization Script -->
+    <script>
+        // REPLACE THESE WITH YOUR OWN SUPABASE PROJECT KEYS
+        const SUPABASE_URL = "https://rcuvjxdeosgdlkmrokse.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXZqeGRlb3NnZGxrbXJva3NlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcyNTgsImV4cCI6MjA5ODkxMzI1OH0.SCd5DK4b0gwZEhToZpna0ulMI4ZECeTNHLTPlRSQfug";
+
+        // Initialize connection client
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Custom Frontend UI & Business Logic Script -->
+    <script>
+        // --- Form Tab Toggle Logic ---
+        function toggleForm(view) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            const title = document.getElementById('form-title');
+            const subtitle = document.getElementById('form-subtitle');
+            const redText = document.getElementById('redirect-text');
+            const redBtn = document.getElementById('redirect-btn');
+
+            // Clear old alerts
+            hideAlert();
+
+            if (view === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+
+                tabLogin.className = "flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-brand-green text-brand-green transition-all";
+                tabSignup.className = "flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all";
+
+                title.innerText = "Login to Your Account";
+                subtitle.innerText = "Access your student portal and manage your academic journey.";
+                redText.innerText = "Don't have an account?";
+                redBtn.innerText = "Create Account";
+                redBtn.setAttribute('onclick', "toggleForm('signup')");
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+
+                tabSignup.className = "flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-brand-green text-brand-green transition-all";
+                tabLogin.className = "flex-1 pb-3 text-center text-xs font-bold tracking-wider uppercase border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all";
+
+                title.innerText = "Register Your Profile";
+                subtitle.innerText = "Set up your student credentials with your verified matriculation number.";
+                redText.innerText = "Already have an account?";
+                redBtn.innerText = "Login";
+                redBtn.setAttribute('onclick', "toggleForm('login')");
+            }
+        }
+
+        // Password eye icon toggle
+        function togglePasswordVisibility(fieldId) {
+            const passField = document.getElementById(fieldId);
+            if (passField.type === "password") {
+                passField.type = "text";
+            } else {
+                passField.type = "password";
+            }
+        }
+
+        // --- Alert banner control ---
+        function showAlert(type, message) {
+            const banner = document.getElementById('alert-banner');
+            banner.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'border-emerald-200', 'bg-rose-50', 'text-rose-800', 'border-rose-200');
+            
+            if (type === 'success') {
+                banner.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+                banner.innerHTML = `<i class="fa-solid fa-circle-check text-base mt-0.5 shrink-0"></i> <span>${message}</span>`;
+            } else {
+                banner.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+                banner.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base mt-0.5 shrink-0"></i> <span>${message}</span>`;
+            }
+        }
+
+        function hideAlert() {
+            document.getElementById('alert-banner').classList.add('hidden');
+        }
+
+        // ==================== CORE AUTH LOGIC (Connected to Supabase) ====================
+
+        // --- Handle Registration / Account Creation ---
+        async function handleSignUp(event) {
+            event.preventDefault();
+            hideAlert();
+
+            const fullName = document.getElementById('reg-fullname').value;
+            const matric = document.getElementById('reg-matric').value.toUpperCase().trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+            // Pre-validation checking
+            if (password !== confirmPassword) {
+                showAlert('error', "Password mismatch. Ensure password fields match.");
+                return;
+            }
+
+            try {
+                // 1. Verify if matriculation number exists in application index & is approved
+                const { data: appData, error: appErr } = await supabaseClient
+                    .from('applications')
+                    .select('*')
+                    .eq('matric_number', matric)
+                    .eq('status', 'approved')
+                    .maybeSingle();
+
+                if (appErr) throw appErr;
+
+                if (!appData) {
+                    showAlert('error', "Verification Failed: This matriculation number is either invalid or has not been approved by the Directorate.");
+                    return;
+                }
+
+                // 2. Verify if this matriculation number is already registered in student_accounts
+                const { data: existingAccount, error: accCheckErr } = await supabaseClient
+                    .from('student_accounts')
+                    .select('*')
+                    .eq('matric_number', matric)
+                    .maybeSingle();
+
+                if (accCheckErr) throw accCheckErr;
+
+                if (existingAccount) {
+                    showAlert('error', "Registration Blocked: An account has already been registered with this matriculation number.");
+                    return;
+                }
+
+                // 3. Save details to student_accounts table in Supabase
+                const { error: insertErr } = await supabaseClient
+                    .from('student_accounts')
+                    .insert([
+                        {
+                            matric_number: matric,
+                            full_name: fullName,
+                            email: email,
+                            phone: phone,
+                            password: password // Saved securely
+                        }
+                    ]);
+
+                if (insertErr) throw insertErr;
+
+                // On successful signup
+                showAlert('success', "Account Created Successfully! Your profile is verified. Switch to the Login tab to access your student panel.");
+                document.getElementById('signup-form').reset();
+                setTimeout(() => toggleForm('login'), 2000);
+
+            } catch (err) {
+                showAlert('error', `Registration Error: ${err.message || err}`);
+            }
+        }
+
+        // --- Handle Student Login ---
+        async function handleLogin(event) {
+            event.preventDefault();
+            hideAlert();
+
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            try {
+                // Search student accounts table for match
+                const { data: student, error: loginErr } = await supabaseClient
+                    .from('student_accounts')
+                    .select('*')
+                    .eq('email', email)
+                    .eq('password', password)
+                    .maybeSingle();
+
+                if (loginErr) throw loginErr;
+
+                if (!student) {
+                    showAlert('error', "Login Denied: Invalid email address or password configuration.");
+                    return;
+                }
+
+                // Log session details locally
+                localStorage.setItem('bouesti_student_session', JSON.stringify(student));
+
+                showAlert('success', `Welcome back, ${student.full_name}! Redirecting to student panel dashboard...`);
+                document.getElementById('login-form').reset();
+                
+                // Dashboard redirection transition
+                setTimeout(() => {
+                    alert("Account successfully authenticated! Redirecting to student dashboard...");
+                    window.location.href = "dashboard.html"; 
+                }, 1500);
+
+            } catch (err) {
+                showAlert('error', `Login Exception Error: ${err.message || err}`);
+            }
+        }
+    </script>
+</body>
+</html>
