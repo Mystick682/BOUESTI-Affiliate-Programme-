@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admissions Portal - BOUESTI</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
@@ -42,7 +38,6 @@
     <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo Block -->
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
                         <img src="assets/logo.jpg" alt="BUESTI Logo" class="w-full h-full object-contain p-1">
@@ -53,17 +48,15 @@
                     </div>
                 </div>
 
-                <!-- Tab switcher for desktop -->
                 <div class="hidden md:flex items-center space-x-4 bg-slate-100 p-1 rounded-lg">
-                    <button onclick="switchTab('apply')" id="btn-tab-apply" class="px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm">
+                    <button onclick="switchTab('apply')" id="btn-tab-apply" class="tab-btn-apply px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm">
                         New Application
                     </button>
-                    <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green">
+                    <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="tab-btn-dashboard px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green">
                         Check Status / Dashboard
                     </button>
                 </div>
 
-                <!-- Universal MENU Button (Always Visible) -->
                 <div>
                     <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-green focus:outline-none py-2.5 px-4 rounded-lg border border-slate-200 hover:bg-slate-100 transition flex items-center space-x-2">
                         <i class="fa-solid fa-bars text-sm"></i>
@@ -74,12 +67,21 @@
         </div>
     </header>
 
-    <!-- Navigation Drawer Overlay (Backdrop) -->
+    <!-- Mobile Tab Switcher (visible only below md breakpoint) -->
+    <div class="md:hidden bg-white border-b border-gray-100 sticky top-20 z-30 no-print px-4 py-2 shadow-sm">
+        <div class="flex items-center bg-slate-100 p-1 rounded-lg max-w-md mx-auto">
+            <button onclick="switchTab('apply')" class="tab-btn-apply flex-1 px-4 py-2.5 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm">
+                New Application
+            </button>
+            <button onclick="switchTab('dashboard')" class="tab-btn-dashboard flex-1 px-4 py-2.5 rounded-md text-xs font-bold transition-all text-slate-600">
+                Check Status
+            </button>
+        </div>
+    </div>
+
     <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300 no-print"></div>
 
-    <!-- Navigation Drawer (White Background Restored) -->
     <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col no-print">
-        <!-- Drawer Header with Logo -->
         <div class="flex items-center justify-between p-5 border-b border-gray-100">
             <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
@@ -95,12 +97,16 @@
             </button>
         </div>
         
-        <!-- Drawer Menu List -->
         <div class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
-            <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold bg-green-50 text-brand-green transition">
-                <i class="fa-solid fa-graduation-cap text-base shrink-0"></i>
-                <span>Student Portal Dashboard</span>
-            </a>
+            <button onclick="switchTab('apply'); closeMenu();" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition text-left">
+                <i class="fa-solid fa-file-pen text-base text-slate-400 shrink-0"></i>
+                <span>New Application</span>
+            </button>
+            <button onclick="switchTab('dashboard'); closeMenu();" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold bg-green-50 text-brand-green transition text-left">
+                <i class="fa-solid fa-magnifying-glass text-base shrink-0"></i>
+                <span>Check Admission Status</span>
+            </button>
+            <div class="border-t border-slate-100 my-2"></div>
             <a href="programmes.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
                 <i class="fa-solid fa-book text-base text-slate-400 shrink-0"></i>
                 <span>Available Programmes</span>
@@ -127,7 +133,7 @@
     <!-- Main Content Area -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
-        <!-- ==================== VIEW 1: APPLY TAB ==================== -->
+        <!-- VIEW 1: APPLY TAB -->
         <div id="tab-apply-view" class="space-y-8">
             <!-- Step Indicator -->
             <div id="step-indicator-wrapper" class="mb-8 no-print">
@@ -153,7 +159,7 @@
             <div id="application-card" class="bg-white rounded-2xl shadow-md border border-slate-100 p-6 sm:p-10 no-print">
                 <form id="admission-form" class="space-y-8" onsubmit="submitApplication(event)">
                     
-                    <!-- STEP 1: Personal Bio & Program Details -->
+                    <!-- STEP 1 -->
                     <div id="step-1" class="step-container space-y-6">
                         <div class="border-b border-slate-100 pb-4">
                             <h2 class="text-xl font-extrabold text-slate-800">Bio-Data & Programme Choice</h2>
@@ -196,7 +202,6 @@
                                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Proposed Programme <span class="text-rose-500">*</span></label>
                                 <select id="selected-programme" required class="w-full p-3 border border-slate-200 rounded-lg text-sm focus:border-brand-green focus:ring-2 focus:ring-brand-green/10 focus:outline-none bg-white">
                                     <option value="">-- Select Course --</option>
-                                    <!-- Management & Social Sciences -->
                                     <option value="B.Sc. Accounting">B.Sc. Accounting</option>
                                     <option value="B.Sc. Business Administration">B.Sc. Business Administration</option>
                                     <option value="B.Sc. Office and Information Management">B.Sc. Office and Information Management</option>
@@ -204,16 +209,10 @@
                                     <option value="B.Sc. Criminology and Security Studies">B.Sc. Criminology and Security Studies</option>
                                     <option value="B.Sc. Economics">B.Sc. Economics</option>
                                     <option value="B.Sc. Political Science">B.Sc. Political Science</option>
-                                    
-                                    <!-- Sciences & Technology -->
                                     <option value="B.Sc. Computer Science">B.Sc. Computer Science</option>
                                     <option value="B.Sc. Industrial Mathematics">B.Sc. Industrial Mathematics</option>
-                                    
-                                    <!-- Arts, Humanities & Theology -->
                                     <option value="B.A. English and Literary Studies">B.A. English and Literary Studies</option>
                                     <option value="B.Sc. Theology">B.Sc. Theology</option>
-                                    
-                                    <!-- Education Programmes -->
                                     <option value="B.Sc. (Ed.) Accounting Education">B.Sc. (Ed.) Accounting Education</option>
                                     <option value="B.Sc. (Ed.) Health Education">B.Sc. (Ed.) Health Education</option>
                                     <option value="B.Ed. Social Studies Education">B.Ed. Social Studies Education</option>
@@ -244,7 +243,7 @@
                         </div>
                     </div>
 
-                    <!-- STEP 2: Academic Qualifications -->
+                    <!-- STEP 2 -->
                     <div id="step-2" class="step-container space-y-6 hidden">
                         <div class="border-b border-slate-100 pb-4">
                             <h2 class="text-xl font-extrabold text-slate-800">Academic Qualifications</h2>
@@ -271,7 +270,6 @@
                             </div>
                         </div>
 
-                        <!-- Subjects Checklist -->
                         <div class="space-y-3 pt-2">
                             <span class="block text-xs font-bold text-slate-700 uppercase tracking-wider">O'Level Subject & Grades</span>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -306,7 +304,6 @@
                             </div>
                         </div>
 
-                        <!-- Direct Entry Section -->
                         <div id="de-extra-panel" class="hidden border-t border-slate-100 pt-6 space-y-4">
                             <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Direct Entry Credentials</h4>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -322,23 +319,18 @@
                         </div>
 
                         <div class="flex justify-between pt-4 border-t border-slate-100">
-                            <button type="button" onclick="goToStep(1)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">
-                                Back
-                            </button>
-                            <button type="button" onclick="goToStep(3)" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2">
-                                Next Step
-                            </button>
+                            <button type="button" onclick="goToStep(1)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">Back</button>
+                            <button type="button" onclick="goToStep(3)" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2">Next Step</button>
                         </div>
                     </div>
 
-                    <!-- STEP 3: Payment, Uploads & Verification -->
+                    <!-- STEP 3 -->
                     <div id="step-3" class="step-container space-y-6 hidden">
                         <div class="border-b border-slate-100 pb-4">
                             <h2 class="text-xl font-extrabold text-slate-800">Verification & Submission</h2>
                             <p class="text-xs text-slate-400 mt-1">Upload your credentials and verify payment reference to finalize submission.</p>
                         </div>
 
-                        <!-- Real Document Upload inputs -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div class="space-y-1">
                                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Passport Photograph (JPEG/PNG) <span class="text-rose-500">*</span></label>
@@ -364,12 +356,8 @@
                         </div>
 
                         <div class="flex justify-between pt-4 border-t border-slate-100">
-                            <button type="button" onclick="goToStep(2)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">
-                                Back
-                            </button>
-                            <button type="submit" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-8 py-3 rounded-lg font-bold text-sm flex items-center gap-2">
-                                Submit Application
-                            </button>
+                            <button type="button" onclick="goToStep(2)" class="border border-slate-200 hover:bg-slate-50 text-slate-600 px-6 py-2.5 rounded-lg font-semibold text-sm">Back</button>
+                            <button type="submit" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-8 py-3 rounded-lg font-bold text-sm flex items-center gap-2">Submit Application</button>
                         </div>
                     </div>
 
@@ -401,15 +389,21 @@
                     <div>
                         <h3 class="text-sm font-extrabold text-emerald-900">Application Saved Successfully!</h3>
                         <p class="text-slate-600 text-xs mt-1 leading-relaxed">
-                            Your credentials, documents, and payment reference have been verified and secured. Your generated **Identification Number** is shown below. Please check your status dashboard periodically.
+                            Your credentials, documents, and payment reference have been verified and secured. Your generated Identification Number is shown below. Please check your status dashboard periodically.
                         </p>
                     </div>
                 </div>
 
-                <!-- ID display with overflow wrap protection -->
+                <!-- ── ID display with copy button ── -->
                 <div class="bg-brand-navy rounded-xl p-6 text-center text-white overflow-hidden">
-                    <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block">Student Identification Number</span>
+                    <span class="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block mb-2">Student Identification Number</span>
                     <p id="generated-id" class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-normal sm:tracking-widest text-white mt-1 break-all whitespace-normal px-2"></p>
+                    <!-- Copy button -->
+                    <button onclick="copyGeneratedId()" id="copy-id-btn"
+                        class="mt-4 inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all active:scale-95 no-print">
+                        <i class="fa-regular fa-copy"></i>
+                        <span id="copy-id-label">Copy ID</span>
+                    </button>
                 </div>
 
                 <div class="space-y-4 pt-4 text-xs">
@@ -435,7 +429,7 @@
         </div>
 
 
-        <!-- ==================== VIEW 2: PORTAL DASHBOARD VIEW ==================== -->
+        <!-- VIEW 2: PORTAL DASHBOARD VIEW -->
         <div id="tab-dashboard-view" class="hidden space-y-6">
             <div class="bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center space-y-6">
                 <div class="max-w-md mx-auto space-y-2">
@@ -444,7 +438,8 @@
                 </div>
 
                 <div class="max-w-md mx-auto flex flex-col sm:flex-row items-stretch gap-2">
-                    <input type="text" id="search-id" placeholder="e.g. BOUESTI/McDES/2026/12345" class="flex-1 p-3 border border-slate-200 rounded-lg text-sm uppercase text-center font-bold tracking-wider focus:border-brand-green focus:outline-none">
+                    <input type="text" id="search-id" placeholder="e.g. BOUESTI/McDES/2026/12345"
+                        class="flex-1 p-3 border border-slate-200 rounded-lg text-sm text-center font-bold tracking-wider focus:border-brand-green focus:outline-none">
                     <button onclick="queryStatus()" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-3 rounded-lg font-bold text-sm transition flex items-center justify-center gap-2">
                         <i class="fa-solid fa-circle-nodes"></i>
                         <span>Check Status</span>
@@ -452,7 +447,7 @@
                 </div>
             </div>
 
-            <!-- Loader for Query -->
+            <!-- Loader -->
             <div id="query-loader" class="hidden text-center py-10">
                 <div class="w-10 h-10 border-4 border-brand-green border-t-transparent rounded-full animate-spin mx-auto"></div>
                 <p class="text-slate-400 text-xs mt-3">Connecting to database...</p>
@@ -460,7 +455,6 @@
 
             <!-- Result Cards -->
             <div id="status-result" class="hidden max-w-2xl mx-auto">
-                <!-- Status Approved Card -->
                 <div id="card-approved" class="hidden bg-white border border-emerald-100 rounded-2xl p-8 shadow-md space-y-6">
                     <div class="flex items-center space-x-4">
                         <div class="w-12 h-12 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-circle-check"></i></div>
@@ -475,7 +469,6 @@
                         <div><span class="text-slate-400 block">Admitted Program:</span> <strong id="res-approved-course" class="text-slate-800 font-bold"></strong></div>
                     </div>
 
-                    <!-- Matric Number display box with overflow protection (break-all and whitespace-normal) -->
                     <div class="bg-brand-green text-white rounded-xl p-6 text-center space-y-1 overflow-hidden">
                         <span class="text-[10px] font-bold tracking-widest text-yellow-300 uppercase block">Your Assigned Matriculation Number</span>
                         <p id="res-matric-number" class="text-lg sm:text-xl md:text-2xl font-black tracking-normal sm:tracking-widest text-white break-all whitespace-normal px-2 py-1 leading-normal"></p>
@@ -483,12 +476,10 @@
                     </div>
                 </div>
 
-                <!-- Status Pending Card -->
                 <div id="card-pending" class="hidden bg-white border border-amber-100 rounded-2xl p-8 shadow-md flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-clock-rotate-left"></i></div>
                     <div>
                         <h3 class="text-base font-extrabold text-amber-900">Admission Processing</h3>
-                        <!-- Status Pending Applicant Name (Restored) -->
                         <p id="res-pending-name" class="text-sm font-bold text-slate-800 mt-1"></p>
                         <p class="text-slate-500 text-xs mt-1 leading-relaxed">
                             Your O'Level qualifications and bank reference are currently being verified by the Ibadan Study Centre. Please check back after 24-48 hours.
@@ -496,7 +487,6 @@
                     </div>
                 </div>
 
-                <!-- Status Rejected Card -->
                 <div id="card-rejected" class="hidden bg-white border border-rose-100 rounded-2xl p-8 shadow-md flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-circle-xmark"></i></div>
                     <div>
@@ -517,15 +507,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
-                    <!-- Circle frame for your logo image -->
-                    <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                        <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                        </div>
+                        <div>
+                            <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">McDonalds</div>
+                            <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Services</div>
+                        </div>
                     </div>
-                    <div>
-                    <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">BOUESTI</div>
-                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Affiliate Programme</div>
-                    </div>
-                </div>
                     <p class="text-xs text-slate-400 leading-relaxed pt-2">
                         Bamidele Olumilua University of Education, Science and Technology, Ikere-Ekiti (BOUESTI) Directorate of Part-Time Programmes.
                     </p>
@@ -533,18 +522,16 @@
 
                 <div class="space-y-4">
                     <h4 class="text-white font-semibold text-sm">Main Campus Location</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Igbara Odo Road, P.M.B. 250, Ikere-Ekiti, Ekiti State, Nigeria.
-                    </p>
+                    <p class="text-xs text-slate-400 leading-relaxed">Igbara Odo Road, P.M.B. 250, Ikere-Ekiti, Ekiti State, Nigeria.</p>
                 </div>
 
                 <div class="space-y-4">
                     <h4 class="text-white font-semibold text-sm">Quick Links</h4>
                     <ul class="space-y-2.5 text-xs text-slate-400">
-                        <li><a href="#" class="hover:text-white transition">Home</a></li>
-                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="index.html" class="hover:text-white transition">About Us</a></li>
                         <li><a href="programmes.html" class="hover:text-white transition">Admissions & Programmes</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="index.html" class="hover:text-white transition">Contact Us</a></li>
                     </ul>
                 </div>
 
@@ -569,18 +556,14 @@
         </div>
     </footer>
 
-    <!-- Supabase JavaScript Initialization -->
     <script>
-        // REPLACE THESE WITH YOUR OWN SUPABASE PROJECT KEYS
         const SUPABASE_URL = "https://rcuvjxdeosgdlkmrokse.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXZqeGRlb3NnZGxrbXJva3NlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcyNTgsImV4cCI6MjA5ODkxMzI1OH0.SCd5DK4b0gwZEhToZpna0ulMI4ZECeTNHLTPlRSQfug";
-        // Initialize connection client
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     </script>
 
-    <!-- Frontend Interactive UI Engine -->
     <script>
-        // --- Navigation Drawer (Mobile View) ---
+        // --- Navigation Drawer ---
         const menuBtn = document.getElementById('mobile-menu-btn');
         const closeBtn = document.getElementById('close-drawer-btn');
         const drawer = document.getElementById('mobile-drawer');
@@ -588,45 +571,47 @@
 
         function openMenu() {
             overlay.classList.remove('hidden');
-            setTimeout(() => {
-                overlay.classList.add('opacity-100');
-                drawer.classList.remove('-translate-x-full');
-            }, 10);
+            setTimeout(() => { overlay.classList.add('opacity-100'); drawer.classList.remove('-translate-x-full'); }, 10);
         }
-
         function closeMenu() {
             drawer.classList.add('-translate-x-full');
             overlay.classList.remove('opacity-100');
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300);
+            setTimeout(() => { overlay.classList.add('hidden'); }, 300);
         }
-
         menuBtn?.addEventListener('click', openMenu);
         closeBtn?.addEventListener('click', closeMenu);
         overlay?.addEventListener('click', closeMenu);
 
-        // --- Tab Switcher Logic ---
+        // --- Tab Switcher ---
+        // Updated: now toggles EVERY element with class "tab-btn-apply" / "tab-btn-dashboard"
+        // so both the desktop segmented control and the mobile tab bar stay in sync.
         function switchTab(target) {
-            const applyTabBtn = document.getElementById('btn-tab-apply');
-            const dashTabBtn = document.getElementById('btn-tab-dashboard');
             const applyView = document.getElementById('tab-apply-view');
             const dashView = document.getElementById('tab-dashboard-view');
 
             if (target === 'apply') {
                 applyView?.classList.remove('hidden');
                 dashView?.classList.add('hidden');
-                applyTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm";
-                dashTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green";
             } else {
                 applyView?.classList.add('hidden');
                 dashView?.classList.remove('hidden');
-                dashTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all bg-white text-brand-green shadow-sm";
-                applyTabBtn.className = "px-5 py-2 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-brand-green";
             }
+
+            const activeClasses = "bg-white text-brand-green shadow-sm";
+            const inactiveClasses = "text-slate-600 hover:text-brand-green";
+            const baseClasses = "px-4 sm:px-5 py-2 sm:py-2 rounded-md text-xs font-bold transition-all flex-1 md:flex-none";
+
+            document.querySelectorAll('.tab-btn-apply').forEach(btn => {
+                btn.className = `tab-btn-apply ${baseClasses} ${target === 'apply' ? activeClasses : inactiveClasses}`;
+            });
+            document.querySelectorAll('.tab-btn-dashboard').forEach(btn => {
+                btn.className = `tab-btn-dashboard ${baseClasses} ${target === 'dashboard' ? activeClasses : inactiveClasses}`;
+            });
+
+            // Scroll back to top of main content when switching, useful on mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- Deep Link Navigation Handling ---
         window.addEventListener('DOMContentLoaded', () => {
             if (window.location.hash === '#dashboard' || window.location.hash === '#status') {
                 switchTab('dashboard');
@@ -639,12 +624,8 @@
                 const step1Inputs = document.querySelectorAll('#step-1 input[required], #step-1 select[required]');
                 let valid = true;
                 step1Inputs.forEach(input => {
-                    if (!input.value) {
-                        input.classList.add('border-rose-400');
-                        valid = false;
-                    } else {
-                        input.classList.remove('border-rose-400');
-                    }
+                    if (!input.value) { input.classList.add('border-rose-400'); valid = false; }
+                    else { input.classList.remove('border-rose-400'); }
                 });
                 if (!valid) return;
             }
@@ -654,11 +635,8 @@
 
             const dePanel = document.getElementById('de-extra-panel');
             const entryLevel = document.getElementById('entry-level').value;
-            if (entryLevel.includes('Direct Entry')) {
-                dePanel?.classList.remove('hidden');
-            } else {
-                dePanel?.classList.add('hidden');
-            }
+            if (entryLevel.includes('Direct Entry')) { dePanel?.classList.remove('hidden'); }
+            else { dePanel?.classList.add('hidden'); }
 
             document.querySelectorAll('#step-indicator-wrapper div[id^="ind-"]').forEach((indicator, index) => {
                 if (index + 1 < stepNumber) {
@@ -674,7 +652,21 @@
             });
         }
 
-        // --- Send Application Data to Supabase ---
+        // --- Copy Generated ID ---
+        function copyGeneratedId() {
+            const id = document.getElementById('generated-id').innerText;
+            const label = document.getElementById('copy-id-label');
+            navigator.clipboard.writeText(id).then(() => {
+                label.textContent = 'Copied!';
+                document.getElementById('copy-id-btn').querySelector('i').className = 'fa-solid fa-check';
+                setTimeout(() => {
+                    label.textContent = 'Copy ID';
+                    document.getElementById('copy-id-btn').querySelector('i').className = 'fa-regular fa-copy';
+                }, 2000);
+            });
+        }
+
+        // --- Submit Application ---
         async function submitApplication(event) {
             event.preventDefault();
 
@@ -683,7 +675,6 @@
             const processingScreen = document.getElementById('processing-screen');
             const slipScreen = document.getElementById('printable-slip');
 
-            // Collect credentials
             const surname = document.getElementById('inp-surname').value;
             const firstName = document.getElementById('inp-firstname').value;
             const middleName = document.getElementById('inp-middlename').value;
@@ -692,36 +683,29 @@
             const gender = document.getElementById('inp-gender').value;
             const programme = document.getElementById('selected-programme').value;
             const entryLevel = document.getElementById('entry-level').value;
-
             const examType = document.getElementById('inp-exam-type').value;
             const examYear = document.getElementById('inp-exam-year').value;
             const examNo = document.getElementById('inp-exam-no').value;
-
             const sub3 = document.getElementById('subject-3').value || 'Subject 3';
             const sub4 = document.getElementById('subject-4').value || 'Subject 4';
-
             const subjectsGrades = {
                 "English Language": document.getElementById('grade-english').value,
                 "Mathematics": document.getElementById('grade-math').value,
                 [sub3]: document.getElementById('grade-3').value,
                 [sub4]: document.getElementById('grade-4').value,
             };
-
             const institution = document.getElementById('inp-de-institution').value;
             const gradeMerit = document.getElementById('inp-de-grade').value;
             const paymentRef = document.getElementById('inp-payment-ref').value;
 
-            // Generate Unique ID (Updated Format)
             const randomIdSuffix = Math.floor(10000 + Math.random() * 90000);
             const generatedApplicationId = `BOUESTI/McDES/2026/${randomIdSuffix}`;
 
-            // Show Loader
             formCard?.classList.add('hidden');
             stepIndicator?.classList.add('hidden');
             processingScreen?.classList.remove('hidden');
 
             try {
-                // --- UPLOAD PASSPORT PHOTOGRAPH TO SUPABASE STORAGE BUCKET ---
                 const passportInput = document.getElementById('inp-passport-file');
                 const passportFile = passportInput.files[0];
                 let passportUrl = null;
@@ -729,52 +713,24 @@
                 if (passportFile) {
                     const fileExt = passportFile.name.split('.').pop();
                     const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
-                    
                     const { data: uploadData, error: uploadError } = await supabaseClient
-                        .storage
-                        .from('passports')
-                        .upload(uniqueFileName, passportFile);
-
+                        .storage.from('passports').upload(uniqueFileName, passportFile);
                     if (uploadError) throw uploadError;
-
-                    // Fetch the public link generated by storage
-                    const { data: urlData } = supabaseClient
-                        .storage
-                        .from('passports')
-                        .getPublicUrl(uniqueFileName);
-                    
+                    const { data: urlData } = supabaseClient.storage.from('passports').getPublicUrl(uniqueFileName);
                     passportUrl = urlData.publicUrl;
                 }
 
-                // Send payload to Supabase DB, including passport_url link
-                const { data, error } = await supabaseClient
-                    .from('applications')
-                    .insert([
-                        {
-                            application_id: generatedApplicationId,
-                            surname: surname,
-                            first_name: firstName,
-                            middle_name: middleName,
-                            email: email,
-                            phone: phone,
-                            gender: gender,
-                            programme: programme,
-                            entry_level: entryLevel,
-                            exam_type: examType,
-                            exam_year: examYear,
-                            exam_no: examNo,
-                            subjects_grades: subjectsGrades,
-                            institution: institution,
-                            grade_merit: gradeMerit,
-                            payment_reference: paymentRef,
-                            status: 'pending', // default status
-                            passport_url: passportUrl // Saved passport photo url link
-                        }
-                    ]);
+                const { data, error } = await supabaseClient.from('applications').insert([{
+                    application_id: generatedApplicationId,
+                    surname, first_name: firstName, middle_name: middleName,
+                    email, phone, gender, programme, entry_level: entryLevel,
+                    exam_type: examType, exam_year: examYear, exam_no: examNo,
+                    subjects_grades: subjectsGrades, institution, grade_merit: gradeMerit,
+                    payment_reference: paymentRef, status: 'pending', passport_url: passportUrl
+                }]);
 
                 if (error) throw error;
 
-                // Render slip success UI
                 processingScreen?.classList.add('hidden');
                 slipScreen?.classList.remove('hidden');
 
@@ -792,22 +748,34 @@
             }
         }
 
-        // --- Query Admissions Status (Dashboard Lookup) ---
+        // --- Query Status ---
+        // FIX: Only uppercase the BOUESTI prefix portion, preserve McDes casing in the rest
         async function queryStatus() {
-            const searchId = document.getElementById('search-id').value.toUpperCase().trim();
+            const rawInput = document.getElementById('search-id').value.trim();
+
+            // Normalise only the parts that should be uppercase (BOUESTI and the year/number)
+            // while preserving the mixed-case "McDES" segment
+            // Strategy: uppercase everything EXCEPT the segment between the 1st and 2nd slash
+            // Format is: BOUESTI/McDES/2026/XXXXX
+            // We split on "/" and uppercase only segments 0, 2, 3 — segment 1 stays as-is
+            const parts = rawInput.split('/');
+            let searchId;
+            if (parts.length === 4) {
+                // Uppercase prefix and suffix, preserve segment[1] (McDES) exactly as typed
+                searchId = `${parts[0].toUpperCase()}/${parts[1]}/${parts[2].toUpperCase()}/${parts[3].toUpperCase()}`;
+            } else {
+                // Fallback: use as-is (handles unexpected formats gracefully)
+                searchId = rawInput;
+            }
+
             const loader = document.getElementById('query-loader');
             const resultWrapper = document.getElementById('status-result');
-
             const cardApp = document.getElementById('card-approved');
             const cardPen = document.getElementById('card-pending');
             const cardRej = document.getElementById('card-rejected');
 
-            if (!searchId) {
-                alert("Please enter a valid Application ID.");
-                return;
-            }
+            if (!searchId) { alert("Please enter a valid Application ID."); return; }
 
-            // Reset UI States
             resultWrapper?.classList.add('hidden');
             cardApp?.classList.add('hidden');
             cardPen?.classList.add('hidden');
@@ -815,7 +783,6 @@
             loader?.classList.remove('hidden');
 
             try {
-                // Read record from Supabase applications table
                 const { data, error } = await supabaseClient
                     .from('applications')
                     .select('*')
@@ -841,7 +808,6 @@
                 } else if (data.status === 'rejected') {
                     cardRej?.classList.remove('hidden');
                 } else {
-                    // Pending State
                     cardPen?.classList.remove('hidden');
                     document.getElementById('res-pending-name').innerText = `${data.surname} ${data.first_name}`;
                 }
