@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-200">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - BOUESTI & McDonalds Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode selector
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',      
+                            hoverGreen: '#0a4224', 
+                            navy: '#011c11',       
+                            gold: '#dfa510',       
+                            lightBg: '#f8fafc',
+                            // Exact Dark Mode palette from your UI image
+                            darkBg: '#050c1a',     // Deep slate-navy
+                            darkCard: '#0b1626',   // Cards background
+                            darkBorder: '#1e293b'  // Card borders
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script>
+        // Inline script block to prevent light theme flash on load
+        if (localStorage.getItem('bouesti_theme') === 'dark' || (!('bouesti_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <style>
+        /* CSS for Smooth Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(25px) scale(0.97);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* FAQ Accordion Transitions */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+            opacity: 0;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .faq-item.active .faq-chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 dark:text-slate-100 antialiased bg-brand-lightBg dark:bg-brand-darkBg min-h-screen transition-colors duration-200 overflow-x-hidden">
+
+    <!-- Floating Theme Toggle Button (Exactly Styled to Match Your Screenshot) -->
+    <button id="theme-toggle" class="no-print fixed bottom-6 right-6 z-50 flex items-center space-x-2 px-4 py-2.5 rounded-full bg-slate-900/90 dark:bg-slate-800/90 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-slate-700 transition border border-slate-700/50 shadow-lg backdrop-blur-sm">
+        <i id="theme-toggle-icon" class="fa-solid fa-gear"></i>
+        <span id="theme-toggle-text">Dark mode</span>
+    </button>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white dark:bg-[#040b17] border-b border-gray-100 dark:border-slate-800/50 sticky top-0 z-40 shadow-sm no-print transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Block -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                        <img src="assets/logo.jpg" alt="BUESTI Logo" class="w-full h-full object-contain p-1">
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-brand-green dark:text-white leading-none tracking-wide">BOUESTI</div>
+                        <div class="text-[9px] font-bold text-brand-green/80 dark:text-slate-300 tracking-widest mt-0.5 uppercase">Affiliate Programme</div>
+                    </div>
+                </div>
+
+                <!-- Navigation menu tabs for desktop -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm">
+                    <a href="portal.html" class="text-slate-600 dark:text-slate-300 hover:text-brand-green dark:hover:text-emerald-400 font-semibold transition-colors">Home</a>
+                    <a href="about.html" class="text-slate-600 dark:text-slate-300 hover:text-brand-green dark:hover:text-emerald-400 font-semibold transition-colors">About Us</a>
+                    <a href="programmes.html" class="text-slate-600 dark:text-slate-300 hover:text-brand-green dark:hover:text-emerald-400 font-semibold transition-colors">Programmes</a>
+                    <a href="portal.html#status" class="text-slate-600 dark:text-slate-300 hover:text-brand-green dark:hover:text-emerald-400 font-semibold transition-colors">Admissions Portal</a>
+                </nav>
+
+                <!-- Universal MENU Button -->
+                <div>
+                    <button id="mobile-menu-btn" class="text-slate-700 dark:text-slate-300 hover:text-brand-green dark:hover:text-emerald-400 focus:outline-none py-2.5 px-4 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-white/5 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Drawer Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300 no-print"></div>
+
+    <!-- Navigation Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white dark:bg-[#040b17] z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col no-print border-r border-slate-100 dark:border-slate-800/50 transition-colors duration-200">
+        <!-- Drawer Header with Logo -->
+        <div class="flex items-center justify-between p-5 border-b border-gray-100 dark:border-slate-850">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-0.5">
+                </div>
+                <div>
+                    <div class="text-base font-extrabold text-brand-green dark:text-white leading-none">BOUESTI</div>
+                    <div class="text-[8px] font-bold text-brand-green dark:text-slate-300 tracking-wider uppercase mt-1 leading-none">Affiliate Programme</div>
+                </div>
+            </div>
+            <button id="close-drawer-btn" class="text-slate-400 hover:text-brand-green p-1 focus:outline-none">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+        
+        <!-- Drawer Menu List -->
+        <div class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+            <a href="dashboard.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-green hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                <i class="fa-solid fa-graduation-cap text-base shrink-0"></i>
+                <span>Student Portal Dashboard</span>
+            </a>
+            <a href="programmes.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-book text-base text-slate-400 shrink-0"></i>
+                <span>Available Programmes</span>
+            </a>
+            <a href="about.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-circle-info text-base text-slate-400 shrink-0"></i>
+                <span>About Our Partnership</span>
+            </a>
+            <a href="support.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-headset text-base text-slate-400 shrink-0"></i>
+                <span>Support & Helpdesk</span>
+            </a>
+            <a href="portal.html#status" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold bg-green-50 dark:bg-emerald-950/40 text-brand-green dark:text-emerald-400 transition">
+                <i class="fa-solid fa-circle-question text-base shrink-0"></i>
+                <span>Frequently Asked Questions</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-envelope text-base text-slate-400 shrink-0"></i>
+                <span>Contact Directorate</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Title / Hero Area -->
+    <section class="relative bg-brand-navy min-h-[300px] flex items-center py-16 text-white overflow-hidden transition-colors duration-200">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80" alt="Campus Library" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+            <div class="space-y-4 max-w-2xl mx-auto">
+                <div class="inline-flex items-center gap-2 bg-emerald-900/60 border border-emerald-700/50 px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-300 uppercase tracking-wider">
+                    <i class="fa-solid fa-circle-question"></i> Help & Resources
+                </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-none uppercase">
+                    Frequently Asked Questions
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base font-light">
+                    Have questions about admissions, academic requirements, bank transfers, or registration? Find quick answers right here.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & FAQ Filtering Panel -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- FAQ Search & Filter Switches -->
+        <div class="space-y-6 mb-10">
+            <!-- Search Input Box -->
+            <div class="relative max-w-lg mx-auto">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                </span>
+                <input type="text" id="faq-search" placeholder="Type keywords to search (e.g. balance, NCE, receipts)..." 
+                       class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 focus:border-brand-green dark:focus:border-emerald-500 bg-white dark:bg-brand-darkCard shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-green/10">
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-2" id="faq-tabs">
+                <button data-filter="all" class="faq-tab px-4 py-2 rounded-lg text-xs font-bold transition bg-brand-green text-white shadow-sm">All Questions</button>
+                <button data-filter="admissions" class="faq-tab px-4 py-2 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-brand-darkCard text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all">Admissions</button>
+                <button data-filter="academics" class="faq-tab px-4 py-2 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-brand-darkCard text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all">Academics</button>
+                <button data-filter="payments" class="faq-tab px-4 py-2 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-brand-darkCard text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all">Fees & Payments</button>
+            </div>
+        </div>
+
+        <!-- FAQ Items Grid -->
+        <div class="space-y-4" id="faq-container">
+            
+            <!-- Category: Admissions -->
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="admissions" data-search="how do i get my application/admissions id number">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">How do I get my Application Identification Number?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+                        <p>Your unique application ID (structured as <strong>BOUESTI/McDES/2026/XXXXX</strong>) is automatically generated by the database once you submit your admission form on our application portal [1].</p>
+                        <p>Keep this number secure. You will need it to search your application status on the Admissions Checker tab, download your printable application slip, and create your student login account [1].</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="admissions" data-search="what are the minimum entry requirements">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">What are the entry requirements for admission?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+                        <p>Requirements vary based on your mode of entry [1]:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>O'Level Entry:</strong> Five (5) credit passes in SSCE/GCE/NECO/NABTEB including English and Mathematics at not more than two sittings [1].</li>
+                            <li><strong>Direct Entry:</strong> Minimum of Merit/Credit in at least two subjects in OND/NCE/A-Levels plus five O'level credits as listed above [1].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category: Academics -->
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="academics" data-search="when and where do lectures hold ibadan study centre">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">Where is the study centre and when do classes hold?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+                        <p>All academic lectures and exams for the Directorate of Part-Time Programmes are held at our designated **Ibadan Study Centre** [1]:</p>
+                        <p class="font-semibold text-brand-green dark:text-emerald-400 bg-emerald-50/50 dark:bg-slate-900/40 p-3 rounded-lg border border-emerald-100/50 dark:border-slate-800">
+                            <i class="fa-solid fa-location-dot"></i> Bishop Phillips Academy, Iwo-Road, Ibadan [1].
+                        </p>
+                        <p>Our academic programs operate on a **Weekend Part-Time** structure. Lectures hold physically every Saturday and Sunday to accommodate working class professionals [1].</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="academics" data-search="who issues the final certificates graduation text">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">Who issues the certificate upon completion of studies?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+                        <p>All academic degrees, exam transcripts, and final graduation certificates are **fully issued directly by the Senate of Bamidele Olumilua University of Education, Science and Technology, Ikere-Ekiti (BOUESTI)** [1].</p>
+                        <p>The academic degrees awarded are exactly the same as those earned by main-campus students, carrying full accreditation by the National Universities Commission (NUC).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category: Payments -->
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="payments" data-search="how can i make school fee payments bank transfer">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">How do I make my school fees payment?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-3">
+                        <p>We do not accept raw credit card details on our site [1]. Instead, you must make a direct bank transfer to our verified bank account [1]:</p>
+                        <div class="bg-slate-50 dark:bg-black/35 rounded-xl p-4 border border-slate-100 dark:border-slate-800 text-xs space-y-1.5 max-w-sm">
+                            <div><span class="text-slate-400">Bank Name:</span> <strong class="dark:text-white">Wema Bank</strong></div>
+                            <div><span class="text-slate-400">Account Number:</span> <strong class="text-brand-green dark:text-emerald-400 tracking-wider text-sm select-all font-black">1029384756</strong></div>
+                            <div><span class="text-slate-400">Account Name:</span> <strong class="dark:text-white">BUESTI Affiliate Programme</strong></div>
+                        </div>
+                        <p>After paying, you must submit your transaction receipt ID and upload a photo/PDF of your bank receipt on your student portal **Pay All Fees** page [1]. Finally, tap the **Send to WhatsApp** button to log it directly with our registry desk for verification and approval [1].</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item bg-white dark:bg-brand-darkCard rounded-2xl border border-slate-100 dark:border-slate-800/80 shadow-sm overflow-hidden transition-all duration-300" data-category="payments" data-search="can i pay my school fees in installments balance">
+                <button onclick="toggleAccordion(this)" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="font-extrabold text-slate-800 dark:text-white text-sm sm:text-base">Can I pay my tuition fees in installments?</span>
+                    <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300 faq-chevron"></i>
+                </button>
+                <div class="faq-answer border-t border-slate-50 dark:border-slate-800/40">
+                    <div class="px-6 py-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+                        <p>Yes, installment and part-payments are fully supported to provide financial flexibility [1].</p>
+                        <p>When settling your fees on the **Pay All Fees** panel, you can choose "Custom Installment" and type in any amount you wish to transfer (provided it does not exceed your outstanding balance) [1]. Your student dashboard automatically subtracts the paid sum and updates your outstanding balance statement live [1].</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Fallback Message -->
+        <div id="faq-empty-state" class="hidden text-center py-16">
+            <i class="fa-solid fa-magnifying-glass-minus text-slate-300 text-4xl mb-4 block animate-pulse"></i>
+            <h3 class="text-slate-700 dark:text-slate-300 font-extrabold text-lg">No matches found</h3>
+            <p class="text-slate-400 text-xs mt-1">Try searching another keyword (e.g. balance, admission, program, Bishop Phillips).</p>
+        </div>
+
+        <!-- Call to Action (CTA) Support Card -->
+        <section class="mt-16 bg-brand-navy rounded-3xl text-white p-8 sm:p-12 relative overflow-hidden shadow-md text-center">
+            <div class="relative z-10 space-y-4 max-w-lg mx-auto">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest block">Still Have Questions?</span>
+                <h3 class="text-xl sm:text-2xl font-black uppercase">Contact Our Academic Directorate</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    If you require manually verified assistance regarding applications, transcript clearances, or bank validations, reach out directly to our Ibadan coordinator.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="support.html" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-headset text-sm"></i>
+                        <span>Support Ticket Helpdesk</span>
+                    </a>
+                    <a href="tel:09150739629" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 border border-white/10">
+                        <i class="fa-solid fa-phone text-xs"></i>
+                        <span>Call Support: 0915 073 9629</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800 dark:border-slate-900 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="space-y-4">
+                    <!-- Footer Logo branding with exact color adjustments for light/dark view compatibility -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full border-2 border-yellow-400 bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                        </div>
+                        <div>
+                            <div class="text-xl font-extrabold text-brand-green dark:text-[#10b981] leading-none tracking-wide transition-colors">McDonalds</div>
+                            <div class="text-[9px] font-bold text-brand-green/80 dark:text-slate-400 tracking-widest mt-0.5 uppercase">Educational Services</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 dark:text-slate-400 leading-relaxed pt-2">
+                        Bamidele Olumilua University of Education, Science and Technology, Ikere-Ekiti (BOUESTI) Directorate of Part-Time Programmes [1].
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Main Campus Location</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Igbara Odo Road, P.M.B. 250, Ikere-Ekiti, Ekiti State, Nigeria.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="portal.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="programmes.html" class="hover:text-white transition">Admissions & Programmes</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Ibadan Study Centre Hotlines</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
+                            <span>Bishop Phillips Academy, Iwo-Road, Ibadan [1].</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-phone text-emerald-600"></i>
+                            <span>+234 915 073 9629</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2026 BOUESTI Affiliate & Part-Time Directorate. All rights reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-facebook-f text-[10px]"></i>
+                    </a>
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-twitter text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase JavaScript Initialization -->
+    <script>
+        const SUPABASE_URL = "https://rcuvjxdeosgdlkmrokse.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXZqeGRlb3NnZGxrbXJva3NlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMzcyNTgsImV4cCI6MjA5ODkxMzI1OH0.SCd5DK4b0gwZEhToZpna0ulMI4ZECeTNHLTPlRSQfug";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Interactive FAQ search, tabs switcher, accordion toggling, and theme mode controller -->
+    <script>
+        // --- 1. Sidebar Menu Controller ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeMenu() {
+            drawer.classList.add('-translate-x-full');
+            overlay.classList.remove('opacity-100');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn?.addEventListener('click', openMenu);
+        closeBtn?.addEventListener('click', closeMenu);
+        overlay?.addEventListener('click', closeMenu);
+
+
+        // --- 2. FAQ Accordion Click Toggle handler ---
+        function toggleAccordion(button) {
+            const currentItem = button.closest('.faq-item');
+            const allItems = document.querySelectorAll('.faq-item');
+
+            allItems.forEach(item => {
+                if (item !== currentItem) {
+                    item.classList.remove('active');
+                }
+            });
+
+            currentItem.classList.toggle('active');
+        }
+
+
+        // --- 3. Live FAQ Searching & Category Switching ---
+        const searchInput = document.getElementById('faq-search');
+        const tabs = document.querySelectorAll('.faq-tab');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const emptyState = document.getElementById('faq-empty-state');
+
+        let currentFilter = 'all';
+        let currentSearchQuery = '';
+
+        function performSearchAndFilter() {
+            let matchesCount = 0;
+
+            faqItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const textIndex = item.getAttribute('data-search');
+
+                const matchesCategory = (currentFilter === 'all' || category === currentFilter);
+                const matchesSearch = textIndex.includes(currentSearchQuery);
+
+                if (matchesCategory && matchesSearch) {
+                    item.classList.remove('hidden');
+                    matchesCount++;
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('active'); // Collapse it if it was open
+                }
+            });
+
+            if (matchesCount === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+        }
+
+        // Detect typing in search box
+        searchInput.addEventListener('keyup', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase().trim();
+            performSearchAndFilter();
+        });
+
+        // Detect tab switching clicks
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Clear active styling from all tab buttons
+                tabs.forEach(t => {
+                    t.className = "faq-tab px-4 py-2 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-brand-darkCard text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all";
+                });
+
+                // Apply active styling to the clicked tab
+                tab.className = "faq-tab px-4 py-2 rounded-lg text-xs font-bold transition bg-brand-green text-white shadow-sm";
+
+                currentFilter = tab.getAttribute('data-filter');
+                performSearchAndFilter();
+            });
+        });
+
+
+        // --- 4. Floating Dark / Light Mode Controller ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleText = document.getElementById('theme-toggle-text');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+        function syncThemeUI() {
+            const isDarkActive = document.documentElement.classList.contains('dark');
+            if (isDarkActive) {
+                themeToggleText.innerText = 'Light mode';
+                themeToggleIcon.className = 'fa-solid fa-gear'; // Gear style icon from screenshot
+            } else {
+                themeToggleText.innerText = 'Dark mode';
+                themeToggleIcon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('bouesti_theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('bouesti_theme', 'dark');
+            }
+            syncThemeUI();
+        });
+
+        // Initialize UI values correctly matching loaded theme state
+        syncThemeUI();
+    </script>
+</body>
+</html>
