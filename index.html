@@ -1,570 +1,1463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOUESTI Affiliate Programme</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Inter) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            green: '#0e5c33',      // Rich academic green
-                            hoverGreen: '#0a4224', // Deep green hover
-                            navy: '#011c11',       // Dark forest background for hero/footer overlays
-                            cardBorder: '#e2e8f0'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* CSS for Scroll Animations */
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(30px) scale(0.96);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, opacity;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McDonalds Group — Building the Future Through Education, Media &amp; Innovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================
+   McDonalds Group — Design Tokens
+============================================ */
+:root{
+  --green: #0EA968;
+  --green-dark: #064E3B;
+  --green-darker: #032B20;
+  --dark-bg: #071A12;
+  --dark-bg-2: #0A2019;
+  --near-black: #0A0F0D;
+  --gold: #D8A94B;
+  --cream: #F4F1EA;
+  --ink: #12201A;
+  --gray-text: #5B6660;
+  --light-bg: #F6F7F5;
+  --white: #FFFFFF;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --container-w: 1240px;
+}
 
-        .scroll-animate.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;margin:0;padding:0;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
 
-        /* Custom scrollbar matching green theme */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #0e5c33;
-        }
-    </style>
+.container{
+  max-width:var(--container-w);
+  margin:0 auto;
+  padding:0 24px;
+}
+
+/* Fallback for missing user images: soft placeholder tint instead of broken icon */
+.img-fallback{
+  position:relative;
+  background:linear-gradient(135deg,#e7ece9,#cfd8d3);
+  min-height:120px;
+}
+.img-fallback img{visibility:hidden;}
+
+/* ============================================
+   Buttons
+============================================ */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 26px;
+  border-radius:999px;
+  font-size:14.5px;
+  font-weight:600;
+  white-space:nowrap;
+  transition:all .2s ease;
+  border:1.5px solid transparent;
+}
+.btn-primary{
+  background:var(--green);
+  color:#fff;
+}
+.btn-primary:hover{background:#0c9059;}
+.btn-outline-light{
+  background:transparent;
+  color:#fff;
+  border-color:rgba(255,255,255,.55);
+}
+.btn-outline-light:hover{background:rgba(255,255,255,.12);}
+.btn-outline-gold{
+  background:transparent;
+  color:var(--gold);
+  border-color:var(--gold);
+  font-size:13.5px;
+  padding:11px 20px;
+}
+.btn-outline-gold:hover{background:rgba(216,169,75,.12);}
+
+.eyebrow{
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+  margin:0 0 10px;
+}
+.eyebrow-gold{color:var(--gold);}
+.eyebrow-green{color:var(--green);}
+
+.section-title{
+  font-family:var(--font-serif);
+  font-weight:700;
+  font-size:clamp(28px,4vw,40px);
+  margin:0 0 18px;
+  color:var(--ink);
+}
+.section-title.light{color:#fff;}
+
+.body-text{
+  color:var(--gray-text);
+  line-height:1.75;
+  font-size:15.5px;
+  margin:0 0 16px;
+}
+
+/* ============================================
+   Header
+============================================ */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--near-black);
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+.brand-logo{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.05;}
+.brand-title{
+  font-family:var(--font-serif);
+  font-weight:700;
+  font-size:19px;
+  color:#fff;
+  letter-spacing:.3px;
+}
+.brand-sub{
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--gold);
+  font-weight:600;
+}
+
+.main-nav ul{
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+.main-nav a{
+  font-size:14.5px;
+  font-weight:500;
+  color:#EDEFEC;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 0;
+}
+.main-nav a:hover{color:var(--gold);}
+.caret{font-size:10px;}
+
+.has-dropdown{position:relative;}
+.mega-menu{
+  position:absolute;
+  top:calc(100% + 18px);
+  left:50%;
+  transform:translateX(-38%);
+  background:#fff;
+  border-radius:var(--radius-md);
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+  padding:26px 30px;
+  display:flex;
+  gap:50px;
+  min-width:460px;
+  opacity:0;
+  visibility:hidden;
+  transition:all .2s ease;
+  z-index:50;
+}
+.has-dropdown:hover .mega-menu{
+  opacity:1;
+  visibility:visible;
+  top:calc(100% + 10px);
+}
+.mega-col{display:flex;flex-direction:column;gap:6px;min-width:180px;}
+.mega-heading{
+  font-weight:700;
+  font-size:13.5px;
+  color:var(--ink);
+  margin:0 0 6px;
+  white-space:nowrap;
+}
+.mega-link{
+  font-size:13px;
+  color:var(--gray-text);
+  padding:2px 0;
+}
+.mega-link:hover{color:var(--green);}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-shrink:0;
+}
+.icon-btn{
+  color:#EDEFEC;
+  font-size:16px;
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-btn:hover{color:var(--gold);}
+
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  width:26px;
+}
+.hamburger span{
+  height:2px;
+  background:#fff;
+  border-radius:2px;
+}
+
+.mobile-drawer{
+  display:none;
+  flex-direction:column;
+  background:var(--near-black);
+  padding:10px 24px 24px;
+  position:sticky;
+  top:70px;
+  z-index:99;
+}
+.mobile-drawer.open{display:flex;}
+.mobile-drawer a{
+  color:#EDEFEC;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:15px;
+}
+.mobile-drawer-actions{
+  display:flex;
+  gap:12px;
+  margin-top:16px;
+}
+.mobile-drawer-actions .btn{flex:1;justify-content:center;}
+
+/* ============================================
+   Hero
+============================================ */
+.hero{
+  position:relative;
+  min-height:560px;
+  overflow:hidden;
+  padding:70px 0 110px;
+  display:flex;
+  align-items:center;
+  isolation:isolate;
+}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg-img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center center;
+  opacity:1;
+  transform:none;
+  filter:contrast(1.05) saturate(1.08);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(5,15,11,.28) 0%, rgba(5,15,11,.16) 35%, rgba(5,15,11,.08) 100%);
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:640px;
+  padding-right:12px;
+}
+.reveal-hidden{
+  opacity:0;
+  transform:translateY(30px);
+}
+.reveal-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.reveal-hidden,
+.reveal-visible{
+  transition:opacity .7s ease, transform .7s ease;
+}
+
+.hero-title{
+  font-family:var(--font-serif);
+  color:#fff;
+  font-weight:700;
+  font-size:clamp(32px,4.6vw,52px);
+  line-height:1.12;
+  margin:0 0 22px;
+}
+.hero-subtitle{
+  color:#E7ECE9;
+  font-size:16px;
+  line-height:1.6;
+  margin:0 0 32px;
+  font-weight:400;
+}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+
+/* ============================================
+   Stats
+============================================ */
+.stats-section{
+  position:relative;
+  z-index:3;
+  margin-top:-70px;
+}
+.stats-card{
+  background:#fff;
+  border-radius:var(--radius-lg);
+  box-shadow:0 20px 50px rgba(10,30,20,.12);
+  padding:34px 20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+.stat{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  justify-content:center;
+}
+.stat-icon{
+  font-size:26px;
+  color:var(--green);
+}
+.stat-number{
+  font-family:var(--font-serif);
+  font-weight:700;
+  font-size:26px;
+  color:var(--ink);
+  margin:0;
+}
+.stat-label{
+  font-size:13px;
+  color:var(--gray-text);
+  margin:2px 0 0;
+}
+
+/* ============================================
+   Who we are
+============================================ */
+.who-we-are{
+  background:var(--light-bg);
+  padding:130px 0 90px;
+}
+.who-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+.who-image{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  aspect-ratio:4/3;
+  background:#dfe4e0;
+}
+.who-image img{width:100%;height:100%;object-fit:cover;}
+
+/* ============================================
+   Pillars
+============================================ */
+.pillars{
+  background:radial-gradient(ellipse at top, #0C3226 0%, var(--dark-bg) 55%, var(--near-black) 100%);
+  padding:90px 0 70px;
+}
+.section-head-center{
+  text-align:center;
+  margin-bottom:50px;
+}
+.section-head-center .eyebrow{
+  display:block;
+}
+
+.pillars-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+  margin-bottom:60px;
+}
+.pillar-card{
+  position:relative;
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius-lg);
+  padding:38px 34px 34px;
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+  overflow:hidden;
+  min-height:260px;
+}
+.pillar-badge{
+  position:absolute;
+  top:-22px;
+  left:28px;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:var(--green);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  box-shadow:0 8px 22px rgba(14,169,104,.4);
+  border:4px solid var(--dark-bg);
+}
+.pillar-body{
+  flex:1;
+  min-width:0;
+  padding-top:16px;
+}
+.pillar-body h3{
+  color:#fff;
+  font-family:var(--font-serif);
+  font-size:19px;
+  margin:0 0 12px;
+  line-height:1.35;
+}
+.pillar-body p{
+  color:#C7D0CB;
+  font-size:14px;
+  line-height:1.65;
+  margin:0 0 16px;
+}
+.check-list{margin:0 0 22px;display:flex;flex-direction:column;gap:8px;}
+.check-list li{
+  font-size:13.5px;
+  color:#E5E9E6;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.check-list i{color:var(--green);font-size:12px;}
+.pillar-image{
+  width:150px;
+  flex-shrink:0;
+  align-self:stretch;
+  border-radius:50% 50% 8% 50%;
+  overflow:hidden;
+  background:#123528;
+  margin-top:16px;
+}
+.pillar-image img{width:100%;height:100%;object-fit:cover;}
+
+/* Services row */
+.services-row{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-lg);
+  padding:22px 22px;
+  margin-bottom:60px;
+}
+.services-scroll{
+  display:flex;
+  flex:1;
+  overflow-x:auto;
+  gap:10px;
+  scrollbar-width:none;
+}
+.services-scroll::-webkit-scrollbar{display:none;}
+.service-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  min-width:112px;
+  padding:16px 10px;
+  border-radius:var(--radius-md);
+  border:1px solid rgba(255,255,255,.08);
+  text-align:center;
+  flex-shrink:0;
+}
+.service-item i{
+  color:var(--gold);
+  font-size:20px;
+}
+.service-item span{
+  color:#E5E9E6;
+  font-size:12.5px;
+  font-weight:500;
+  line-height:1.3;
+}
+.nav-circle-btn{
+  width:40px;height:40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:background .2s;
+}
+.nav-circle-btn:hover{background:rgba(255,255,255,.1);}
+
+/* Why choose us */
+.why-choose{margin-bottom:60px;}
+.why-choose > .eyebrow{margin-bottom:24px;}
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+.why-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-md);
+  padding:22px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+.why-icon{
+  width:42px;height:42px;
+  border-radius:10px;
+  background:rgba(14,169,104,.15);
+  color:var(--green);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+.why-card h4{
+  color:#fff;
+  font-size:15px;
+  margin:0 0 6px;
+  font-family:var(--font-serif);
+}
+.why-card p{
+  color:#B7C1BB;
+  font-size:13px;
+  line-height:1.5;
+  margin:0;
+}
+
+/* Testimonials */
+.testimonials{margin-bottom:60px;}
+.testimonials > .eyebrow{margin-bottom:24px;}
+.testimonial-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.testimonial-scroll{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  flex:1;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.testimonial-scroll::-webkit-scrollbar{display:none;}
+.testimonial-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-md);
+  padding:20px;
+  min-width:230px;
+}
+.testimonial-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+.avatar{
+  width:44px;height:44px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#1c3b2e;
+}
+.testimonial-head h5{
+  color:#fff;
+  font-size:14px;
+  margin:0;
+}
+.testimonial-head span{
+  color:var(--gold);
+  font-size:12px;
+}
+.testimonial-card p{
+  color:#C7D0CB;
+  font-size:13px;
+  line-height:1.6;
+  margin:0 0 12px;
+}
+.stars{color:var(--gold);letter-spacing:2px;font-size:14px;}
+
+/* Bottom grid: news / gallery / partners */
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  gap:26px;
+  padding-top:40px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.bottom-col-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+.bottom-col-head .eyebrow{margin:0;}
+.view-all{
+  font-size:12.5px;
+  color:var(--green);
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.news-list{display:flex;flex-direction:column;gap:16px;}
+.news-item{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.news-item img{
+  width:64px;height:56px;
+  object-fit:cover;
+  border-radius:8px;
+  flex-shrink:0;
+  background:#1c3b2e;
+}
+.news-title{
+  color:#EDEFEC;
+  font-size:13px;
+  line-height:1.45;
+  margin:0 0 6px;
+  font-weight:500;
+}
+.news-date{
+  color:#8FA097;
+  font-size:11.5px;
+}
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(2,80px);
+  gap:8px;
+}
+.gallery-grid img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:8px;
+  background:#1c3b2e;
+}
+.gallery-1{grid-column:1/2;grid-row:1/3;height:100%;}
+.gallery-2{grid-column:2/3;grid-row:1/2;}
+.gallery-3{grid-column:2/3;grid-row:2/3;}
+.gallery-4{grid-column:1/2;grid-row:3/4;}
+.gallery-5{grid-column:2/3;grid-row:3/4;}
+.gallery-grid{grid-template-rows:repeat(3,58px);}
+
+.partners-text{
+  color:#B7C1BB;
+  font-size:13px;
+  line-height:1.6;
+  margin:0 0 20px;
+}
+.partners-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.partners-grid img{
+  width:44px;height:44px;
+  object-fit:contain;
+  border-radius:50%;
+  background:#fff;
+  padding:6px;
+  margin:0 auto;
+}
+
+/* ============================================
+   CTA banner
+============================================ */
+.cta-banner{
+  background:linear-gradient(120deg, var(--green-dark), var(--green-darker));
+  padding:50px 0;
+}
+.cta-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  flex-wrap:wrap;
+}
+.cta-inner h2{
+  font-family:var(--font-serif);
+  color:#fff;
+  font-size:clamp(22px,3vw,30px);
+  margin:0 0 8px;
+}
+.cta-inner p{
+  color:#DCEAE3;
+  font-size:14.5px;
+  max-width:520px;
+  margin:0;
+  line-height:1.6;
+}
+
+/* ============================================
+   Footer
+============================================ */
+.site-footer{
+  background:var(--near-black);
+  padding:60px 0 0;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 0.8fr 1fr 1fr 1.2fr;
+  gap:30px;
+  padding-bottom:40px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-brand p{
+  color:#96A39C;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:14px;
+}
+.brand-title.light{color:#fff;}
+.footer-col h5{
+  color:#fff;
+  font-size:14px;
+  margin:0 0 16px;
+  font-weight:700;
+}
+.footer-col a{
+  display:block;
+  color:#9DAAA3;
+  font-size:13px;
+  margin-bottom:12px;
+}
+.footer-col a:hover{color:var(--gold);}
+.footer-col p{
+  color:#9DAAA3;
+  font-size:13px;
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.footer-col p i{color:var(--green);width:14px;}
+.footer-social{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+}
+.footer-social a{
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:13px;
+  margin:0;
+}
+.footer-social a:hover{background:var(--green);border-color:var(--green);}
+
+.newsletter-form{
+  display:flex;
+  gap:8px;
+  margin-top:16px;
+}
+.newsletter-form input{
+  flex:1;
+  padding:11px 14px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-size:13px;
+}
+.newsletter-form input::placeholder{color:#7D8B84;}
+.newsletter-form button{
+  width:42px;
+  border-radius:8px;
+  background:var(--green);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.footer-bottom{padding:20px 0;}
+.footer-bottom-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.footer-bottom-inner p{
+  color:#7D8B84;
+  font-size:12.5px;
+  margin:0;
+}
+.footer-legal{display:flex;gap:20px;}
+.footer-legal a{
+  color:#7D8B84;
+  font-size:12.5px;
+}
+.footer-legal a:hover{color:var(--gold);}
+
+/* ============================================
+   Scroll to top
+============================================ */
+.scroll-top{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:44px;height:44px;
+  border-radius:50%;
+  background:var(--ink);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  opacity:0;
+  visibility:hidden;
+  transition:all .25s ease;
+  z-index:90;
+}
+.scroll-top.visible{opacity:1;visibility:visible;}
+
+/* ============================================
+   Responsive
+============================================ */
+@media (max-width: 1024px){
+  .who-grid{gap:40px;}
+  .footer-grid{grid-template-columns:1fr 1fr 1fr;}
+  .footer-newsletter{grid-column:1/3;}
+}
+
+@media (max-width: 900px){
+  .main-nav, .hide-mobile{display:none;}
+  .hamburger{display:flex;}
+  .stats-card{grid-template-columns:repeat(2,1fr);}
+  .who-grid{grid-template-columns:1fr;}
+  .pillars-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr 1fr;}
+  .testimonial-scroll{grid-auto-flow:column;grid-auto-columns:75%;grid-template-columns:none;}
+  .bottom-grid{grid-template-columns:1fr;gap:36px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/3;}
+  .footer-newsletter{grid-column:1/3;}
+  .hero-media-left{width:38%;right:38%;}
+  .hero-media-right{width:42%;}
+}
+
+@media (max-width: 640px){
+  .container{padding:0 18px;}
+  .hero{padding:44px 0 90px;text-align:left;min-height:500px;}
+  .hero-bg-img{opacity:1;}
+  .hero-overlay{
+    background:linear-gradient(180deg, rgba(5,15,11,.72) 0%, rgba(5,15,11,.42) 45%, rgba(5,15,11,.25) 100%);
+  }
+  .hero-content{max-width:100%;padding-right:0;}
+  .hero-btns .btn{flex:1;justify-content:center;}
+  .stats-section{margin-top:-50px;}
+  .stats-card{grid-template-columns:1fr 1fr;padding:24px 16px;gap:18px;}
+  .stat{gap:10px;}
+  .who-we-are{padding:90px 0 60px;}
+  .pillars{padding:60px 0 50px;}
+  .pillar-card{flex-direction:column;padding:34px 22px 26px;}
+  .pillar-image{width:100%;height:160px;border-radius:16px;margin-top:10px;}
+  .why-grid{grid-template-columns:1fr;}
+  .testimonial-scroll{grid-auto-columns:88%;}
+  .services-row{padding:16px;}
+  .footer-grid{grid-template-columns:1fr;}
+  .footer-brand, .footer-newsletter{grid-column:1/2;}
+  .cta-inner{flex-direction:column;align-items:flex-start;text-align:left;}
+  .mega-menu{
+    position:static;
+    transform:none;
+    min-width:0;
+    flex-direction:column;
+    gap:20px;
+    box-shadow:none;
+    opacity:1;
+    visibility:visible;
+    display:none;
+  }
+}
+</style>
 </head>
-<body class="font-sans text-gray-800 antialiased bg-[#f8fafc] overflow-x-hidden">
+<body>
 
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo Block -->
-            <div class="flex items-center space-x-3">
-                <!-- Circle frame for your logo image -->
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
-                </div>
-                <div>
-                    <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">McDONALDS</div>
-                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Services</div>
-                </div>
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#">
+      <img src="assets/logo3.jpg" alt="McDonalds Group" class="brand-logo" onerror="this.style.display='none'">
+      <span class="brand-text">
+        <span class="brand-title">McDonalds</span>
+        <span class="brand-sub">GROUP</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li class="has-dropdown">
+          <a href="#companies">Our Companies <i class="fa-solid fa-chevron-down caret"></i></a>
+          <div class="mega-menu">
+            <div class="mega-col">
+              <p class="mega-heading">1. McDonalds Educational Services</p>
+              <a href="#" class="mega-link">a. McDonalds International Schools</a>
+              <a href="#" class="mega-link">b. BOUESTI Affiliate Degree</a>
             </div>
-
-                <!-- Desktop Navigation Menu -->
-                <nav class="hidden lg:flex items-center space-x-8">
-                    <a href="index.html" class="text-brand-green font-semibold text-sm transition-colors">Home</a>
-                    <a href="about.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">About Us</a>
-                    <a href="programmes.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Programmes</a>
-                    <a href="affiliates.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Affiliates</a>
-                    <a href="news-events.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">News & Events</a>
-                    <a href="contact.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Contact Us</a>
-                </nav>
-
-                <!-- Desktop Action Button -->
-                <div class="hidden lg:flex items-center">
-                    <a href="login.html" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-5 py-2.5 rounded-md font-medium text-sm flex items-center gap-2 transition duration-200 shadow-sm">
-                        <i class="fa-regular fa-user text-xs"></i>
-                        <span>Student Portal</span>
-                    </a>
-                </div>
-
-                <!-- Mobile Navigation Toggle Button -->
-                <div class="lg:hidden">
-                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-green focus:outline-none py-2.5 px-4 rounded-lg border border-slate-200 hover:bg-slate-100 transition flex items-center space-x-2">
-                        <i class="fa-solid fa-bars text-sm"></i>
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Menu</span>
-                    </button>
-                </div>
+            <div class="mega-col">
+              <p class="mega-heading">2. McDonalds Lens, Events &amp; Media Productions</p>
+              <a href="#" class="mega-link">a. Movie / Music Production</a>
+              <a href="#" class="mega-link">b. Events and Parties</a>
             </div>
-        </div>
-    </header>
+          </div>
+        </li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#careers">Careers</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-    <!-- Mobile Navigation Drawer Overlay (Backdrop) -->
-    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <a href="affiliate.html" class="btn btn-outline-light hide-mobile">Affiliate</a>
+      <a href="#" class="btn btn-primary hide-mobile">Get Started</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
 
-    <!-- Mobile Navigation Drawer Panel (Slides from Left) -->
-    <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        <!-- Drawer Header -->
-        <div class="flex items-center justify-between p-5 border-b border-gray-100">
-            <div class="flex items-center space-x-3">
-                <!-- Circle frame for your logo image -->
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
-                </div>
-                <div>
-                    <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">McDONALDS</div>
-                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Servives</div>
-                </div>
-            </div>
-            <button id="close-drawer-btn" class="text-slate-500 hover:text-brand-green p-1 focus:outline-none">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
+<!-- Mobile nav drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#">Home</a>
+  <a href="#about">About Us</a>
+  <a href="#companies">Our Companies</a>
+  <a href="#news">News</a>
+  <a href="#careers">Careers</a>
+  <a href="#contact">Contact</a>
+  <div class="mobile-drawer-actions">
+    <a href="#" class="btn btn-outline-light">Student Portal</a>
+    <a href="#" class="btn btn-primary">Get Started</a>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="assets/hero.jpg" alt="" class="hero-bg-img" onerror="this.style.display='none'">
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container hero-content">
+    <p class="eyebrow eyebrow-gold">BUILDING THE FUTURE</p>
+    <h1 class="hero-title">Through Education,<br>Media &amp; Innovation.</h1>
+    <p class="hero-subtitle">One Group.<br>Multiple Industries.<br>Global Impact.</p>
+    <div class="hero-btns">
+      <a href="#companies" class="btn btn-primary">Explore Our Companies</a>
+      <a href="affiliate.html" class="btn btn-outline-light">Affiliates<i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS BAR ============ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-card">
+      <div class="stat">
+        <i class="fa-solid fa-graduation-cap stat-icon"></i>
+        <div>
+          <p class="stat-number">5000+</p>
+          <p class="stat-label">Students</p>
         </div>
-        <!-- Drawer Body Links -->
-        <div class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
-            <a href="index.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold bg-green-50 text-brand-green transition">
-                <i class="fa-solid fa-house text-base shrink-0"></i>
-                <span>Home</span>
-            </a>
-            <a href="about.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
-                <i class="fa-solid fa-circle-info text-base text-slate-400 shrink-0"></i>
-                <span>About Us</span>
-            </a>
-            <a href="programmes.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
-                <i class="fa-solid fa-book text-base text-slate-400 shrink-0"></i>
-                <span>Programmes</span>
-            </a>
-            <a href="apply.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
-                <i class="fa-solid fa-file-lines text-base text-slate-400 shrink-0"></i>
-                <span>Admissions</span>
-            </a>
-            <a href="contact.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
-                <i class="fa-solid fa-envelope text-base text-slate-400 shrink-0"></i>
-                <span>Contact Us</span>
-            </a>
-            <a href="login.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
-                <i class="fa-solid fa-right-to-bracket text-base text-slate-400 shrink-0"></i>
-                <span>Student Portal</span>
-            </a>
+      </div>
+      <div class="stat">
+        <i class="fa-solid fa-medal stat-icon"></i>
+        <div>
+          <p class="stat-number">20+</p>
+          <p class="stat-label">Years Experience</p>
         </div>
+      </div>
+      <div class="stat">
+        <i class="fa-solid fa-building stat-icon"></i>
+        <div>
+          <p class="stat-number">4</p>
+          <p class="stat-label">Business Divisions</p>
+        </div>
+      </div>
+      <div class="stat">
+        <i class="fa-solid fa-handshake stat-icon"></i>
+        <div>
+          <p class="stat-number">100+</p>
+          <p class="stat-label">Corporate Partners</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO WE ARE ============ -->
+<section class="who-we-are" id="about">
+  <div class="container who-grid">
+    <div class="who-image">
+      <img src="assets/group.jpg" alt="McDonalds Group headquarters" onerror="this.parentElement.classList.add('img-fallback')">
+    </div>
+    <div class="who-text">
+      <p class="eyebrow eyebrow-green">WHO WE ARE</p>
+      <h2 class="section-title">McDonalds Group</h2>
+      <p class="body-text">McDonalds Group is a diversified organisation committed to transforming lives through quality education, creative media, event management, and global partnerships.</p>
+      <p class="body-text">Our vision is to build institutions that shape future leaders, create unforgettable experiences, and inspire innovation across Africa and beyond.</p>
+      <a href="#about" class="btn btn-primary">Learn More About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLARS ============ -->
+<section class="pillars" id="companies">
+  <div class="container">
+    <div class="section-head-center">
+      <p class="eyebrow eyebrow-gold">OUR COMPANIES</p>
+      <h2 class="section-title light">The Pillars of Our Group</h2>
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative bg-brand-navy min-h-[500px] lg:min-h-[580px] flex items-center overflow-hidden">
-        <!-- Background Image with Overlay styling -->
-        <div class="absolute inset-0 z-0">
-            <img src="assets/logo2.jpg" alt="BOUESTI Campus Entrance" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-[#011c11]/95 via-[#011c11]/85 to-[#011c11]/70"></div>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-badge"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="pillar-body">
+          <h3>1. McDonalds Educational Services</h3>
+          <p>Providing quality education from basic education to international degree programmes.</p>
+          <ul class="check-list">
+            <li><i class="fa-solid fa-check"></i> McDonalds International Schools</li>
+            <li><i class="fa-solid fa-check"></i> BOUESTI Affiliate Degree Programme</li>
+          </ul>
+          <a href="#" class="btn btn-outline-gold">Visit Educational Services <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="pillar-image">
+          <img src="assets/1.jpg" alt="Students in McDonalds Educational Services" onerror="this.parentElement.classList.add('img-fallback')">
+        </div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-badge"><i class="fa-solid fa-video"></i></div>
+        <div class="pillar-body">
+          <h3>2. McDonalds Lens, Events &amp; Media Productions</h3>
+          <p>Creating unforgettable experiences through media production, movies, music, events, and premium entertainment.</p>
+          <ul class="check-list">
+            <li><i class="fa-solid fa-check"></i> Movie / Music Production</li>
+            <li><i class="fa-solid fa-check"></i> Events and Parties</li>
+          </ul>
+          <a href="#" class="btn btn-outline-gold">Visit Media Division <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="pillar-image">
+          <img src="assets/pillar-media.jpg" alt="McDonalds Lens Media Productions" onerror="this.parentElement.classList.add('img-fallback')">
+        </div>
+      </div>
+    </div>
+
+    <!-- Services row -->
+    <div class="services-row">
+      <div class="services-scroll">
+        <div class="service-item">
+          <i class="fa-solid fa-file-arrow-down"></i>
+          <span>Admissions</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Academic Consultancy</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-clapperboard"></i>
+          <span>Film Production</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-music"></i>
+          <span>Music Recording</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-regular fa-heart"></i>
+          <span>Wedding Events</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Corporate Branding</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-camera"></i>
+          <span>Photography</span>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-camera-retro"></i>
+          <span>Conference Management</span>
+        </div>
+      </div>
+      <button class="nav-circle-btn" id="servicesNext" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Why choose us -->
+    <div class="why-choose">
+      <p class="eyebrow eyebrow-gold">WHY CHOOSE US —</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-earth-africa"></i></div>
+          <div>
+            <h4>Global Standards</h4>
+            <p>We adhere to international best practices in everything we do.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-user-tie"></i></div>
+          <div>
+            <h4>Professional Team</h4>
+            <p>Experienced professionals dedicated to excellence and impact.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <div>
+            <h4>Innovation</h4>
+            <p>We embrace creativity and technology to drive meaningful change.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fa-solid fa-award"></i></div>
+          <div>
+            <h4>Trusted Excellence</h4>
+            <p>Years of proven results and a reputation you can rely on.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="testimonials">
+      <p class="eyebrow eyebrow-gold">TESTIMONIALS —</p>
+      <div class="testimonial-row">
+        <button class="nav-circle-btn" id="testiPrev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="testimonial-scroll" id="testiScroll">
+          <div class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="assets/testimonial-1.jpg" alt="Amanda Kelvin" class="avatar" onerror="this.parentElement.classList.add('img-fallback')">
+              <div>
+                <h5>Amanda Kelvin</h5>
+                <span>Student</span>
+              </div>
+            </div>
+            <p>McDonalds International School has transformed my learning experience. The teachers are amazing!</p>
+            <div class="stars">★★★★★</div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="assets/testimonial-2.jpg" alt="Olivia Bennett" class="avatar" onerror="this.parentElement.classList.add('img-fallback')">
+              <div>
+                <h5>Olivia Bennett</h5>
+                <span>Event Client</span>
+              </div>
+            </div>
+            <p>They made our wedding day absolutely perfect. Every detail was handled professionally.</p>
+            <div class="stars">★★★★★</div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="assets/testimonial-3.jpg" alt="Daniel Okoro" class="avatar" onerror="this.parentElement.classList.add('img-fallback')">
+              <div>
+                <h5>Daniel Okoro</h5>
+                <span>Movie Producer</span>
+              </div>
+            </div>
+            <p>The production quality and creativity from McDonalds Lens is world class.</p>
+            <div class="stars">★★★★★</div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-head">
+              <img src="assets/testimonial-4.jpg" alt="Sarah Johnson" class="avatar" onerror="this.parentElement.classList.add('img-fallback')">
+              <div>
+                <h5>Sarah Johnson</h5>
+                <span>Parent</span>
+              </div>
+            </div>
+            <p>A great institution that truly cares about the future of our children.</p>
+            <div class="stars">★★★★★</div>
+          </div>
         </div>
 
-        <!-- Hero Content -->
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-white">
-            <div class="max-w-2xl space-y-6">
-                <span class="text-xs font-bold tracking-widest text-emerald-300 uppercase block">Welcome to</span>
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight uppercase">
-                    McDONALDS Educational<br>Services Affiliated with BOUESTI
-                </h1>
-                <p class="text-slate-300 text-sm sm:text-base lg:text-lg font-light leading-relaxed max-w-lg">
-                    Partnering with institutions and empowering students through accessible, quality and flexible education.
-                </p>
-                <div class="pt-4 flex flex-wrap gap-4">
-                    <a href="login.html" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-6 py-3 rounded-md font-medium text-sm transition duration-200 shadow-md">
-                        Student Portal
-                    </a>
-                    <a href="apply.html" class="border border-white hover:bg-white hover:text-brand-navy text-white px-6 py-3 rounded-md font-medium text-sm flex items-center gap-2 transition duration-200">
-                        <span>Apply Now</span>
-                        <i class="fa-solid fa-angle-right text-xs"></i>
-                    </a>
-                </div>
-            </div>
+        <button class="nav-circle-btn" id="testiNext" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+
+    <!-- News / Gallery / Partners -->
+    <div class="bottom-grid">
+      <div class="bottom-col">
+        <div class="bottom-col-head">
+          <p class="eyebrow eyebrow-gold">LATEST NEWS</p>
+          <a href="#news" class="view-all">View All <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-    </section>
-
-    <!-- Value Proposition Cards Section -->
-    <section class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-10 lg:-mt-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Quality Education Card -->
-            <div class="scroll-animate bg-white rounded-xl p-6 shadow-md border border-gray-100 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition duration-200">
-                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-brand-green">
-                    <i class="fa-solid fa-building-columns text-xl"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-base">Quality Education</h3>
-                <p class="text-slate-500 text-xs leading-relaxed max-w-[200px]">
-                    Access quality university education through our trusted affiliates.
-                </p>
+        <div class="news-list">
+          <a href="#" class="news-item">
+            <img src="assets/news-1.jpg" alt="" onerror="this.parentElement.classList.add('img-fallback')">
+            <div>
+              <p class="news-title">McDonalds International Schools Graduation Ceremony 2024</p>
+              <span class="news-date">May 20, 2024</span>
             </div>
-
-            <!-- Wider Access Card -->
-            <div class="scroll-animate bg-white rounded-xl p-6 shadow-md border border-gray-100 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition duration-200">
-                <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-brand-green">
-                    <i class="fa-solid fa-users text-xl"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-base">Wider Access</h3>
-                <p class="text-slate-500 text-xs leading-relaxed max-w-[200px]">
-                    Bringing university programmes closer to students everywhere.
-                </p>
+          </a>
+          <a href="#" class="news-item">
+            <img src="assets/news-2.jpg" alt="" onerror="this.parentElement.classList.add('img-fallback')">
+            <div>
+              <p class="news-title">New Movie Project Coming Soon from McDonalds Lens</p>
+              <span class="news-date">May 15, 2024</span>
             </div>
-
-            <!-- Trusted Partnership Card -->
-            <div class="scroll-animate bg-white rounded-xl p-6 shadow-md border border-gray-100 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition duration-200">
-                <div class="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
-                    <i class="fa-solid fa-shield-halved text-xl"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-base">Trusted Partnership</h3>
-                <p class="text-slate-500 text-xs leading-relaxed max-w-[200px]">
-                    Working with accredited affiliates to ensure excellence.
-                </p>
+          </a>
+          <a href="#" class="news-item">
+            <img src="assets/news-3.jpg" alt="" onerror="this.parentElement.classList.add('img-fallback')">
+            <div>
+              <p class="news-title">Admission Now Open for 2024/2025 Academic Session</p>
+              <span class="news-date">May 10, 2024</span>
             </div>
-
-            <!-- Student Success Card -->
-            <div class="scroll-animate bg-white rounded-xl p-6 shadow-md border border-gray-100 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition duration-200">
-                <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
-                    <i class="fa-solid fa-chart-line text-xl"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-base">Student Success</h3>
-                <p class="text-slate-500 text-xs leading-relaxed max-w-[200px]">
-                    Supporting learners to achieve their academic and career goals.
-                </p>
-            </div>
-
+          </a>
         </div>
-    </section>
+      </div>
 
-    <!-- Quick Access Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="text-center space-y-2 mb-10">
-            <h2 class="text-2xl font-bold text-slate-800">Quick Access</h2>
-            <p class="text-slate-500 text-sm">Navigate to important pages with ease.</p>
+      <div class="bottom-col">
+        <div class="bottom-col-head">
+          <p class="eyebrow eyebrow-gold">GALLERY</p>
+          <a href="#gallery" class="view-all">View All <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            <!-- Link 1: About Us -->
-            <a href="about.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-regular fa-id-card text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">About Us</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 2: Programmes -->
-            <a href="programmes.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-solid fa-graduation-cap text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">Programmes</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 3: Affiliates -->
-            <a href="affiliates.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-solid fa-building-user text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">Affiliates</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 4: Admissions -->
-            <a href="admissions.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-regular fa-file-lines text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">Admissions</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 5: Student Portal -->
-            <a href="student-portal.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-regular fa-user text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">Student Portal</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 6: News & Events -->
-            <a href="news-events.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-solid fa-bullhorn text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">News & Events</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 7: FAQs -->
-            <a href="faqs.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-regular fa-circle-question text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">FAQs</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
-            <!-- Link 8: Contact Us -->
-            <a href="contact.html" class="scroll-animate bg-white hover:bg-slate-50 border border-gray-100 rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow transition duration-150 group">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded bg-green-50 text-brand-green flex items-center justify-center">
-                        <i class="fa-solid fa-phone text-base"></i>
-                    </div>
-                    <span class="font-semibold text-slate-700 text-sm group-hover:text-brand-green transition">Contact Us</span>
-                </div>
-                <i class="fa-solid fa-angle-right text-slate-400 text-xs group-hover:translate-x-1 transition-transform"></i>
-            </a>
-
+        <div class="gallery-grid">
+          <img src="assets/gallery-1.jpg" alt="" class="gallery-1" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/gallery-2.jpg" alt="" class="gallery-2" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/gallery-3.jpg" alt="" class="gallery-3" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/gallery-4.jpg" alt="" class="gallery-4" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/gallery-5.jpg" alt="" class="gallery-5" onerror="this.parentElement.classList.add('img-fallback')">
         </div>
-    </section>
+      </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                
-                <!-- Column 1: Brand Info -->
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                    <!-- Circle frame for your logo image -->
-                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
-                    </div>
-                    <div>
-                    <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">BOUESTI/McDONALDS</div>
-                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Services</div>
-                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Ibadan Study Centre</div>
-                    </div>
-                </div>
-                    <p class="text-xs text-slate-400 leading-relaxed pt-2">
-                        Bamidele Olumilua University of Education, Science and Technology Ikere-Ekiti (BOUESTI) Directorate of Part-Time Programmes. Location - Bishop Phillips Academy, along Iwo-Ibadan Road, Iwo-Road Ibadan.
-                    </p>
-                </div>
-
-                <!-- Column 2: Quick Links -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-semibold text-sm">Quick Links</h4>
-                    <ul class="space-y-2.5 text-xs text-slate-400">
-                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
-                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
-                        <li><a href="programmes.html" class="hover:text-white transition">Programmes</a></li>
-                        <li><a href="affiliates.html" class="hover:text-white transition">Affiliates</a></li>
-                        <li><a href="contact.html" class="hover:text-white transition">Contact Us</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Resources -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-semibold text-sm">Resources</h4>
-                    <ul class="space-y-2.5 text-xs text-slate-400">
-                        <li><a href="admissions.html" class="hover:text-white transition">Admissions</a></li>
-                        <li><a href="student-portal.html" class="hover:text-white transition">Student Portal</a></li>
-                        <li><a href="faqs.html" class="hover:text-white transition">FAQs</a></li>
-                        <li><a href="downloads.html" class="hover:text-white transition">Downloads</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4: Contact Us -->
-                <div class="space-y-4">
-                    <h4 class="text-white font-semibold text-sm">Contact Us</h4>
-                    <ul class="space-y-3 text-xs text-slate-400">
-                        <li class="flex items-start space-x-3">
-                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
-                            <span>Bamidele Olumilua University of Education, Science and Technology Ikere-Ekiti (BOUESTI) Directorate of Part-Time Programmes. Bishop Phillips Academy, along Iwo-Ibadan Road, Iwo-Road Ibadan.</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <i class="fa-solid fa-phone text-emerald-600"></i>
-                            <span>+234 803 123 4567</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <i class="fa-solid fa-envelope text-emerald-600"></i>
-                            <span>affiliate@buesti.edu.ng</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <!-- Bottom Copyright & Social Area -->
-            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-                <p>© 2026 BOUESTI/McDONALDS Educational Services. All rights reserved.</p>
-                
-                <div class="flex items-center space-x-4">
-                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
-                        <i class="fa-brands fa-facebook-f text-[10px]"></i>
-                    </a>
-                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
-                        <i class="fa-brands fa-twitter text-[10px]"></i>
-                    </a>
-                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
-                        <i class="fa-brands fa-linkedin-in text-[10px]"></i>
-                    </a>
-                </div>
-            </div>
+      <div class="bottom-col">
+        <div class="bottom-col-head">
+          <p class="eyebrow eyebrow-gold">OUR PARTNERS</p>
         </div>
-    </footer>
+        <p class="partners-text">We partner with leading institutions and organizations worldwide.</p>
+        <div class="partners-grid">
+          <img src="assets/partner-1.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-2.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-3.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-4.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-5.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-6.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-7.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+          <img src="assets/partner-8.png" alt="Partner logo" onerror="this.parentElement.classList.add('img-fallback')">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Interactive Script Mechanics -->
-    <script>
-        // --- 1. Left-Sliding Off-Canvas Drawer Implementation ---
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const closeBtn = document.getElementById('close-drawer-btn');
-        const drawer = document.getElementById('mobile-drawer');
-        const overlay = document.getElementById('mobile-overlay');
+<!-- ============ CTA BANNER ============ -->
+<section class="cta-banner">
+  <div class="container cta-inner">
+    <div>
+      <h2>Join the McDonalds Group Family</h2>
+      <p>Whether you're pursuing education, planning an event, or creating your next masterpiece, we're here to help you achieve your dreams.</p>
+    </div>
+    <a href="#contact" class="btn btn-outline-light">Contact Us Today <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</section>
 
-        function openMenu() {
-            overlay.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden'); // Stops main page scrolling while open
-            setTimeout(() => {
-                overlay.classList.add('opacity-100');
-                drawer.classList.remove('-translate-x-full');
-            }, 10);
-        }
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer" id="contact">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#">
+        <img src="assets/logo3.jpg" alt="McDonalds Group" class="brand-logo" onerror="this.style.display='none'">
+        <span class="brand-text">
+          <span class="brand-title light">McDonalds</span>
+          <span class="brand-sub">GROUP</span>
+        </span>
+      </a>
+    </div>
 
-        function closeMenu() {
-            drawer.classList.add('-translate-x-full');
-            overlay.classList.remove('opacity-100');
-            document.body.classList.remove('overflow-hidden');
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-            }, 300); // Wait for transition duration
-        }
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="#about">About Us</a>
+      <a href="#news">News</a>
+      <a href="#careers">Careers</a>
+      <a href="#contact">Contact</a>
+    </div>
 
-        menuBtn.addEventListener('click', openMenu);
-        closeBtn.addEventListener('click', closeMenu);
-        overlay.addEventListener('click', closeMenu);
+    <div class="footer-col">
+      <h5>Our Companies</h5>
+      <a href="#">McDonalds Educational Services</a>
+      <a href="#">McDonalds Lens, Events &amp; Media Productions</a>
+    </div>
 
+    <div class="footer-col">
+      <h5>Contact Info</h5>
+      <p><i class="fa-solid fa-location-dot"></i> Lagos, Nigeria</p>
+      <p><i class="fa-solid fa-envelope"></i> info@mcdonalds­educationalservices.org</p>
+      <p><i class="fa-solid fa-phone"></i> +234 800 123 4567</p>
+      <div class="footer-social">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
 
-        // --- 2. Scroll Animation Observer (Appear/Disappear as user scrolls) ---
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15 // Triggers animation when 15% of the element is visible
-        };
+    <div class="footer-col footer-newsletter">
+      <h5>Subscribe to our Newsletter</h5>
+      <p>Get the latest updates and news from our group.</p>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
 
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                } else {
-                    // Re-hides cards when they exit the viewport
-                    entry.target.classList.remove('visible');
-                }
-            });
-        }, observerOptions);
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>© 2024 McDonalds Group. All Rights Reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-        // Bind animation class directly to target elements
-        document.querySelectorAll('.scroll-animate').forEach(card => {
-            scrollObserver.observe(card);
-        });
-    </script>
-    <style>
-        :root { color-scheme: light; }
-        body.dark { background-color: #020617; color: #f8fafc; }
-        body.dark header,
-        body.dark main,
-        body.dark aside,
-        body.dark .bg-white,
-        body.dark .bg-slate-50,
-        body.dark .bg-slate-100,
-        body.dark .bg-brand-lightBg,
-        body.dark .bg-brand-navy,
-        body.dark .rounded-2xl,
-        body.dark .rounded-xl,
-        body.dark .rounded-lg {
-            background-color: #111827 !important;
-            color: #f8fafc !important;
-        }
-        body.dark .text-slate-800,
-        body.dark .text-slate-700,
-        body.dark .text-slate-600,
-        body.dark .text-slate-500,
-        body.dark .text-gray-800,
-        body.dark .text-gray-700,
-        body.dark .text-slate-400,
-        body.dark .text-gray-600,
-        body.dark p,
-        body.dark span {
-            color: #e5e7eb !important;
-        }
-        body.dark .border-slate-100,
-        body.dark .border-slate-200,
-        body.dark .border-gray-100,
-        body.dark .border-white\/10,
-        body.dark .border-slate-300 {
-            border-color: #334155 !important;
-        }
-        body.dark .text-brand-green {
-            color: #4ade80 !important;
-        }
-        body.dark .bg-brand-green {
-            background-color: #15803d !important;
-        }
-        body.dark .bg-brand-hoverGreen:hover {
-            background-color: #166534 !important;
-        }
-        body.dark #theme-toggle-btn {
-            background: #111827;
-            color: #f8fafc;
-            border-color: #475569;
-        }
-    </style>
-    <script>
-        (function () {
-            const storageKey = 'mcdonalds-theme';
-            const button = document.createElement('button');
-            button.id = 'theme-toggle-btn';
-            button.type = 'button';
-            button.className = 'fixed bottom-4 right-4 z-[70] flex items-center gap-2 rounded-full border border-slate-300 bg-white/90 px-3.5 py-2.5 text-xs font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:bg-slate-100';
-            button.innerHTML = '<i class="fa-solid fa-moon"></i><span class="theme-toggle-label">Dark mode</span>';
-            document.body.appendChild(button);
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-            function applyTheme() {
-                const dark = localStorage.getItem(storageKey) === 'dark' || (!localStorage.getItem(storageKey) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                document.body.classList.toggle('dark', dark);
-                document.documentElement.classList.toggle('dark', dark);
-                const icon = button.querySelector('i');
-                const label = button.querySelector('.theme-toggle-label');
-                if (dark) {
-                    icon.className = 'fa-solid fa-sun';
-                    label.textContent = 'Light mode';
-                } else {
-                    icon.className = 'fa-solid fa-moon';
-                    label.textContent = 'Dark mode';
-                }
-            }
+<script>
+// Mobile drawer toggle
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileDrawer = document.getElementById('mobileDrawer');
 
-            button.addEventListener('click', () => {
-                const nextTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
-                localStorage.setItem(storageKey, nextTheme);
-                applyTheme();
-            });
+hamburgerBtn.addEventListener('click', () => {
+  mobileDrawer.classList.toggle('open');
+  hamburgerBtn.classList.toggle('active');
+});
 
-            applyTheme();
-        })();
-    </script>
+// Close mobile drawer when a link is clicked
+mobileDrawer.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mobileDrawer.classList.remove('open'));
+});
+
+// Scroll-to-top button
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) {
+    scrollTopBtn.classList.add('visible');
+  } else {
+    scrollTopBtn.classList.remove('visible');
+  }
+});
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Services row horizontal scroll via next button
+const servicesScroll = document.querySelector('.services-scroll');
+const servicesNext = document.getElementById('servicesNext');
+if (servicesNext) {
+  servicesNext.addEventListener('click', () => {
+    servicesScroll.scrollBy({ left: 240, behavior: 'smooth' });
+  });
+}
+
+// Testimonials carousel via prev/next buttons
+const testiScroll = document.getElementById('testiScroll');
+const testiPrev = document.getElementById('testiPrev');
+const testiNext = document.getElementById('testiNext');
+if (testiNext) {
+  testiNext.addEventListener('click', () => {
+    testiScroll.scrollBy({ left: 260, behavior: 'smooth' });
+  });
+}
+if (testiPrev) {
+  testiPrev.addEventListener('click', () => {
+    testiScroll.scrollBy({ left: -260, behavior: 'smooth' });
+  });
+}
+
+// Reveal animations for page sections
+const revealSections = [
+  document.querySelector('.hero-content'),
+  document.querySelector('.stats-card'),
+  document.querySelector('.who-grid'),
+  document.querySelector('.pillars-grid'),
+  document.querySelector('.testimonial-row'),
+  document.querySelector('.bottom-grid'),
+  document.querySelector('.cta-banner'),
+  document.querySelector('.site-footer')
+].filter(Boolean);
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('reveal-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.15
+});
+
+revealSections.forEach(section => {
+  section.classList.add('reveal-hidden');
+  revealObserver.observe(section);
+});
+</script>
 </body>
 </html>
