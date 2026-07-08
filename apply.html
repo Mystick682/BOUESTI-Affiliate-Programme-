@@ -284,6 +284,8 @@
                                         <option value="C4">C4</option><option value="C5">C5</option><option value="C6">C6</option>
                                     </select>
                                 </div>
+
+                                <!-- Additional subjects: allow up to 7 more subjects (3..9) -->
                                 <div class="flex items-center space-x-2">
                                     <input type="text" placeholder="Subject 3 (e.g. Physics)" id="subject-3" class="p-2 border border-slate-200 rounded text-xs flex-1">
                                     <select id="grade-3" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
@@ -294,6 +296,41 @@
                                 <div class="flex items-center space-x-2">
                                     <input type="text" placeholder="Subject 4 (e.g. Chemistry)" id="subject-4" class="p-2 border border-slate-200 rounded text-xs flex-1">
                                     <select id="grade-4" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                        <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                        <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Subject 5 (e.g. Biology)" id="subject-5" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                    <select id="grade-5" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                        <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                        <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Subject 6 (e.g. Further Maths)" id="subject-6" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                    <select id="grade-6" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                        <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                        <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Subject 7 (e.g. Economics)" id="subject-7" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                    <select id="grade-7" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                        <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                        <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Subject 8 (e.g. Civic Education)" id="subject-8" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                    <select id="grade-8" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
+                                        <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
+                                        <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Subject 9 (e.g. Agricultural Science)" id="subject-9" class="p-2 border border-slate-200 rounded text-xs flex-1">
+                                    <select id="grade-9" class="p-2 border border-slate-200 rounded text-xs bg-white w-20">
                                         <option value="A1">A1</option><option value="B2">B2</option><option value="B3">B3</option>
                                         <option value="C4">C4</option><option value="C5">C5</option><option value="C6" selected>C6</option>
                                     </select>
@@ -628,6 +665,11 @@
                 if (!valid) return;
             }
 
+            // If moving to step 3, validate O'Level subjects and grades
+            if (stepNumber === 3) {
+                if (!validateSubjects()) return;
+            }
+
             document.querySelectorAll('.step-container').forEach(step => step.classList.add('hidden'));
             document.getElementById(`step-${stepNumber}`).classList.remove('hidden');
 
@@ -648,6 +690,62 @@
                     indicator.innerHTML = index + 1;
                 }
             });
+        }
+
+        // --- Apply notice helpers ---
+        function showApplyNotice(type, message) {
+            const el = document.getElementById('apply-notice');
+            if (!el) return;
+            el.classList.remove('hidden');
+            el.setAttribute('role', 'alert');
+            el.innerHTML = `<div class="flex items-start gap-3">
+                <div class="text-${type === 'error' ? 'rose' : 'emerald'}-600"><i class="fa-solid ${type === 'error' ? 'fa-circle-xmark' : 'fa-circle-check'}"></i></div>
+                <div class="flex-1 text-sm">${message}</div>
+                <button onclick="hideApplyNotice()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>`;
+            if (type === 'error') {
+                el.classList.remove('bg-emerald-50');
+                el.classList.add('bg-rose-50', 'border-rose-200');
+            } else {
+                el.classList.remove('bg-rose-50');
+                el.classList.add('bg-emerald-50', 'border-emerald-200');
+            }
+        }
+
+        function hideApplyNotice() {
+            const el = document.getElementById('apply-notice');
+            if (!el) return;
+            el.classList.add('hidden');
+            el.innerHTML = '';
+        }
+
+        // --- Subjects validation ---
+        function validateSubjects() {
+            const creditGrades = ['A1','B2','B3','C4','C5'];
+            const grades = [];
+            grades.push(document.getElementById('grade-english').value);
+            grades.push(document.getElementById('grade-math').value);
+            for (let i = 3; i <= 9; i++) {
+                const g = document.getElementById(`grade-${i}`)?.value;
+                if (g) grades.push(g);
+            }
+
+            const englishGrade = document.getElementById('grade-english').value;
+            const mathGrade = document.getElementById('grade-math').value;
+
+            if (!creditGrades.includes(englishGrade) || !creditGrades.includes(mathGrade)) {
+                showApplyNotice('error', "English and Mathematics must be credit passes (A1 - C5). Please correct your grades.");
+                return false;
+            }
+
+            const creditCount = grades.filter(g => creditGrades.includes(g)).length;
+            if (creditCount < 5) {
+                showApplyNotice('error', `You have ${creditCount} credit(s). At least 5 O'Level credits (including English and Mathematics) are required.`);
+                return false;
+            }
+
+            hideApplyNotice();
+            return true;
         }
 
         // --- Copy Generated ID ---
@@ -686,11 +784,22 @@
             const examNo = document.getElementById('inp-exam-no').value;
             const sub3 = document.getElementById('subject-3').value || 'Subject 3';
             const sub4 = document.getElementById('subject-4').value || 'Subject 4';
+            const sub5 = document.getElementById('subject-5').value || 'Subject 5';
+            const sub6 = document.getElementById('subject-6').value || 'Subject 6';
+            const sub7 = document.getElementById('subject-7').value || 'Subject 7';
+            const sub8 = document.getElementById('subject-8').value || 'Subject 8';
+            const sub9 = document.getElementById('subject-9').value || 'Subject 9';
+
             const subjectsGrades = {
                 "English Language": document.getElementById('grade-english').value,
                 "Mathematics": document.getElementById('grade-math').value,
                 [sub3]: document.getElementById('grade-3').value,
                 [sub4]: document.getElementById('grade-4').value,
+                [sub5]: document.getElementById('grade-5').value,
+                [sub6]: document.getElementById('grade-6').value,
+                [sub7]: document.getElementById('grade-7').value,
+                [sub8]: document.getElementById('grade-8').value,
+                [sub9]: document.getElementById('grade-9').value,
             };
             const institution = document.getElementById('inp-de-institution').value;
             const gradeMerit = document.getElementById('inp-de-grade').value;
@@ -865,10 +974,62 @@
         body.dark .bg-brand-hoverGreen:hover {
             background-color: #166534 !important;
         }
+        /* Ensure commonly used light utility backgrounds look good in dark mode */
+        body.dark .bg-emerald-50,
+        body.dark .bg-amber-50,
+        body.dark .bg-rose-50,
+        body.dark .bg-emerald-100,
+        body.dark .bg-amber-100,
+        body.dark .bg-rose-100,
+        body.dark .bg-emerald-200 {
+            background-color: rgba(255,255,255,0.03) !important;
+            color: #e5e7eb !important;
+        }
+
+        /* Style action buttons which used light backgrounds so they read better in dark mode */
+        body.dark a[class*="bg-emerald-50"],
+        body.dark a[class*="bg-amber-50"],
+        body.dark button[class*="bg-emerald-50"],
+        body.dark button[class*="bg-amber-50"] {
+            background-color: rgba(22,101,52,0.16) !important;
+            color: #bbf7d0 !important;
+            border-color: rgba(255,255,255,0.06) !important;
+        }
+
+        /* Payment / neutral action buttons */
+        body.dark .bg-slate-50 {
+            background-color: rgba(255,255,255,0.03) !important;
+            color: #e5e7eb !important;
+        }
+
+        /* Make pill badges contrast properly */
+        body.dark .bg-emerald-50[role],
+        body.dark .bg-rose-50[role],
+        body.dark .px-2.py-0\.5.rounded-full {
+            background-color: rgba(255,255,255,0.04) !important;
+        }
+
         body.dark #theme-toggle-btn {
             background: #111827;
             color: #f8fafc;
             border-color: #475569;
+        }
+        /* Ensure typed text and placeholders in form controls are visible in dark mode */
+        body.dark input[type="text"],
+        body.dark input[type="email"],
+        body.dark input[type="tel"],
+        body.dark input[type="file"],
+        body.dark textarea,
+        body.dark select {
+            background-color: rgba(255,255,255,0.03) !important;
+            color: #e5e7eb !important;
+            border-color: #334155 !important;
+        }
+        body.dark input::placeholder,
+        body.dark textarea::placeholder,
+        body.dark select::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
         }
     </style>
     <script>

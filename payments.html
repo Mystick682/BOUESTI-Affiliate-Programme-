@@ -737,6 +737,41 @@
         body.dark .bg-brand-hoverGreen:hover {
             background-color: #166534 !important;
         }
+        /* Ensure commonly used light utility backgrounds look good in dark mode */
+        body.dark .bg-emerald-50,
+        body.dark .bg-amber-50,
+        body.dark .bg-rose-50,
+        body.dark .bg-emerald-100,
+        body.dark .bg-amber-100,
+        body.dark .bg-rose-100,
+        body.dark .bg-emerald-200 {
+            background-color: rgba(255,255,255,0.03) !important;
+            color: #e5e7eb !important;
+        }
+
+        /* Style action buttons which used light backgrounds so they read better in dark mode */
+        body.dark a[class*="bg-emerald-50"],
+        body.dark a[class*="bg-amber-50"],
+        body.dark button[class*="bg-emerald-50"],
+        body.dark button[class*="bg-amber-50"] {
+            background-color: rgba(22,101,52,0.16) !important;
+            color: #bbf7d0 !important;
+            border-color: rgba(255,255,255,0.06) !important;
+        }
+
+        /* Payment / neutral action buttons */
+        body.dark .bg-slate-50 {
+            background-color: rgba(255,255,255,0.03) !important;
+            color: #e5e7eb !important;
+        }
+
+        /* Make pill badges contrast properly */
+        body.dark .bg-emerald-50[role],
+        body.dark .bg-rose-50[role],
+        body.dark .px-2.py-0\.5.rounded-full {
+            background-color: rgba(255,255,255,0.04) !important;
+        }
+
         body.dark #theme-toggle-btn {
             background: #111827;
             color: #f8fafc;

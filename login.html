@@ -429,6 +429,19 @@
                     return;
                 }
 
+                // 2b. Verify if email is already used (prevents unique constraint DB error)
+                const { data: emailExists, error: emailCheckErr } = await supabaseClient
+                    .from('student_accounts')
+                    .select('id')
+                    .eq('email', email)
+                    .maybeSingle();
+
+                if (emailCheckErr) throw emailCheckErr;
+                if (emailExists) {
+                    showAlert('error', "Registration Blocked: An account already exists with this email address. Please login or use password recovery.");
+                    return;
+                }
+
                 // 3. Save details to student_accounts table in Supabase, copying the passport_url
                 const { error: insertErr } = await supabaseClient
                     .from('student_accounts')
@@ -451,7 +464,13 @@
                 setTimeout(() => toggleForm('login'), 2000);
 
             } catch (err) {
-                showAlert('error', `Registration Error: ${err.message || err}`);
+                // Friendly fallback for unique-constraint errors that slip through
+                const msg = (err && err.message) ? err.message : String(err);
+                if (msg.includes('student_accounts_email_key') || /duplicate key value/.test(msg)) {
+                    showAlert('error', 'Registration Error: An account with this email already exists. Try logging in or use password recovery.');
+                } else {
+                    showAlert('error', `Registration Error: ${msg}`);
+                }
             }
         }
 
