@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McDonalds International Schools</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Playfair Display for headings & Inter for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicon / Tab Icon -->
+<link rel="icon" type="image/png" href="assets/logo3.jpg">
+<link rel="apple-touch-icon" href="assets/logo3.jpg">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        school: {
+                            darkGreen: '#012b17', // Rich private-school forest green
+                            midGreen: '#033b21',
+                            gold: '#e2b13c',      // Bright academic gold
+                            goldHover: '#cba030',
+                            lightBg: '#fdfbf7',   // Clean warm cream bg
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-slate-800 antialiased bg-school-lightBg overflow-x-hidden">
+
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
+    <header class="bg-[#012211] text-white border-b border-white/5 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo Block -->
+                <a href="#" class="flex items-center space-x-3 shrink-0">
+                    <div class="w-12 h-12 overflow-hidden shrink-0">
+                        <img src="assets/logo.png" alt="McDonalds Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <div class="text-xl font-bold font-serif tracking-tight leading-none">McDonalds</div>
+                        <div class="text-[9px] font-bold text-school-gold tracking-widest uppercase mt-1 leading-none">International Schools</div>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden xl:flex items-center space-x-7 text-xs font-semibold tracking-wide text-slate-200">
+                    <a href="#" class="hover:text-school-gold transition-colors text-school-gold">Home</a>
+                    <a href="#" class="hover:text-school-gold transition-colors">About Us</a>
+                    <div class="relative group">
+                        <button class="hover:text-school-gold transition-colors flex items-center space-x-1 focus:outline-none">
+                            <span>Academics</span>
+                            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                        </button>
+                    </div>
+                    <a href="#" class="hover:text-school-gold transition-colors">Admissions</a>
+                    <div class="relative group">
+                        <button class="hover:text-school-gold transition-colors flex items-center space-x-1 focus:outline-none">
+                            <span>School Life</span>
+                            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                        </button>
+                    </div>
+                    <a href="#" class="hover:text-school-gold transition-colors">News & Events</a>
+                    <a href="#" class="hover:text-school-gold transition-colors">Contact Us</a>
+                </nav>
+
+                <!-- Action Portals Desktop -->
+                <div class="hidden xl:flex items-center space-x-3">
+                    <a href="#" class="border border-white/20 bg-black/10 hover:bg-white/5 px-4 py-2.5 rounded-lg text-xs font-bold flex items-center space-x-2 transition">
+                        <i class="fa-solid fa-user-graduate text-[11px]"></i>
+                        <span>Students Portal</span>
+                    </a>
+                    <a href="#" class="bg-school-gold hover:bg-school-goldHover text-school-darkGreen px-4 py-2.5 rounded-lg text-xs font-extrabold flex items-center space-x-2 transition shadow-md">
+                        <i class="fa-solid fa-user-tie text-[11px]"></i>
+                        <span>Teachers Portal</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Navigation Toggle Button -->
+                <div class="xl:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-200 hover:text-school-gold focus:outline-none p-2 rounded-lg hover:bg-white/5 transition">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Mobile Navigation Drawer (Right Side) -->
+    <div id="mobile-drawer" class="fixed top-0 right-0 w-80 max-w-[85vw] h-full bg-school-darkGreen text-slate-300 z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
+        <div>
+            <div class="flex items-center justify-between p-5 border-b border-white/5">
+                <div class="flex items-center space-x-3">
+                    <img src="assets/logo.png" alt="McDonalds Logo" class="w-10 h-10 object-contain">
+                    <div>
+                        <div class="text-base font-bold font-serif text-white">McDonalds</div>
+                        <div class="text-[8px] font-bold text-school-gold uppercase">International</div>
+                    </div>
+                </div>
+                <button id="close-drawer-btn" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <nav class="p-6 space-y-4 text-sm font-semibold">
+                <a href="#" class="block text-school-gold py-1">Home</a>
+                <a href="#" class="block hover:text-white py-1">About Us</a>
+                <a href="#" class="block hover:text-white py-1">Academics</a>
+                <a href="#" class="block hover:text-white py-1">Admissions</a>
+                <a href="#" class="block hover:text-white py-1">School Life</a>
+                <a href="#" class="block hover:text-white py-1">News & Events</a>
+                <a href="#" class="block hover:text-white py-1">Contact Us</a>
+            </nav>
+        </div>
+
+        <div class="p-6 border-t border-white/5 space-y-3">
+            <a href="#" class="w-full bg-white/5 hover:bg-white/10 text-white py-3 rounded-lg text-xs font-bold flex items-center justify-center space-x-2 transition border border-white/10">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Students Portal</span>
+            </a>
+            <a href="#" class="w-full bg-school-gold hover:bg-school-goldHover text-school-darkGreen py-3 rounded-lg text-xs font-black flex items-center justify-center space-x-2 transition shadow-md">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>Teachers Portal</span>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="relative bg-school-darkGreen min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden">
+        <!-- Main Background Image Grid -->
+        <div class="absolute inset-0 z-0">
+            <img src="assets/img.jpg" alt="Campus Building" class="w-full h-full object-cover">
+            <!-- Transparent Forest Green Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#012513]/95 via-[#012513]/85 lg:via-[#012513]/70 to-transparent"></div>
+        </div>
+
+        <!-- Hero Text Content Alignment -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full text-white">
+            <div class="max-w-2xl space-y-6">
+                <!-- Golden Top Tagline -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-[2px] bg-school-gold"></div>
+                    <span class="text-[10px] sm:text-xs font-bold text-school-gold uppercase tracking-widest leading-none">
+                        Nurturing Minds. Building Leaders. Shaping The Future.
+                    </span>
+                </div>
+                
+                <!-- Main Header Title -->
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold font-serif tracking-tight leading-[1.1] uppercase">
+                    Excellence in Education <br>
+                    <span class="text-school-gold font-serif normal-case">for a Better Tomorrow</span>
+                </h1>
+
+                <!-- Brief introduction script -->
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light max-w-xl">
+                    At McDonalds International Schools, we provide a world-class education that inspires creativity, builds character, and empowers students to become global leaders.
+                </p>
+
+                <!-- Action Button Cluster -->
+                <div class="pt-4 flex flex-wrap gap-4">
+                    <a href="#" class="bg-school-gold hover:bg-school-goldHover text-school-darkGreen px-6 py-3 rounded-lg font-black text-xs sm:text-sm flex items-center space-x-2 transition shadow-lg shrink-0">
+                        <span>Apply for Admission</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#" class="border border-white/30 hover:border-white hover:bg-white/5 text-white px-6 py-3 rounded-lg font-bold text-xs sm:text-sm flex items-center space-x-2 transition shrink-0">
+                        <span>Discover Our Schools</span>
+                        <i class="fa-solid fa-circle-play text-school-gold text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== SCHOOL SECTIONS ==================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <!-- Section Title Header -->
+        <div class="text-center space-y-3 mb-16">
+            <span class="text-xs font-bold text-school-gold tracking-widest uppercase block">Our School Sections</span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-school-darkGreen leading-tight uppercase">
+                A Path for Every Stage of Growth
+            </h2>
+            <div class="w-16 h-1 bg-school-gold mx-auto rounded"></div>
+        </div>
+
+        <!-- 4-Column Stages of School Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Stage 1: Nursery -->
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-100 overflow-hidden flex flex-col justify-between transition group">
+                <div class="p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-school-darkGreen flex items-center justify-center text-xl shrink-0 group-hover:bg-school-gold group-hover:text-school-darkGreen transition-colors duration-200">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-school-darkGreen font-serif">Nursery</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-light">
+                        A safe and joyful environment where little ones explore, play, and begin their learning journey.
+                    </p>
+                    <a href="#" class="text-school-darkGreen hover:text-school-gold text-xs font-bold inline-flex items-center space-x-1.5 transition">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+                <div class="h-44 overflow-hidden border-t border-slate-50">
+                    <img src="assets/nursery.jpg" alt="Toddlers playing" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+
+            <!-- Stage 2: Primary -->
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-100 overflow-hidden flex flex-col justify-between transition group">
+                <div class="p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-school-darkGreen flex items-center justify-center text-xl shrink-0 group-hover:bg-school-gold group-hover:text-school-darkGreen transition-colors duration-200">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-school-darkGreen font-serif">Primary</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-light">
+                        Building strong foundations in literacy, numeracy, creativity, and character development.
+                    </p>
+                    <a href="#" class="text-school-darkGreen hover:text-school-gold text-xs font-bold inline-flex items-center space-x-1.5 transition">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+                <div class="h-44 overflow-hidden border-t border-slate-50">
+                    <img src="assets/primary.jpg" alt="Primary students" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+
+            <!-- Stage 3: Secondary -->
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-100 overflow-hidden flex flex-col justify-between transition group">
+                <div class="p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-school-darkGreen flex items-center justify-center text-xl shrink-0 group-hover:bg-school-gold group-hover:text-school-darkGreen transition-colors duration-200">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-school-darkGreen font-serif">Secondary</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-light">
+                        Developing critical thinking, leadership, and problem-solving skills for a dynamic world.
+                    </p>
+                    <a href="#" class="text-school-darkGreen hover:text-school-gold text-xs font-bold inline-flex items-center space-x-1.5 transition">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+                <div class="h-44 overflow-hidden border-t border-slate-50">
+                    <img src="assets/secondary.jpg" alt="Secondary students" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+
+            <!-- Stage 4: Prevarsity -->
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-slate-100 overflow-hidden flex flex-col justify-between transition group">
+                <div class="p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-school-darkGreen flex items-center justify-center text-xl shrink-0 group-hover:bg-school-gold group-hover:text-school-darkGreen transition-colors duration-200">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-school-darkGreen font-serif">Prevarsity</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-light">
+                        Preparing students for university and beyond with academic excellence and global exposure.
+                    </p>
+                    <a href="#" class="text-school-darkGreen hover:text-school-gold text-xs font-bold inline-flex items-center space-x-1.5 transition">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+                <div class="h-44 overflow-hidden border-t border-slate-50">
+                    <img src="assets/prevarsity.jpg" alt="Prevarsity students" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ==================== WHY CHOOSE US ==================== -->
+    <section class="bg-school-darkGreen text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center space-y-3 mb-16">
+                <span class="text-xs font-bold text-school-gold tracking-widest uppercase block">Why Choose Us</span>
+                <h2 class="text-2xl sm:text-3xl font-black font-serif uppercase tracking-tight max-w-xl mx-auto">
+                    More Than Education, <br class="hidden sm:inline">A Lifelong Advantage
+                </h2>
+                <div class="w-16 h-1 bg-school-gold mx-auto rounded"></div>
+            </div>
+
+            <!-- 6-Grid Feature Pillars -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+                
+                <!-- Pillar 1: Global Curriculum -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-earth-africa"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Global Curriculum</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            International standards integrated with local perspective.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 2: Experienced Educators -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Experienced Educators</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            Passionate teachers committed to holistic student excellence.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Modern Facilities -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Modern Facilities</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            State-of-the-art classrooms, science labs, libraries & play areas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 4: Character Development -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Character Development</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            Building baseline integrity, empathy, and strong moral leadership.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 5: Global Exposure -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Global Exposure</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            Structured exchange programs and multicultural learning activities.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pillar 6: Safe & Inclusive -->
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-lg bg-white/5 border border-white/10 text-school-gold flex items-center justify-center text-lg shrink-0 mt-0.5">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="space-y-1.5">
+                        <h4 class="font-extrabold text-sm sm:text-base tracking-wide font-serif">Safe & Inclusive</h4>
+                        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+                            A secure and supportive environment where every unique child thrives.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-[#011a0c] text-slate-400 pt-16 pb-8 border-t border-emerald-950/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+                
+                <!-- Column 1: Brand block (lg:col-span-4) -->
+                <div class="lg:col-span-4 space-y-5">
+                    <a href="#" class="flex items-center space-x-3 shrink-0">
+                        <img src="assets/logo.png" alt="McDonalds Logo" class="w-11 h-11 object-contain">
+                        <div>
+                            <div class="text-lg font-bold font-serif text-white tracking-tight">McDonalds</div>
+                            <div class="text-[8px] font-bold text-school-gold tracking-widest uppercase">International Schools</div>
+                        </div>
+                    </a>
+                    <p class="text-xs text-slate-400 leading-relaxed font-light">
+                        Raising a generation of confident, compassionate and capable leaders who will make a difference in the world.
+                    </p>
+                    <!-- Social icons -->
+                    <div class="flex items-center space-x-3 pt-2">
+                        <a href="#" class="w-8 h-8 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center text-xs transition">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links (lg:col-span-2) -->
+                <div class="lg:col-span-2 space-y-4">
+                    <h4 class="text-white font-extrabold text-sm uppercase tracking-wider font-serif">Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs font-medium">
+                        <li><a href="#" class="hover:text-school-gold transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-school-gold transition">Academics</a></li>
+                        <li><a href="#" class="hover:text-school-gold transition">Admissions</a></li>
+                        <li><a href="#" class="hover:text-school-gold transition">School Life</a></li>
+                        <li><a href="#" class="hover:text-school-gold transition">News & Events</a></li>
+                        <li><a href="#" class="hover:text-school-gold transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact details (lg:col-span-3) -->
+                <div class="lg:col-span-3 space-y-4">
+                    <h4 class="text-white font-extrabold text-sm uppercase tracking-wider font-serif">Contact Us</h4>
+                    <ul class="space-y-3.5 text-xs leading-relaxed font-light">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-school-gold shrink-0"></i>
+                            <span>1 McDonalds Avenue, Knowledge City, Lagos, Nigeria.</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-phone text-school-gold shrink-0"></i>
+                            <span>+234 800 123 4567</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-envelope text-school-gold shrink-0"></i>
+                            <span>info@mcisdschools.org</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-globe text-school-gold shrink-0"></i>
+                            <span>www.mcdonaldsinternationalschools.org</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Card CTA widget (lg:col-span-3) -->
+                <div class="lg:col-span-3">
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4 flex flex-col justify-between space-y-4 overflow-hidden relative">
+                        <!-- Tiny preview image matching design mockup -->
+                        <div class="h-24 rounded-lg overflow-hidden border border-white/5">
+                            <img src="assets/footer-cta.jpg" alt="Admissions CTA" class="w-full h-full object-cover">
+                        </div>
+                        <div class="space-y-1.5 text-xs text-center sm:text-left">
+                            <h4 class="text-white font-extrabold font-serif">Begin Your Child's Journey Today</h4>
+                            <p class="text-[10px] text-slate-400 font-light">
+                                Admissions are open for the 2024/2025 Academic Session.
+                            </p>
+                        </div>
+                        <a href="#" class="w-full py-2 bg-school-gold hover:bg-school-goldHover text-school-darkGreen font-black text-center text-[10px] rounded transition flex items-center justify-center space-x-1 shadow-md">
+                            <span>Apply Now</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright & Terms -->
+            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
+                <p>© 2024 McDonalds International Schools. All Rights Reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="#" class="hover:text-white transition">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== DRAWER ACTION SCRIPT ==================== -->
+    <script>
+        // Select elements
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+
+        // Drawer slider open triggers
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden'); // Block background scrolling while open
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        // Drawer slider close triggers
+        function closeMenu() {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.remove('opacity-100');
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn?.addEventListener('click', openMenu);
+        closeBtn?.addEventListener('click', closeMenu);
+        overlay?.addEventListener('click', closeMenu);
+    </script>
+</body>
+</html>
