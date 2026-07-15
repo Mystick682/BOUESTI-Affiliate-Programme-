@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Step 1: Student Information | McDonalds International Schools</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="portal-header">
+        <div class="header-container">
+            <div class="header-left">
+                <button class="back-btn" id="btn-back">
+                    <img src="./assets/icons/arrow-left.svg" alt="Back" class="icon-img">
+                </button>
+                <div class="brand-wrapper">
+                    <img src="./assets/images/logo.png" alt="McDonalds International Schools" class="brand-logo">
+                    <div class="brand-text">
+                        <span class="brand-name">McDonalds</span>
+                        <span class="brand-sub">INTERNATIONAL SCHOOLS</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="tel:+2348001234567" class="help-link">
+                    <img src="./assets/icons/headset.svg" alt="Help" class="icon-img">
+                    <span class="help-text">Need Help?</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="portal-main">
+        <div class="portal-container">
+            
+            <!-- Hero Presentation Area -->
+            <section class="portal-hero">
+                <div class="hero-left">
+                    <h1 class="hero-title">Begin Your Child's <br>Journey to <span class="highlight">Excellence</span></h1>
+                    <p class="hero-subtext">Please complete the application form below to get started with the admission process.</p>
+                </div>
+                <div class="hero-right">
+                    <img src="./assets/images/hero-students.png" alt="McDonalds Students" class="hero-img">
+                </div>
+            </section>
+
+            <!-- Stepper Indicators -->
+            <section class="stepper-indicator-container">
+                <div class="stepper-track">
+                    <div class="step-node active">
+                        <div class="node-circle">1</div>
+                        <span class="node-label">Student Information</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="node-circle">2</div>
+                        <span class="node-label">Parent/Guardian Details</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="node-circle">3</div>
+                        <span class="node-label">Academic Information</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="node-circle">4</div>
+                        <span class="node-label">Review & Submit</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Form Card Wrapper -->
+            <section class="form-card">
+                <div class="form-card-header">
+                    <div class="header-icon-box">
+                        <img src="./assets/icons/user.svg" alt="Student" class="icon-img-green">
+                    </div>
+                    <div class="header-card-text">
+                        <h2 class="card-title">Student Information</h2>
+                        <p class="card-subtitle">Please provide accurate information about the student.</p>
+                    </div>
+                </div>
+
+                <form id="step1-form" novalidate>
+                    <div class="form-grid">
+                        
+                        <!-- First Name -->
+                        <div class="form-group">
+                            <label class="form-label" for="first_name">First Name <span class="required-star">*</span></label>
+                            <input type="text" id="first_name" name="first_name" placeholder="Enter first name" class="form-input" required>
+                            <span class="error-msg" id="err-first_name"></span>
+                        </div>
+
+                        <!-- Middle Name -->
+                        <div class="form-group">
+                            <label class="form-label" for="middle_name">Middle Name</label>
+                            <input type="text" id="middle_name" name="middle_name" placeholder="Enter middle name" class="form-input">
+                            <span class="error-msg" id="err-middle_name"></span>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="form-group">
+                            <label class="form-label" for="last_name">Last Name <span class="required-star">*</span></label>
+                            <input type="text" id="last_name" name="last_name" placeholder="Enter last name" class="form-input" required>
+                            <span class="error-msg" id="err-last_name"></span>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="form-group date-group">
+                            <label class="form-label" for="dob">Date of Birth <span class="required-star">*</span></label>
+                            <div class="input-icon-wrapper">
+                                <input type="date" id="dob" name="dob" class="form-input" required>
+                                <img src="./assets/icons/calendar.svg" alt="Calendar" class="input-icon">
+                            </div>
+                            <span class="error-msg" id="err-dob"></span>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="form-group">
+                            <label class="form-label" for="gender">Gender <span class="required-star">*</span></label>
+                            <select id="gender" name="gender" class="form-input" required>
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <span class="error-msg" id="err-gender"></span>
+                        </div>
+
+                        <!-- Nationality -->
+                        <div class="form-group">
+                            <label class="form-label" for="nationality">Nationality <span class="required-star">*</span></label>
+                            <select id="nationality" name="nationality" class="form-input" required>
+                                <option value="" disabled selected>Select nationality</option>
+                                <option value="Nigerian">Nigerian</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error-msg" id="err-nationality"></span>
+                        </div>
+
+                        <!-- State of Origin -->
+                        <div class="form-group">
+                            <label class="form-label" for="state_of_origin">State of Origin <span class="required-star">*</span></label>
+                            <select id="state_of_origin" name="state_of_origin" class="form-input" required>
+                                <option value="" disabled selected>Select state</option>
+                                <!-- Populate with typical states dynamically or statically -->
+                                <option value="Lagos">Lagos</option>
+                                <option value="Abuja">Abuja</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Rivers">Rivers</option>
+                            </select>
+                            <span class="error-msg" id="err-state_of_origin"></span>
+                        </div>
+
+                        <!-- LGA -->
+                        <div class="form-group">
+                            <label class="form-label" for="lga">Local Government <span class="required-star">*</span></label>
+                            <select id="lga" name="lga" class="form-input" required>
+                                <option value="" disabled selected>Select Local Government</option>
+                                <option value="Ikeja">Ikeja</option>
+                                <option value="Alimosho">Alimosho</option>
+                                <option value="Lagos Island">Lagos Island</option>
+                            </select>
+                            <span class="error-msg" id="err-lga"></span>
+                        </div>
+
+                        <!-- Applying For -->
+                        <div class="form-group">
+                            <label class="form-label" for="applying_for">Applying For <span class="required-star">*</span></label>
+                            <select id="applying_for" name="applying_for" class="form-input" required>
+                                <option value="" disabled selected>Select class/grade</option>
+                                <option value="Creche">Creche</option>
+                                <option value="Nursery 1">Nursery 1</option>
+                                <option value="Nursery 2">Nursery 2</option>
+                                <option value="Primary 1">Primary 1</option>
+                                <option value="Primary 2">Primary 2</option>
+                                <option value="Primary 3">Primary 3</option>
+                                <option value="Primary 4">Primary 4</option>
+                                <option value="Primary 5">Primary 5</option>
+                                <option value="Primary 6">Primary 6</option>
+                                <option value="Year 7">Year 7</option>
+                                <option value="Year 8">Year 8</option>
+                                <option value="Year 9">Year 9</option>
+                                <option value="Year 10">Year 10</option>
+                                <option value="Year 11">Year 11</option>
+                                <option value="Year 12">Year 12</option>
+                            </select>
+                            <span class="error-msg" id="err-applying_for"></span>
+                        </div>
+
+                        <!-- Academic Session -->
+                        <div class="form-group">
+                            <label class="form-label" for="academic_session">Academic Session <span class="required-star">*</span></label>
+                            <select id="academic_session" name="academic_session" class="form-input" required>
+                                <option value="" disabled selected>Select academic session</option>
+                                <option value="2026/2027">2026/2027</option>
+                                <option value="2027/2028">2027/2028</option>
+                            </select>
+                            <span class="error-msg" id="err-academic_session"></span>
+                        </div>
+
+                        <!-- Admission Type -->
+                        <div class="form-group">
+                            <label class="form-label" for="admission_type">Admission Type <span class="required-star">*</span></label>
+                            <select id="admission_type" name="admission_type" class="form-input" required>
+                                <option value="" disabled selected>Select admission type</option>
+                                <option value="Day">Day</option>
+                                <option value="Boarding">Boarding</option>
+                            </select>
+                            <span class="error-msg" id="err-admission_type"></span>
+                        </div>
+
+                        <!-- Previous School -->
+                        <div class="form-group">
+                            <label class="form-label" for="previous_school">Previous School (if applicable)</label>
+                            <input type="text" id="previous_school" name="previous_school" placeholder="Enter previous school name" class="form-input">
+                            <span class="error-msg" id="err-previous_school"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- Photo Upload Element -->
+                    <div class="form-group photo-upload-wrapper">
+                        <label class="form-label">Photo of Student</label>
+                        <p class="upload-caption">Upload a recent passport photograph</p>
+                        <div id="dropzone" class="upload-dropzone">
+                            <input type="file" id="passport_upload" accept="image/jpeg, image/png" class="hidden-input">
+                            <div class="dropzone-placeholder" id="dropzone-text">
+                                <img src="./assets/icons/upload.svg" alt="Upload" class="upload-icon-img">
+                                <p class="dropzone-main-text">Click to upload or drag and drop</p>
+                                <p class="dropzone-sub-text">JPG, PNG or JPEG (Max. 2MB)</p>
+                            </div>
+                            <div class="preview-container hidden" id="preview-wrapper">
+                                <img id="image-preview" src="#" alt="Passport Preview" class="uploaded-preview">
+                                <button type="button" class="remove-preview-btn" id="btn-remove-photo">&times;</button>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container hidden" id="upload-progress-container">
+                            <div class="progress-bar" id="upload-progress-bar"></div>
+                        </div>
+                        <span class="error-msg" id="err-passport_upload"></span>
+                    </div>
+
+                    <!-- Submission Action Panel -->
+                    <div class="form-actions-panel">
+                        <button type="button" class="btn-save-draft" id="btn-draft">Save Draft</button>
+                        <button type="submit" class="btn-primary" id="btn-submit">
+                            <span>Save & Continue</span>
+                            <img src="./assets/icons/arrow-right.svg" alt="Next" class="btn-arrow-icon">
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Mobile Navigation Bottom Bar -->
+    <nav class="mobile-sticky-nav">
+        <div class="mobile-nav-container">
+            <div class="mobile-step-item active">
+                <div class="mobile-step-dot">1</div>
+                <span class="mobile-step-text">Student Info</span>
+            </div>
+            <div class="mobile-step-item">
+                <div class="mobile-step-dot">2</div>
+                <span class="mobile-step-text">Parent Details</span>
+            </div>
+            <div class="mobile-step-item">
+                <div class="mobile-step-dot">3</div>
+                <span class="mobile-step-text">Academic Info</span>
+            </div>
+            <div class="mobile-step-item">
+                <div class="mobile-step-dot">4</div>
+                <span class="mobile-step-text">Review & Submit</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Master Validation / Business Logic Scripts -->
+    <script type="module" src="./js/supabase.js"></script>
+    <script type="module" src="./js/upload.js"></script>
+    <script type="module" src="./js/validation.js"></script>
+    <script type="module" src="./js/main.js"></script>
+
+</body>
+</html>

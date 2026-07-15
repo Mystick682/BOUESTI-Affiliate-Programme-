@@ -636,12 +636,15 @@
         body.dark span {
             color: #e5e7eb !important;
         }
+        /* Softened divider/border lines for dark mode so they blend in instead of standing out */
         body.dark .border-slate-100,
         body.dark .border-slate-200,
+        body.dark .border-slate-50,
         body.dark .border-gray-100,
         body.dark .border-white\/10,
+        body.dark .border-white\/5,
         body.dark .border-slate-300 {
-            border-color: #334155 !important;
+            border-color: rgba(255, 255, 255, 0.06) !important;
         }
         body.dark .text-brand-green {
             color: #4ade80 !important;

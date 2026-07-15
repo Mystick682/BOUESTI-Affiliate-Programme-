@@ -89,6 +89,7 @@
                     <a href="about.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">About Us</a>
                     <a href="programmes.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Programmes</a>
                     <a href="affiliates.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Affiliates</a>
+                    <a href="gallery.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Gallery</a>
                     <a href="news-events.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">News & Events</a>
                     <a href="contact.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Contact Us</a>
                 </nav>
@@ -146,6 +147,10 @@
             <a href="programmes.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
                 <i class="fa-solid fa-book text-base text-slate-400 shrink-0"></i>
                 <span>Programmes</span>
+            </a>
+            <a href="gallery.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-images text-base text-slate-400 shrink-0"></i>
+                <span>Gallery</span>
             </a>
             <a href="apply.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
                 <i class="fa-solid fa-file-lines text-base text-slate-400 shrink-0"></i>
@@ -345,6 +350,76 @@
         </div>
     </section>
 
+    <!-- Gallery Preview Section -->
+    <section class="bg-brand-navy py-14 lg:py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-6 sm:mb-8">
+                <h2 class="text-lg sm:text-2xl font-extrabold tracking-[0.15em] text-amber-400 uppercase">Gallery</h2>
+                <a href="gallery.html" class="scroll-animate inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-semibold text-sm transition">
+                    <span>View All</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Mosaic: large feature tile + 2-over-3 grid, responsive from mobile up -->
+            <div class="flex gap-2 sm:gap-3 h-52 sm:h-72 lg:h-80">
+
+                <!-- Feature tile -->
+                <button type="button" data-lightbox-type="image" data-lightbox-src="assets/prevarsity.jpg" data-lightbox-alt="Graduation" class="scroll-animate group relative w-[42%] h-full rounded-lg overflow-hidden text-left">
+                    <img src="assets/prevarsity.jpg" alt="Graduation" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
+                </button>
+
+                <!-- Right column: top row (2 tiles) + bottom row (3 tiles) -->
+                <div class="flex-1 flex flex-col gap-2 sm:gap-3">
+
+                    <div class="flex gap-2 sm:gap-3 h-1/2">
+                        <button type="button" data-lightbox-type="video" data-lightbox-src="assets/affiliate.mp4" data-lightbox-poster="assets/gallery/campus-tour-poster.jpg" class="scroll-animate group relative w-1/2 h-full rounded-lg overflow-hidden text-left">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline poster="assets/gallery/campus-tour-poster.jpg">
+                                <source src="assets/affiliate.mp4" type="video/mp4">
+                            </video>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <span class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-white/90 flex items-center justify-center text-brand-green group-hover:scale-110 transition">
+                                <i class="fa-solid fa-play text-[8px] sm:text-[10px] ml-0.5"></i>
+                            </span>
+                        </button>
+                        <button type="button" data-lightbox-type="image" data-lightbox-src="assets/im.jpg" data-lightbox-alt="Lecture hall" class="scroll-animate group relative w-1/2 h-full rounded-lg overflow-hidden text-left">
+                            <img src="assets/img.jpg" alt="Lecture hall" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-2 sm:gap-3 h-1/2">
+                        <button type="button" data-lightbox-type="image" data-lightbox-src="assets/img.jpg" data-lightbox-alt="Students on campus" class="scroll-animate group relative w-1/3 h-full rounded-lg overflow-hidden text-left">
+                            <img src="assets/img.jpg" alt="Students on campus" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
+                        </button>
+                        <button type="button" data-lightbox-type="image" data-lightbox-src="assets/img.jpg" data-lightbox-alt="Orientation event" class="scroll-animate group relative w-1/3 h-full rounded-lg overflow-hidden text-left">
+                            <img src="assets/img.jpg" alt="Orientation event" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
+                        </button>
+                        <button type="button" data-lightbox-type="image" data-lightbox-src="assets/img.jpg" data-lightbox-alt="Matriculation" class="scroll-animate group relative w-1/3 h-full rounded-lg overflow-hidden text-left">
+                            <img src="assets/img.jpg" alt="Matriculation" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition"></div>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Overlay for Gallery Media -->
+    <div id="gallery-lightbox" class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/90 p-4">
+        <button id="gallery-lightbox-close" type="button" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <div class="max-w-5xl w-full max-h-[85vh] flex items-center justify-center">
+            <img id="gallery-lightbox-img" src="" alt="" class="hidden max-w-full max-h-[85vh] object-contain rounded-lg">
+            <video id="gallery-lightbox-video" class="hidden max-w-full max-h-[85vh] rounded-lg" controls playsinline></video>
+        </div>
+    </div>
+
     <!-- Footer Section -->
     <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -387,6 +462,7 @@
                         <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
                         <li><a href="programmes.html" class="hover:text-white transition">Programmes</a></li>
                         <li><a href="affiliates.html" class="hover:text-white transition">Affiliates</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
                         <li><a href="contact.html" class="hover:text-white transition">Contact Us</a></li>
                     </ul>
                 </div>
@@ -499,6 +575,69 @@
         document.querySelectorAll('.scroll-animate').forEach(card => {
             scrollObserver.observe(card);
         });
+
+        // --- 3. Gallery Lightbox (open/play media in place instead of navigating) ---
+        (function () {
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('gallery-lightbox-img');
+            const lightboxVideo = document.getElementById('gallery-lightbox-video');
+            const closeBtn = document.getElementById('gallery-lightbox-close');
+
+            function openLightbox(trigger) {
+                const type = trigger.dataset.lightboxType;
+                const src = trigger.dataset.lightboxSrc;
+
+                lightboxImg.classList.add('hidden');
+                lightboxVideo.classList.add('hidden');
+                lightboxVideo.pause();
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.load();
+
+                if (type === 'video') {
+                    lightboxVideo.src = src;
+                    if (trigger.dataset.lightboxPoster) {
+                        lightboxVideo.setAttribute('poster', trigger.dataset.lightboxPoster);
+                    }
+                    lightboxVideo.classList.remove('hidden');
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                    lightboxVideo.play().catch(() => {});
+                } else {
+                    lightboxImg.src = src;
+                    lightboxImg.alt = trigger.dataset.lightboxAlt || '';
+                    lightboxImg.classList.remove('hidden');
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                }
+
+                document.body.classList.add('overflow-hidden');
+            }
+
+            function closeLightbox() {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+                lightboxVideo.pause();
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.load();
+                lightboxImg.src = '';
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            document.querySelectorAll('[data-lightbox-type]').forEach((trigger) => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openLightbox(trigger);
+                });
+            });
+
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+            });
+        })();
     </script>
     <style>
         :root { color-scheme: light; }

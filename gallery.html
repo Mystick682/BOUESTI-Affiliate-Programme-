@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery — BOUESTI/McDONALDS Educational Services</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" type="image/png" href="assets/icon.jpg">
+    <link rel="apple-touch-icon" href="assets/icon.jpg">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#0e5c33',
+                            hoverGreen: '#0a4224',
+                            navy: '#011c11',
+                            cardBorder: '#e2e8f0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0e5c33; }
+
+        /* --- Signature element: the Archive Reel --- */
+        .reel-track {
+            scrollbar-width: thin;
+            scroll-snap-type: x proximity;
+        }
+        .reel-track::-webkit-scrollbar { height: 6px; }
+        .reel-frame {
+            scroll-snap-align: start;
+        }
+        .sprocket-strip {
+            background-image: radial-gradient(circle, rgba(248,250,252,0.9) 2.5px, transparent 2.6px);
+            background-size: 22px 100%;
+            background-position: center;
+            background-repeat: repeat-x;
+        }
+
+        /* Masonry-style media grid via column layout */
+        .media-masonry {
+            column-count: 1;
+            column-gap: 1rem;
+        }
+        @media (min-width: 640px) { .media-masonry { column-count: 2; } }
+        @media (min-width: 1024px) { .media-masonry { column-count: 3; } }
+        .media-masonry > .media-card {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+        .media-card.is-hidden { display: none; }
+
+        .chip {
+            transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+        }
+        .chip[data-active="true"] {
+            background-color: #0e5c33;
+            border-color: #0e5c33;
+            color: #fff;
+        }
+
+        #lightbox { backdrop-filter: blur(6px); }
+        #lightbox.hidden { display: none; }
+        #lightbox-stage img, #lightbox-stage video {
+            max-height: 78vh;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-animate { transition: none; opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-[#f8fafc] overflow-x-hidden">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
+                        <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                    </div>
+                    <div>
+                        <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">McDONALDS</div>
+                        <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Services</div>
+                    </div>
+                </div>
+
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="affiliate.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Home</a>
+                    <a href="about.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">About Us</a>
+                    <a href="programmes.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Programmes</a>
+                    <a href="affiliates.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Affiliates</a>
+                    <a href="gallery.html" class="text-brand-green font-semibold text-sm transition-colors">Gallery</a>
+                    <a href="news-events.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">News & Events</a>
+                    <a href="contact.html" class="text-slate-600 hover:text-brand-green font-medium text-sm transition-colors">Contact Us</a>
+                </nav>
+
+                <div class="hidden lg:flex items-center">
+                    <a href="login.html" class="bg-brand-green hover:bg-brand-hoverGreen text-white px-5 py-2.5 rounded-md font-medium text-sm flex items-center gap-2 transition duration-200 shadow-sm">
+                        <i class="fa-regular fa-user text-xs"></i>
+                        <span>Student Portal</span>
+                    </a>
+                </div>
+
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-brand-green focus:outline-none py-2.5 px-4 rounded-lg border border-slate-200 hover:bg-slate-100 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Mobile Navigation Drawer Panel -->
+    <div id="mobile-drawer" class="fixed top-0 left-0 w-80 max-w-[85vw] h-full bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div class="flex items-center justify-between p-5 border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                </div>
+                <div>
+                    <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">McDONALDS</div>
+                    <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Servives</div>
+                </div>
+            </div>
+            <button id="close-drawer-btn" class="text-slate-500 hover:text-brand-green p-1 focus:outline-none">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+            <a href="affiliate.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-house text-base text-slate-400 shrink-0"></i>
+                <span>Home</span>
+            </a>
+            <a href="about.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-circle-info text-base text-slate-400 shrink-0"></i>
+                <span>About Us</span>
+            </a>
+            <a href="programmes.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-book text-base text-slate-400 shrink-0"></i>
+                <span>Programmes</span>
+            </a>
+            <a href="gallery.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-bold bg-green-50 text-brand-green transition">
+                <i class="fa-solid fa-images text-base shrink-0"></i>
+                <span>Gallery</span>
+            </a>
+            <a href="apply.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-file-lines text-base text-slate-400 shrink-0"></i>
+                <span>Admissions</span>
+            </a>
+            <a href="contact.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-envelope text-base text-slate-400 shrink-0"></i>
+                <span>Contact Us</span>
+            </a>
+            <a href="login.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:text-brand-green hover:bg-slate-50 transition">
+                <i class="fa-solid fa-right-to-bracket text-base text-slate-400 shrink-0"></i>
+                <span>Student Portal</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Header Band -->
+    <section class="relative bg-brand-navy overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-30">
+            <img src="assets/gallery/lectures-1.jpg" alt="" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#011c11]/60 to-[#011c11]"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 lg:pt-16 lg:pb-10 text-white">
+            <nav class="text-xs text-emerald-300/80 mb-4">
+                <a href="affiliate.html" class="hover:text-white transition">Home</a>
+                <span class="mx-1.5">/</span>
+                <span class="text-slate-300">Gallery</span>
+            </nav>
+            <span class="text-xs font-bold tracking-widest text-emerald-300 uppercase block mb-2">The Archive</span>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight uppercase">Media Gallery</h1>
+            <p class="text-slate-300 text-sm sm:text-base font-light leading-relaxed max-w-xl mt-3">
+                Matriculation, convocation, lectures and life on campus — captured in photographs and video from across the centre.
+            </p>
+        </div>
+    </section>
+
+    <!-- Signature Element: The Archive Reel (horizontal filmstrip) -->
+    <section class="bg-[#01140c]">
+        <div class="sprocket-strip h-3"></div>
+        <div id="reel-track" class="reel-track flex gap-2 overflow-x-auto px-4 sm:px-6 lg:px-8 py-3 max-w-7xl mx-auto">
+            <!-- Reel frames populated by JS from mediaItems, click scrolls & filters to that item -->
+        </div>
+        <div class="sprocket-strip h-3"></div>
+    </section>
+
+    <!-- Filter + Grid Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- Filter chips -->
+        <div class="flex flex-wrap items-center gap-2 mb-8">
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 uppercase tracking-wide" data-filter-type="all" data-active="true">All Media</button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 uppercase tracking-wide" data-filter-type="type" data-filter-value="photo">
+                <i class="fa-regular fa-image mr-1"></i>Photos
+            </button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 uppercase tracking-wide" data-filter-type="type" data-filter-value="video">
+                <i class="fa-solid fa-video mr-1"></i>Videos
+            </button>
+            <span class="w-px h-5 bg-slate-200 mx-1 hidden sm:block"></span>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50" data-filter-type="category" data-filter-value="matriculation">Matriculation</button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50" data-filter-type="category" data-filter-value="convocation">Convocation</button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50" data-filter-type="category" data-filter-value="lectures">Lectures</button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50" data-filter-type="category" data-filter-value="campus">Campus Life</button>
+            <button class="chip filter-btn px-4 py-2 rounded-full text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50" data-filter-type="category" data-filter-value="events">Events</button>
+        </div>
+
+        <!-- Media grid (masonry) -->
+        <div id="media-grid" class="media-masonry">
+            <!-- Media cards are rendered by JS from the mediaItems array below -->
+        </div>
+
+        <p id="empty-state" class="hidden text-center text-slate-400 text-sm py-16">
+            <i class="fa-regular fa-folder-open text-2xl block mb-3"></i>
+            No media in this category yet.
+        </p>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="hidden fixed inset-0 bg-black/90 z-[80] items-center justify-center px-4">
+        <button id="lightbox-close" class="absolute top-5 right-5 sm:top-8 sm:right-8 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        <button id="lightbox-prev" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="lightbox-next" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div class="max-w-4xl w-full">
+            <div id="lightbox-stage" class="flex items-center justify-center rounded-lg overflow-hidden bg-black"></div>
+            <div class="flex items-start justify-between gap-4 mt-4 px-1">
+                <div>
+                    <span id="lightbox-tag" class="inline-block text-[10px] font-bold tracking-widest uppercase text-emerald-300 mb-1"></span>
+                    <p id="lightbox-caption" class="text-white text-sm font-medium"></p>
+                </div>
+                <span id="lightbox-counter" class="text-slate-400 text-xs font-mono shrink-0 pt-0.5"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-[#01140c] text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <img src="assets/logo.jpg" alt="BOUESTI Logo" class="w-full h-full object-contain p-1">
+                        </div>
+                        <div>
+                            <div class="text-xl font-extrabold text-brand-green leading-none tracking-wide">BOUESTI/McDONALDS</div>
+                            <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Educational Services</div>
+                            <div class="text-[9px] font-bold text-brand-green tracking-widest mt-0.5 uppercase">Ibadan Study Centre</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed pt-2">
+                        Bamidele Olumilua University of Education, Science and Technology, Ikere-Ekiti, in affiliation with McDONALDS Educational Services.
+                    </p>
+                    <div class="pt-2 space-y-2.5 text-xs text-slate-400">
+                        <div>
+                            <span class="block font-bold text-white">Ibadan Study Centre</span>
+                            <span>Bishop Phillips Academy, Iwo-Road - Ibadan Road, Iwo-Road, Ibadan.</span>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-white">Main Campus</span>
+                            <span>Igbara-Odo Road, P.M.B. 250, Ikere Ekiti, Ekiti State</span>
+                            <span>Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="affiliate.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="programmes.html" class="hover:text-white transition">Programmes</a></li>
+                        <li><a href="affiliates.html" class="hover:text-white transition">Affiliates</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition">Gallery</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Resources</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-400">
+                        <li><a href="admissions.html" class="hover:text-white transition">Admissions</a></li>
+                        <li><a href="student-portal.html" class="hover:text-white transition">Student Portal</a></li>
+                        <li><a href="faqs.html" class="hover:text-white transition">FAQs</a></li>
+                        <li><a href="downloads.html" class="hover:text-white transition">Downloads</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold text-sm">Contact Us</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
+                            <span><span class="font-bold text-white">Ibadan Study Centre:</span> Bishop Phillips Academy, Iwo-Road - Ibadan Road, Iwo-Road, Ibadan.</span>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot mt-0.5 text-emerald-600"></i>
+                            <span><span class="font-bold text-white">Main Campus:</span> Igbara-Odo Road, P.M.B. 250, Ikere Ekiti, Ekiti State, Nigeria</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-phone text-emerald-600"></i>
+                            <span>+234 915 073 9629</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-envelope text-emerald-600"></i>
+                            <span>info@mcdonaldsgroup.org</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>© 2026 BOUESTI/McDONALDS Educational Services. All rights reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-facebook-f text-[10px]"></i>
+                    </a>
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-twitter text-[10px]"></i>
+                    </a>
+                    <a href="#" class="w-7 h-7 rounded-full border border-slate-700 hover:border-white text-slate-400 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-brands fa-linkedin-in text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Media data + Gallery mechanics -->
+    <script>
+        // ---------------------------------------------------------------
+        // MEDIA LIBRARY
+        // Replace `src` with your own files, e.g. "assets/gallery/photo-01.jpg"
+        // or "assets/gallery/campus-tour.mp4". type must be "photo" or "video".
+        // For videos, `poster` is the thumbnail shown before playback.
+        // ---------------------------------------------------------------
+        const mediaItems = [
+            {
+                type: "video",
+                category: "convocation",
+                tag: "Convocation",
+                caption: "Convocation highlights — graduating class procession",
+                src: "assets/gallery/convocation-highlights.mp4",
+                poster: "assets/gallery/convocation-highlights-poster.jpg"
+            },
+            {
+                type: "photo",
+                category: "matriculation",
+                tag: "Matriculation",
+                caption: "New students take the matriculation oath",
+                src: "assets/gallery/matriculation-1.jpg"
+            },
+            {
+                type: "photo",
+                category: "lectures",
+                tag: "Lectures",
+                caption: "A lecture session in progress at the study centre",
+                src: "assets/gallery/lectures-1.jpg"
+            },
+            {
+                type: "photo",
+                category: "campus",
+                tag: "Campus Life",
+                caption: "Students between classes on campus grounds",
+                src: "assets/gallery/campus-1.jpg"
+            },
+            {
+                type: "video",
+                category: "campus",
+                tag: "Campus Life",
+                caption: "A walk through the study centre facilities",
+                src: "assets/gallery/campus-tour.mp4",
+                poster: "assets/gallery/campus-tour-poster.jpg"
+            },
+            {
+                type: "photo",
+                category: "convocation",
+                tag: "Convocation",
+                caption: "Graduates celebrate after the ceremony",
+                src: "assets/gallery/convocation-2.jpg"
+            },
+            {
+                type: "photo",
+                category: "lectures",
+                tag: "Lectures",
+                caption: "Group study session in the library",
+                src: "assets/gallery/lectures-2.jpg"
+            },
+            {
+                type: "photo",
+                category: "events",
+                tag: "Events",
+                caption: "Orientation week welcomes new affiliates",
+                src: "assets/gallery/events-1.jpg"
+            },
+            {
+                type: "photo",
+                category: "matriculation",
+                tag: "Matriculation",
+                caption: "Matriculation procession across the main campus",
+                src: "assets/gallery/matriculation-2.jpg"
+            },
+            {
+                type: "photo",
+                category: "campus",
+                tag: "Campus Life",
+                caption: "ICT laboratory session for affiliate students",
+                src: "assets/gallery/campus-2.jpg"
+            },
+            {
+                type: "video",
+                category: "events",
+                tag: "Events",
+                caption: "Cultural day performances at the study centre",
+                src: "assets/gallery/cultural-day.mp4",
+                poster: "assets/gallery/cultural-day-poster.jpg"
+            },
+            {
+                type: "photo",
+                category: "events",
+                tag: "Events",
+                caption: "Award presentation to outstanding students",
+                src: "assets/gallery/events-2.jpg"
+            },
+            {
+                type: "photo",
+                category: "lectures",
+                tag: "Lectures",
+                caption: "A guest lecturer addresses affiliate students",
+                src: "assets/gallery/lectures-3.jpg"
+            },
+            {
+                type: "photo",
+                category: "campus",
+                tag: "Campus Life",
+                caption: "Students at the Ibadan Study Centre grounds",
+                src: "assets/gallery/campus-3.jpg"
+            }
+        ];
+
+        // ---------------------------------------------------------------
+        // Render the archive reel (top filmstrip)
+        // ---------------------------------------------------------------
+        const reelTrack = document.getElementById('reel-track');
+        mediaItems.forEach((item, i) => {
+            const thumbSrc = item.type === 'video' ? item.poster : item.src;
+            const frame = document.createElement('button');
+            frame.type = 'button';
+            frame.className = 'reel-frame shrink-0 relative w-24 h-16 sm:w-28 sm:h-20 rounded overflow-hidden border border-white/10 group';
+            frame.dataset.index = i;
+            frame.innerHTML = `
+                <img src="${thumbSrc}" alt="" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition">
+                ${item.type === 'video' ? '<span class="absolute inset-0 flex items-center justify-center"><i class="fa-solid fa-play text-white text-xs drop-shadow"></i></span>' : ''}
+            `;
+            frame.addEventListener('click', () => openLightbox(i));
+            reelTrack.appendChild(frame);
+        });
+
+        // ---------------------------------------------------------------
+        // Render the media grid
+        // ---------------------------------------------------------------
+        const grid = document.getElementById('media-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        mediaItems.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'media-card scroll-animate group relative rounded-xl overflow-hidden shadow-md border border-gray-100 bg-white cursor-pointer';
+            card.dataset.type = item.type;
+            card.dataset.category = item.category;
+            card.dataset.index = i;
+
+            if (item.type === 'video') {
+                card.innerHTML = `
+                    <div class="relative">
+                        <video class="w-full h-auto block" muted loop playsinline preload="metadata" poster="${item.poster}">
+                            <source src="${item.src}" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#011c11]/70 via-transparent to-transparent"></div>
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase text-white bg-brand-green/90 px-2 py-1 rounded">${item.tag}</span>
+                        <span class="absolute inset-0 flex items-center justify-center">
+                            <span class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-brand-green group-hover:scale-110 transition">
+                                <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                            </span>
+                        </span>
+                        <p class="absolute bottom-0 left-0 right-0 p-3 text-white text-xs font-medium leading-snug">${item.caption}</p>
+                    </div>
+                `;
+                const vid = card.querySelector('video');
+                card.addEventListener('mouseenter', () => vid.play().catch(() => {}));
+                card.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+            } else {
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${item.src}" alt="${item.caption}" class="w-full h-auto block group-hover:scale-[1.03] transition duration-500">
+                        <div class="absolute inset-0 bg-brand-navy/0 group-hover:bg-brand-navy/10 transition"></div>
+                        <span class="absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase text-white bg-brand-green/90 px-2 py-1 rounded">${item.tag}</span>
+                        <span class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-brand-green opacity-0 group-hover:opacity-100 transition">
+                            <i class="fa-solid fa-expand text-xs"></i>
+                        </span>
+                        <p class="absolute bottom-0 left-0 right-0 p-3 text-white text-xs font-medium leading-snug bg-gradient-to-t from-[#011c11]/70 via-transparent to-transparent">${item.caption}</p>
+                    </div>
+                `;
+            }
+
+            card.addEventListener('click', () => openLightbox(i));
+            grid.appendChild(card);
+        });
+
+        // Bind scroll-reveal animation to the newly created cards too
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+                else entry.target.classList.remove('visible');
+            });
+        }, observerOptions);
+        document.querySelectorAll('.scroll-animate').forEach(el => scrollObserver.observe(el));
+
+        // ---------------------------------------------------------------
+        // Filtering
+        // ---------------------------------------------------------------
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        let currentFilter = { type: 'all', value: null };
+
+        function applyFilter() {
+            const cards = document.querySelectorAll('.media-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                let show = true;
+                if (currentFilter.type === 'type') show = card.dataset.type === currentFilter.value;
+                if (currentFilter.type === 'category') show = card.dataset.category === currentFilter.value;
+                card.classList.toggle('is-hidden', !show);
+                if (show) visibleCount++;
+            });
+            emptyState.classList.toggle('hidden', visibleCount !== 0);
+        }
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.dataset.active = 'false');
+                btn.dataset.active = 'true';
+                currentFilter = { type: btn.dataset.filterType, value: btn.dataset.filterValue || null };
+                applyFilter();
+            });
+        });
+
+        // ---------------------------------------------------------------
+        // Lightbox
+        // ---------------------------------------------------------------
+        const lightbox = document.getElementById('lightbox');
+        const lightboxStage = document.getElementById('lightbox-stage');
+        const lightboxTag = document.getElementById('lightbox-tag');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        let activeIndex = 0;
+
+        function visibleIndices() {
+            // Navigate only within currently visible (filtered) items, in library order
+            return mediaItems.map((_, i) => i).filter(i => {
+                if (currentFilter.type === 'type') return mediaItems[i].type === currentFilter.value;
+                if (currentFilter.type === 'category') return mediaItems[i].category === currentFilter.value;
+                return true;
+            });
+        }
+
+        function renderStage(i) {
+            const item = mediaItems[i];
+            lightboxStage.innerHTML = '';
+            if (item.type === 'video') {
+                const v = document.createElement('video');
+                v.src = item.src;
+                v.controls = true;
+                v.autoplay = true;
+                v.className = 'max-w-full';
+                lightboxStage.appendChild(v);
+            } else {
+                const img = document.createElement('img');
+                img.src = item.src;
+                img.alt = item.caption;
+                img.className = 'max-w-full object-contain';
+                lightboxStage.appendChild(img);
+            }
+            lightboxTag.textContent = item.tag;
+            lightboxCaption.textContent = item.caption;
+            const idxList = visibleIndices();
+            const pos = idxList.indexOf(i) + 1;
+            lightboxCounter.textContent = `${pos} / ${idxList.length}`;
+        }
+
+        function openLightbox(i) {
+            activeIndex = i;
+            renderStage(i);
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            lightboxStage.innerHTML = '';
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function stepLightbox(dir) {
+            const idxList = visibleIndices();
+            if (idxList.length === 0) return;
+            const pos = idxList.indexOf(activeIndex);
+            const nextPos = (pos + dir + idxList.length) % idxList.length;
+            activeIndex = idxList[nextPos];
+            renderStage(activeIndex);
+        }
+
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        document.getElementById('lightbox-prev').addEventListener('click', () => stepLightbox(-1));
+        document.getElementById('lightbox-next').addEventListener('click', () => stepLightbox(1));
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') stepLightbox(-1);
+            if (e.key === 'ArrowRight') stepLightbox(1);
+        });
+
+        // ---------------------------------------------------------------
+        // Mobile drawer (shared mechanics with the rest of the site)
+        // ---------------------------------------------------------------
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('-translate-x-full');
+            }, 10);
+        }
+        function closeMenu() {
+            drawer.classList.add('-translate-x-full');
+            overlay.classList.remove('opacity-100');
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+    </script>
+
+    <style>
+        :root { color-scheme: light; }
+        body.dark { background-color: #020617; color: #f8fafc; }
+        body.dark header,
+        body.dark main,
+        body.dark aside,
+        body.dark .bg-white,
+        body.dark .bg-slate-50,
+        body.dark .bg-slate-100,
+        body.dark .bg-brand-navy,
+        body.dark .rounded-2xl,
+        body.dark .rounded-xl,
+        body.dark .rounded-lg {
+            background-color: #111827 !important;
+            color: #f8fafc !important;
+        }
+        body.dark .text-slate-800,
+        body.dark .text-slate-700,
+        body.dark .text-slate-600,
+        body.dark .text-slate-500,
+        body.dark .text-gray-800,
+        body.dark .text-gray-700,
+        body.dark .text-slate-400,
+        body.dark .text-gray-600,
+        body.dark p,
+        body.dark span {
+            color: #e5e7eb !important;
+        }
+        body.dark .border-slate-100,
+        body.dark .border-slate-200,
+        body.dark .border-gray-100,
+        body.dark .border-white\/10,
+        body.dark .border-slate-300 {
+            border-color: #334155 !important;
+        }
+        body.dark .text-brand-green { color: #4ade80 !important; }
+        body.dark .bg-brand-green { background-color: #15803d !important; }
+        body.dark .bg-brand-hoverGreen:hover { background-color: #166534 !important; }
+        body.dark #theme-toggle-btn { background: #111827; color: #f8fafc; border-color: #475569; }
+        body.dark .chip[data-active="true"] { background-color: #15803d !important; border-color: #15803d !important; color: #fff !important; }
+    </style>
+    <script>
+        (function () {
+            const storageKey = 'mcdonalds-theme';
+            const button = document.createElement('button');
+            button.id = 'theme-toggle-btn';
+            button.type = 'button';
+            button.className = 'fixed bottom-4 right-4 z-[70] flex items-center gap-2 rounded-full border border-slate-300 bg-white/90 px-3.5 py-2.5 text-xs font-semibold text-slate-700 shadow-lg backdrop-blur transition hover:bg-slate-100';
+            button.innerHTML = '<i class="fa-solid fa-moon"></i><span class="theme-toggle-label">Dark mode</span>';
+            document.body.appendChild(button);
+
+            function applyTheme() {
+                const dark = localStorage.getItem(storageKey) === 'dark' || (!localStorage.getItem(storageKey) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.body.classList.toggle('dark', dark);
+                document.documentElement.classList.toggle('dark', dark);
+                const icon = button.querySelector('i');
+                const label = button.querySelector('.theme-toggle-label');
+                if (dark) { icon.className = 'fa-solid fa-sun'; label.textContent = 'Light mode'; }
+                else { icon.className = 'fa-solid fa-moon'; label.textContent = 'Dark mode'; }
+            }
+
+            button.addEventListener('click', () => {
+                const nextTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem(storageKey, nextTheme);
+                applyTheme();
+            });
+
+            applyTheme();
+        })();
+    </script>
+</body>
+</html>
